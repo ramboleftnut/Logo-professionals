@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:thelogoprofessionals.com)",
+      "WebSearch",
+      "Bash(curl:*)",
+      "Bash($PYTHON:*)",
+      "Bash(\"$PYTHON\":*)",
+      "Bash(__NEW_LINE_4c171cacefeec3ae__ $PYTHON:*)",
+      "Bash(__NEW_LINE_f1841788e039ccbb__ $PYTHON:*)",
+      "Bash(__NEW_LINE_d4e892b2f42400d4__ $PYTHON:*)",
+      "Bash(__NEW_LINE_ea02cc054decb8c1__ $PYTHON:*)",
+      "Bash(__NEW_LINE_b19ca876defdb853__ $PYTHON:*)",
+      "Bash(python:*)",
+      "Bash(npm run:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
