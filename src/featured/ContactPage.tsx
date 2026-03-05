@@ -1,15 +1,11 @@
 "use client";
 
 import { useState, useRef } from "react";
-import dynamic from "next/dynamic";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Input, Textarea } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import { sendContactEmail } from "@/lib/emailjs";
 import "./ContactPage.css";
-
-const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), {
-  ssr: false,
-});
 
 export default function ContactPage() {
   const [form, setForm] = useState({
