@@ -99,8 +99,21 @@
   gap: 20px;
 }
 
-.contact-recaptcha {
-  margin-top: 4px;
+.contact-recaptcha-notice {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+.contact-recaptcha-notice a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.contact-recaptcha-notice a:hover {
+  color: var(--text-secondary);
 }
 
 .contact-submit-row {
@@ -111,14 +124,14 @@
 }
 
 .contact-success {
-  background: rgba(201, 168, 76, 0.08);
-  border: 1px solid var(--gold-dim);
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.3);
   padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: var(--gold);
+  color: #22c55e;
 }
 
 .contact-error-msg {

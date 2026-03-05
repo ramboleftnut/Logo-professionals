@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import { Input, Textarea } from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -18,11 +18,10 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const [captchaKey, setCaptchaKey] = useState(0);
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const recaptchaRef = useRef<any>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,27 +29,27 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!captchaToken) {
-      setError("Please complete the reCAPTCHA verification.");
-      return;
-    }
-
+  const handleCaptchaVerify = async (token: string | null) => {
+    if (!token) return;
     setSending(true);
+    setError("");
     try {
       await sendContactEmail(form);
       setSuccess(true);
       setForm({ name: "", email: "", subject: "", message: "" });
-      setCaptchaToken(null);
-      setCaptchaKey((k) => k + 1);
+      recaptchaRef.current?.reset();
     } catch {
       setError("Something went wrong. Please try again or email us directly.");
+      recaptchaRef.current?.reset();
     } finally {
       setSending(false);
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    recaptchaRef.current?.execute();
   };
 
   return (
@@ -127,12 +126,13 @@ export default function ContactPage() {
                 rows={6}
               />
 
-              <div className="contact-recaptcha">
+              <div style={{ display: "none" }}>
                 <ReCAPTCHA
-                  key={captchaKey}
+                  ref={recaptchaRef}
+                  size="invisible"
                   sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""}
-                  onChange={(token) => setCaptchaToken(token)}
-                  onExpired={() => setCaptchaToken(null)}
+                  onChange={handleCaptchaVerify}
+                  onExpired={() => recaptchaRef.current?.reset()}
                   theme="dark"
                 />
               </div>
@@ -151,6 +151,26 @@ export default function ContactPage() {
               </div>
             </form>
           )}
+
+          <p className="contact-recaptcha-notice">
+            This site is protected by reCAPTCHA and the Google{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Privacy Policy
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://policies.google.com/terms"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Terms of Service
+            </a>{" "}
+            apply.
+          </p>
         </div>
 
         {/* Info */}
