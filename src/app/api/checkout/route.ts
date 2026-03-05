@@ -64,9 +64,9 @@ export async function POST(req: NextRequest) {
             product_data: {
               name: selectedTier.label,
               description: selectedTier.description,
-              images: [
-                "https://thelogoprofessionals.com/wp-content/uploads/2021/02/custom-1.jpg",
-              ],
+              images: process.env.NEXT_PUBLIC_SITE_URL
+                ? [`${process.env.NEXT_PUBLIC_SITE_URL}/images/stripe-product.jpg`]
+                : [],
             },
           },
           quantity: 1,

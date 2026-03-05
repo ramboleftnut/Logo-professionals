@@ -56,7 +56,7 @@ export default function AboutPage() {
           </div>
           <div className="about-hero-image">
             <Image
-              src="https://thelogoprofessionals.com/wp-content/uploads/2020/05/goran-ivos-iY9g8EcikeY-unsplash.jpg"
+              src="/images/about-team-photo.jpg"
               alt="Logo design workspace"
               fill
               style={{ objectFit: "cover", filter: "grayscale(20%)" }}

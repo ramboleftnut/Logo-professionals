@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { portfolioItems } from "@/lib/data";
 import "./PortfolioGrid.css";
 
@@ -25,8 +26,9 @@ export default function PortfolioGrid({
       )}
       <div className="portfolio-grid">
         {items.map((item, idx) => (
-          <div
+          <Link
             key={item.id}
+            href={`/portfolio/${item.slug}`}
             className={`portfolio-item ${idx === 0 ? "featured" : ""}`}
           >
             <Image
@@ -41,7 +43,7 @@ export default function PortfolioGrid({
               <div className="portfolio-item-title">{item.title}</div>
               <div className="portfolio-item-designer">by {item.designer}</div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

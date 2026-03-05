@@ -80,7 +80,7 @@ export default function HomePage() {
           <div style={{ position: "relative" }}>
             <div className="home-about-image-wrap">
               <Image
-                src="https://thelogoprofessionals.com/wp-content/uploads/2021/02/web-e1612783774202.jpg"
+                src="/images/home-web.jpg"
                 alt="Logo Professionals workspace"
                 fill
                 style={{ objectFit: "cover" }}

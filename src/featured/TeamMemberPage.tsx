@@ -133,7 +133,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
             </div>
             <div className="team-portfolio-grid">
               {member.portfolio.map((item, idx) => (
-                <div key={idx} className="team-portfolio-item">
+                <Link key={idx} href={`/portfolio/${item.slug}`} className="team-portfolio-item">
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -142,7 +142,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
                     unoptimized
                   />
                   <div className="team-portfolio-item-caption">{item.title}</div>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

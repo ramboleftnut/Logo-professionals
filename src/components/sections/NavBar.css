@@ -71,11 +71,13 @@
 /* Dropdown */
 .nav-dropdown {
   position: relative;
+  padding-bottom: 16px;
+  margin-bottom: -16px;
 }
 
 .nav-dropdown-menu {
   position: absolute;
-  top: calc(100% + 16px);
+  top: calc(100% - 5px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--surface);

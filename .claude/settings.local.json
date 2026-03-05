@@ -13,7 +13,12 @@
       "Bash(__NEW_LINE_b19ca876defdb853__ $PYTHON:*)",
       "Bash(python:*)",
       "Bash(npm run:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(xargs sh:*)",
+      "Bash(mkdir:*)",
+      "Bash(__NEW_LINE_47cce505feea4237__ for:*)",
+      "Bash(__NEW_LINE_10317653945fe83c__ for:*)",
+      "Bash(do:*)"
     ]
   }
 }
