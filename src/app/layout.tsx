@@ -17,6 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://thelogoprofessionals.com"),
   title: "The Logo Professionals | Expert Logo Design Studio",
   description:
     "Professional logo design studio specializing in brand identity, custom logos, and visual design. 374+ projects completed across 36 countries.",
