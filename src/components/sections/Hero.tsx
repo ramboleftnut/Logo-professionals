@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import "./Hero.css";
 
@@ -18,8 +21,40 @@ export default function Hero({
   secondaryCta,
   videoSrc = "/Final_6_2.mp4",
 }: HeroProps) {
+  const [faded, setFaded] = useState(false);
+  const [duration, setDuration] = useState("2s");
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function scheduleHide() {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setDuration("2s");
+      setFaded(true);
+    }, 4000);
+  }
+
+  useEffect(() => {
+    scheduleHide();
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleInteraction() {
+    if (faded) {
+      setDuration("0.3s");
+      setFaded(false);
+    }
+    scheduleHide();
+  }
+
   return (
-    <section className="hero">
+    <section
+      className="hero"
+      onMouseMove={handleInteraction}
+      onTouchStart={handleInteraction}
+    >
       {videoSrc ? (
         <video
           className="hero-video"
@@ -36,7 +71,10 @@ export default function Hero({
       )}
       <div className="hero-overlay" />
 
-      <div className="hero-content">
+      <div
+        className={`hero-content${faded ? " hero-content--faded" : ""}`}
+        style={{ transition: `opacity ${duration} ease` }}
+      >
         {eyebrow && (
           <p className="hero-eyebrow">
             {eyebrow}
