@@ -319,10 +319,10 @@ export const teamMembers = [
     name: "Igor Dola",
     role: "Creative Director & Lead Designer",
     slug: "igor-dola",
-    image: "/team/igor-dola/personal-images/profile.png",
+    image: "/team/igor-dola/personal-images/profile.webp",
     heroBg: "/team/igor-dola/personal-images/hero-bg.jpg",
     quote: "Every brand has a story. My job is to make it impossible to ignore.",
-    bio: "Hello, I'm Igor. With over a decade of experience in digital illustration and design, I'm a self-motivated creative who can bring your ideas to life. I have a strong background in both print and digital media, and am proficient in Photoshop, InDesign, After Effects, and Illustrator. My 'get it done' attitude, combined with a focus on quality, ensures that every project maximizes the impact of your marketing materials.",
+    bio: "Hello, I’m Igor. With over a decade of experience in digital illustration and design, I’m a self-motivated creative who brings ideas to life across both print and digital media. I’m proficient in Photoshop, InDesign, After Effects, and Illustrator, and I also work with advanced 3D tools like Blender to create realistic product presentations and visuals. I don’t just build brands visually, I help turn concepts into something you can actually see and feel. My get it done mindset, combined with a strong focus on quality, ensures every project delivers strong, effective results.",
     instagram: "https://www.instagram.com/logoprofessionals/",
     website: null,
     portfolio: [

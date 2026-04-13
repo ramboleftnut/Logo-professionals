@@ -70,7 +70,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
       <section className="team-bio">
         <div className="team-bio-inner">
           <div className="team-bio-sidebar">
-            <div className="team-bio-photo">
+            <div className="team-bio-photo">\
               <Image
                 src={member.image}
                 alt={member.name}
@@ -78,6 +78,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
                 style={{ objectFit: "cover" }}
                 unoptimized
               />
+                    <div className="mask"/>
             </div>
             <div className="team-bio-links">
               <a
@@ -128,7 +129,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
             <div className="team-portfolio-header">
               <p className="team-portfolio-eyebrow">Selected Work</p>
               <h2 className="team-portfolio-title">
-                {member.name.split(" ")[0]}&apos;s Portfolio
+                {member.name.split(" ")[0]}&apos;s Projects
               </h2>
             </div>
             <div className="team-portfolio-grid">
