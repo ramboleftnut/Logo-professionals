@@ -291,7 +291,7 @@ export const teamMembers = [
     name: "Aleksandra Dola",
     role: "Senior Graphic Designer",
     slug: "alekxa-dola",
-    image: "/team/alekxa-dola/personal-images/profile.jpg",
+    image: "/team/alekxa-dola/personal-images/profile.webp",
     heroBg: "/team/alekxa-dola/personal-images/hero-bg.jpg",
     quote: "Styles come and go. Good design is a signature, not a style.",
     bio: "Hi, I'm Aleksandra — the most creative member of our team. My exceptional skills in vintage and rustic drawing make me a unique asset to every project. With a degree in Informatics and Computer Engineering from Ss. Cyril and Methodius University in Skopje, I combine technical expertise with artistic talent to create designs that perfectly capture our clients' brand identities.",

@@ -18,6 +18,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
   useEffect(() => {
     const handleScroll = () => {
       if (!bgRef.current) return;
+      if (window.innerWidth <= 900) return;
       const scrollY = window.scrollY;
       bgRef.current.style.transform = `translateY(${scrollY * 0.4}px)`;
     };
@@ -80,6 +81,17 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
               />
                     <div className="mask"/>
             </div>
+          </div>
+
+          <div className="team-bio-content">
+            <p className="team-bio-eyebrow">About {member.name}</p>
+
+            <div className="team-bio-quote">
+              <p>&ldquo;{member.quote}&rdquo;</p>
+            </div>
+
+            <p className="team-bio-text">{member.bio}</p>
+
             <div className="team-bio-links">
               <a
                 href={member.instagram}
@@ -106,18 +118,6 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
                 <span>→</span>
               </Link>
             </div>
-          </div>
-
-          <div className="team-bio-content">
-            <p className="team-bio-eyebrow">About</p>
-            <h2 className="team-bio-name">{member.name}</h2>
-            <p className="team-bio-role-tag">{member.role}</p>
-
-            <div className="team-bio-quote">
-              <p>&ldquo;{member.quote}&rdquo;</p>
-            </div>
-
-            <p className="team-bio-text">{member.bio}</p>
           </div>
         </div>
       </section>
