@@ -1,24 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { adminDb } from "@/lib/firebase/admin";
+import { FieldValue } from "firebase-admin/firestore";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-// Payment tiers
 const TIERS = {
   deposit: {
-    amount: 6000, // $60.00 in cents (33% of $180)
+    amount: 6000,
     label: "Logo Design — 33% Deposit",
-    description:
-      "One concept + one revision. Remaining balance ($120) due on final approval.",
+    description: "One concept + one revision. Remaining balance ($120) due on final approval.",
   },
   full: {
-    amount: 18000, // $180.00 in cents
+    amount: 18000,
     label: "Logo Design — Full Payment",
-    description:
-      "Complete package: all revisions + vector source files (AI, EPS, PNG, PDF).",
+    description: "Complete package: all revisions + vector source files (AI, EPS, PNG, PDF).",
   },
   remaining: {
-    amount: 12000, // $120.00 in cents
+    amount: 12000,
     label: "Logo Design — Remaining Balance",
     description: "Final payment to receive vector source files and full delivery.",
   },
@@ -27,29 +26,13 @@ const TIERS = {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const {
-      tier,
-      name,
-      email,
-      companyName,
-      industry,
-      description,
-      incorporate,
-      logoName,
-      avoid,
-      colorPrefs,
-      stylePrefs,
-    } = body;
+    const { tier, name, email, companyName, industry, description, incorporate, logoName, avoid, colorPrefs, stylePrefs } = body;
 
     if (!tier || !TIERS[tier as keyof typeof TIERS]) {
-      return NextResponse.json(
-        { error: "Invalid payment tier." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid payment tier." }, { status: 400 });
     }
 
     const selectedTier = TIERS[tier as keyof typeof TIERS];
-
     const origin = req.headers.get("origin") ?? "http://localhost:3000";
 
     const session = await stripe.checkout.sessions.create({
@@ -73,6 +56,7 @@ export async function POST(req: NextRequest) {
         },
       ],
       metadata: {
+        order_type: "logo",
         tier,
         client_name: name ?? "",
         client_email: email ?? "",
@@ -89,12 +73,29 @@ export async function POST(req: NextRequest) {
       cancel_url: `${origin}/logo-design/order/cancel`,
     });
 
+    // Save pending order to Firestore
+    await adminDb.collection("orders").add({
+      type: "logo",
+      status: "pending",
+      stripeSessionId: session.id,
+      tier,
+      clientName: name ?? "",
+      clientEmail: email ?? "",
+      companyName: companyName ?? "",
+      industry: industry ?? "",
+      description: description ?? "",
+      incorporate: incorporate ?? "",
+      logoName: logoName ?? "",
+      avoid: avoid ?? "",
+      colorPrefs: colorPrefs ?? "",
+      stylePrefs: stylePrefs ?? "",
+      amount: selectedTier.amount,
+      createdAt: FieldValue.serverTimestamp(),
+    });
+
     return NextResponse.json({ url: session.url });
   } catch (err) {
     console.error("Stripe error:", err);
-    return NextResponse.json(
-      { error: "Failed to create checkout session." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create checkout session." }, { status: 500 });
   }
 }

@@ -3,18 +3,30 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { teamMembers } from "@/lib/data";
 import "./TeamMemberPage.css";
 
-interface TeamMemberPageProps {
+export interface TeamMemberData {
+  id?: string;
+  name: string;
   slug: string;
+  role: string;
+  bio: string;
+  quote: string;
+  image: string;
+  heroBg: string;
+  instagram: string;
+  website?: string | null;
+  portfolio?: { title: string; slug: string; image: string }[];
 }
 
-export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
-  const member = teamMembers.find((m) => m.slug === slug);
+interface TeamMemberPageProps {
+  member: TeamMemberData;
+  others: TeamMemberData[];
+}
+
+export default function TeamMemberPage({ member, others }: TeamMemberPageProps) {
   const bgRef = useRef<HTMLDivElement>(null);
 
-  // Parallax effect on scroll
   useEffect(() => {
     const handleScroll = () => {
       if (!bgRef.current) return;
@@ -26,24 +38,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!member) {
-    return (
-      <div
-        style={{
-          padding: "200px 40px",
-          textAlign: "center",
-          color: "var(--text-secondary)",
-        }}
-      >
-        <h1>Team member not found</h1>
-        <Link href="/about-us" style={{ color: "var(--gold)" }}>
-          ← Back to About
-        </Link>
-      </div>
-    );
-  }
-
-  const others = teamMembers.filter((m) => m.slug !== slug);
+  const portfolio = member.portfolio ?? [];
 
   return (
     <>
@@ -71,7 +66,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
       <section className="team-bio">
         <div className="team-bio-inner">
           <div className="team-bio-sidebar">
-            <div className="team-bio-photo">\
+            <div className="team-bio-photo">
               <Image
                 src={member.image}
                 alt={member.name}
@@ -79,7 +74,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
                 style={{ objectFit: "cover" }}
                 unoptimized
               />
-                    <div className="mask"/>
+              <div className="mask" />
             </div>
           </div>
 
@@ -93,15 +88,17 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
             <p className="team-bio-text">{member.bio}</p>
 
             <div className="team-bio-links">
-              <a
-                href={member.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="team-bio-link"
-              >
-                Instagram — @logoprofessionals
-                <span>↗</span>
-              </a>
+              {member.instagram && (
+                <a
+                  href={member.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="team-bio-link"
+                >
+                  Instagram — @logoprofessionals
+                  <span>↗</span>
+                </a>
+              )}
               {member.website && (
                 <a
                   href={member.website}
@@ -123,7 +120,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
       </section>
 
       {/* Portfolio */}
-      {member.portfolio.length > 0 && (
+      {portfolio.length > 0 && (
         <section className="team-portfolio">
           <div className="team-portfolio-inner">
             <div className="team-portfolio-header">
@@ -133,7 +130,7 @@ export default function TeamMemberPage({ slug }: TeamMemberPageProps) {
               </h2>
             </div>
             <div className="team-portfolio-grid">
-              {member.portfolio.map((item, idx) => (
+              {portfolio.map((item, idx) => (
                 <Link key={idx} href={`/portfolio/${item.slug}`} className="team-portfolio-item">
                   <Image
                     src={item.image}

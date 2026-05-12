@@ -1,18 +1,59 @@
 import Image from "next/image";
 import Link from "next/link";
-import { portfolioItems } from "@/lib/data";
+import { portfolioItems as staticItems } from "@/lib/data";
+import { adminDb } from "@/lib/firebase/admin";
 import "./PortfolioGrid.css";
+
+interface DisplayItem {
+  slug: string;
+  title: string;
+  image: string;
+  designer: string;
+}
+
+async function getPortfolioItems(): Promise<DisplayItem[]> {
+  const staticMapped: DisplayItem[] = staticItems.map((i) => ({
+    slug: i.slug,
+    title: i.title,
+    image: i.image,
+    designer: i.designer,
+  }));
+
+  try {
+    const snap = await adminDb
+      .collection("posts")
+      .where("type", "==", "portfolio")
+      .where("published", "==", true)
+      .orderBy("createdAt", "desc")
+      .get();
+
+    const dynamicSlugs = new Set(staticMapped.map((i) => i.slug));
+    const dynamic: DisplayItem[] = snap.docs
+      .map((doc) => {
+        const d = doc.data();
+        return {
+          slug: d.slug as string,
+          title: d.title as string,
+          image: d.thumbnail as string,
+          designer: d.designer as string ?? "",
+        };
+      })
+      .filter((i) => !dynamicSlugs.has(i.slug));
+
+    return [...dynamic, ...staticMapped];
+  } catch {
+    return staticMapped;
+  }
+}
 
 interface PortfolioGridProps {
   limit?: number;
   showHeader?: boolean;
 }
 
-export default function PortfolioGrid({
-  limit,
-  showHeader = true,
-}: PortfolioGridProps) {
-  const items = limit ? portfolioItems.slice(0, limit) : portfolioItems;
+export default async function PortfolioGrid({ limit, showHeader = true }: PortfolioGridProps) {
+  const allItems = await getPortfolioItems();
+  const items = limit ? allItems.slice(0, limit) : allItems;
 
   return (
     <section className="portfolio-section">
@@ -27,7 +68,7 @@ export default function PortfolioGrid({
       <div className="portfolio-grid">
         {items.map((item, idx) => (
           <Link
-            key={item.id}
+            key={item.slug}
             href={`/portfolio/${item.slug}`}
             className={`portfolio-item ${idx === 0 ? "featured" : ""}`}
           >

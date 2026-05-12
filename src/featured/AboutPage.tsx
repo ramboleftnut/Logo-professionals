@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import Testimonials from "@/components/sections/Testimonials";
-import { teamMembers } from "@/lib/data";
+import { adminDb } from "@/lib/firebase/admin";
+import { teamMembers as staticTeam } from "@/lib/data";
 import "./AboutPage.css";
 
 const benefits = [
@@ -27,7 +28,22 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+async function getTeam() {
+  try {
+    const snap = await adminDb.collection("team").orderBy("order", "asc").get();
+    if (!snap.empty) {
+      return snap.docs.map((doc) => {
+        const d = doc.data() as { name: string; slug: string; role: string; image: string };
+        return { id: doc.id, name: d.name, slug: d.slug, role: d.role, image: d.image };
+      });
+    }
+  } catch {}
+  return staticTeam.map((m) => ({ name: m.name, slug: m.slug, role: m.role, image: m.image }));
+}
+
+export default async function AboutPage() {
+  const team = await getTeam();
+
   return (
     <>
       {/* Hero */}
@@ -78,9 +94,7 @@ export default function AboutPage() {
           <div className="about-values-grid">
             {values.map((v, idx) => (
               <div key={idx} className="about-value-card">
-                <div className="about-value-number">
-                  0{idx + 1}
-                </div>
+                <div className="about-value-number">0{idx + 1}</div>
                 <h3 className="about-value-title">{v.title}</h3>
                 <p className="about-value-desc">{v.desc}</p>
               </div>
@@ -123,7 +137,7 @@ export default function AboutPage() {
             <h2 className="about-section-title">Meet the Designers</h2>
           </div>
           <div className="about-team-grid">
-            {teamMembers.map((member) => (
+            {team.map((member) => (
               <Link
                 key={member.slug}
                 href={`/about-us/${member.slug}`}
