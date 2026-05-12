@@ -4,9 +4,17 @@ import { getSessionSecret } from "@/lib/auth/sessionSecret";
 
 const ADMIN_EMAILS = ["igor.dolovski@gmail.com", "nikodola@gmail.com"];
 
-// Content editing only runs locally. In production these paths 404 so the
-// JSON-backed admin disappears for everyone.
-const LOCAL_ONLY_PREFIXES = ["/admin/posts", "/admin/team", "/api/posts", "/api/team", "/api/upload"];
+// The entire admin and content-editing surface is local-only.
+// In production every one of these paths returns 404 so the admin doesn't
+// exist for anyone — not even with a stolen session cookie.
+const LOCAL_ONLY_PREFIXES = [
+  "/admin",
+  "/api/admin-auth",
+  "/api/admin-check",
+  "/api/posts",
+  "/api/team",
+  "/api/upload",
+];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -36,5 +44,13 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/posts/:path*", "/api/team/:path*", "/api/upload"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/api/admin-auth",
+    "/api/admin-check",
+    "/api/posts/:path*",
+    "/api/team/:path*",
+    "/api/upload",
+  ],
 };
