@@ -1,33 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { adminDb } from "@/lib/firebase/admin";
+import { getPost } from "@/lib/content";
 import "../blog.css";
-
-async function getPost(slug: string) {
-  const snap = await adminDb
-    .collection("posts")
-    .where("slug", "==", slug)
-    .where("type", "==", "blog")
-    .where("published", "==", true)
-    .limit(1)
-    .get();
-
-  if (snap.empty) return null;
-  const doc = snap.docs[0];
-  const d = doc.data();
-  return {
-    id: doc.id,
-    title: d.title as string,
-    slug: d.slug as string,
-    excerpt: (d.excerpt ?? "") as string,
-    content: (d.content ?? "") as string,
-    thumbnail: (d.thumbnail ?? "") as string,
-    gallery: (d.gallery ?? []) as string[],
-    tags: (d.tags ?? []) as string[],
-    createdAt: d.createdAt?.toDate?.()?.toISOString() ?? null as string | null,
-  };
-}
 
 function formatDate(iso: string | null) {
   if (!iso) return "";
@@ -36,8 +11,8 @@ function formatDate(iso: string | null) {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await getPost(slug).catch(() => null);
-  if (!post) return {};
+  const post = await getPost(slug, "blog");
+  if (!post || !post.published) return {};
   return {
     title: `${post.title} — The Logo Professionals Blog`,
     description: post.excerpt || post.title,
@@ -46,8 +21,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await getPost(slug).catch(() => null);
-  if (!post) notFound();
+  const post = await getPost(slug, "blog");
+  if (!post || !post.published) notFound();
 
   const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
 
@@ -100,7 +75,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 {post.gallery.map((src, i) => (
                   <div key={i} className="blog-post-gallery-item">
                     {isVideo(src) ? (
-                      <video src={src} muted playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      <video src={src} muted playsInline className="blog-post-gallery-video" />
                     ) : (
                       <Image src={src} alt={`Gallery ${i + 1}`} fill style={{ objectFit: "cover" }} unoptimized />
                     )}

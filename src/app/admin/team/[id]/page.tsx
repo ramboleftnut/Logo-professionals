@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { adminDb } from "@/lib/firebase/admin";
+import { getTeamMember } from "@/lib/content";
 import TeamForm from "../TeamForm";
 
 export default async function EditTeamMemberPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const doc = await adminDb.collection("team").doc(id).get();
-  if (!doc.exists) notFound();
-
-  const member = { id: doc.id, ...(doc.data() as object) };
+  const member = await getTeamMember(id);
+  if (!member) notFound();
 
   return (
     <div className="admin-content">

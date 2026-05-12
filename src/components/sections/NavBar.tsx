@@ -2,28 +2,25 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import "./NavBar.css";
 import Image from "next/image";
+import "./NavBar.css";
 
-const navLinks = [
-  { label: "Our Work", href: "/our-clients" },
-  {
-    label: "About Us",
-    href: "/about-us",
-    dropdown: [
-      { label: "About Us", href: "/about-us" },
-      { label: "Niko Dola", href: "/about-us/niko-dola" },
-      { label: "Alekxa Dola", href: "/about-us/alekxa-dola" },
-      { label: "Igor Dola", href: "/about-us/igor-dola" },
-    ],
-  },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact-us" },
-];
+interface NavBarTeamMember {
+  name: string;
+  slug: string;
+}
 
-export default function NavBar() {
+export default function NavBar({ team }: { team: NavBarTeamMember[] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin-check")
+      .then((res) => res.json())
+      .then((data) => setIsAdmin(data.isAdmin))
+      .catch(() => setIsAdmin(false));
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -42,28 +39,23 @@ export default function NavBar() {
     <>
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <Link href="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-          <Image src={"/logo.svg"} width={130} height={100} alt="logoproffesionals logo"></Image>
+          <Image src="/logo.svg" width={130} height={100} alt="logoproffesionals logo" />
         </Link>
 
         <ul className="navbar-links">
-          {navLinks.map((link) =>
-            link.dropdown ? (
-              <li key={link.href} className="nav-dropdown">
-                <Link href={link.href}>{link.label}</Link>
-                <div className="nav-dropdown-menu">
-                  {link.dropdown.map((sub) => (
-                    <Link key={sub.href} href={sub.href}>
-                      {sub.label}
-                    </Link>
-                  ))}
-                </div>
-              </li>
-            ) : (
-              <li key={link.href}>
-                <Link href={link.href}>{link.label}</Link>
-              </li>
-            )
-          )}
+          <li><Link href="/our-clients">Our Work</Link></li>
+          <li className="nav-dropdown">
+            <Link href="/about-us">About Us</Link>
+            <div className="nav-dropdown-menu">
+              <Link href="/about-us">About Us</Link>
+              {team.map((m) => (
+                <Link key={m.slug} href={`/about-us/${m.slug}`}>{m.name}</Link>
+              ))}
+            </div>
+          </li>
+          <li><Link href="/services">Services</Link></li>
+          <li><Link href="/contact-us">Contact</Link></li>
+          {isAdmin && <li><Link href="/admin">Admin</Link></li>}
         </ul>
 
         <button
@@ -78,32 +70,21 @@ export default function NavBar() {
       </nav>
 
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-        <Link href="/" onClick={() => setMenuOpen(false)}>
-          Home
-        </Link>
-        <Link href="/our-clients" onClick={() => setMenuOpen(false)}>
-          Our Work
-        </Link>
-        <Link href="/about-us" onClick={() => setMenuOpen(false)}>
-          About Us
-        </Link>
+        <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+        <Link href="/our-clients" onClick={() => setMenuOpen(false)}>Our Work</Link>
+        <Link href="/about-us" onClick={() => setMenuOpen(false)}>About Us</Link>
         <div className="mobile-sub">
-          <Link href="/about-us/niko-dola" onClick={() => setMenuOpen(false)}>
-            Niko
-          </Link>
-          <Link href="/about-us/alekxa-dola" onClick={() => setMenuOpen(false)}>
-            Alekxa
-          </Link>
-          <Link href="/about-us/igor-dola" onClick={() => setMenuOpen(false)}>
-            Igor
-          </Link>
+          {team.map((m) => (
+            <Link key={m.slug} href={`/about-us/${m.slug}`} onClick={() => setMenuOpen(false)}>
+              {m.name.split(" ")[0]}
+            </Link>
+          ))}
         </div>
-        <Link href="/services" onClick={() => setMenuOpen(false)}>
-          Services
-        </Link>
-        <Link href="/contact-us" onClick={() => setMenuOpen(false)}>
-          Contact
-        </Link>
+        <Link href="/services" onClick={() => setMenuOpen(false)}>Services</Link>
+        <Link href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</Link>
+        {isAdmin && (
+          <Link href="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
+        )}
       </div>
     </>
   );

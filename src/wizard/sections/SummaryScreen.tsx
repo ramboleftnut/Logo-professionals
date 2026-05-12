@@ -219,6 +219,7 @@ export default function SummaryScreen({ order, onBack, files, onPriceChange }: {
           addBrandGuide,
           discount,
           couponApplied,
+          couponCode: coupon,
           order,
           fileMetadata: {
             logo: files?.logo ? { name: files.logo.name, size: files.logo.size, type: files.logo.type } : null,
@@ -274,7 +275,7 @@ export default function SummaryScreen({ order, onBack, files, onPriceChange }: {
         </div>
       </div>
 
-      <div className="summary__coupon">
+      {/* <div className="summary__coupon">
         <div className="summary__coupon-label">Have a coupon code?</div>
         {couponApplied ? (
           <div className="summary__coupon-success">
@@ -295,7 +296,7 @@ export default function SummaryScreen({ order, onBack, files, onPriceChange }: {
           </div>
         )}
         {couponError && <p className="summary__coupon-error">{couponError}</p>}
-      </div>
+      </div> */}
 
       <div className="summary__contact">
         <div className="summary__contact-label">Your contact info</div>

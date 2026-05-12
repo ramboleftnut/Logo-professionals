@@ -1,39 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { adminDb } from "@/lib/firebase/admin";
+import { getPosts } from "@/lib/content";
 import "./blog.css";
-
-interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  thumbnail: string;
-  tags: string[];
-  createdAt: string | null;
-}
-
-async function getPosts(): Promise<Post[]> {
-  const snap = await adminDb
-    .collection("posts")
-    .where("type", "==", "blog")
-    .where("published", "==", true)
-    .orderBy("createdAt", "desc")
-    .get();
-
-  return snap.docs.map((doc) => {
-    const d = doc.data();
-    return {
-      id: doc.id,
-      title: d.title,
-      slug: d.slug,
-      excerpt: d.excerpt ?? "",
-      thumbnail: d.thumbnail ?? "",
-      tags: d.tags ?? [],
-      createdAt: d.createdAt?.toDate?.()?.toISOString() ?? null,
-    };
-  });
-}
 
 function formatDate(iso: string | null) {
   if (!iso) return "";
@@ -46,7 +14,7 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  const posts = await getPosts().catch(() => [] as Post[]);
+  const posts = await getPosts({ type: "blog", publishedOnly: true });
 
   return (
     <div className="blog-page">

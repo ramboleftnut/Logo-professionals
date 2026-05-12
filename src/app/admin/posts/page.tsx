@@ -1,35 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { adminDb } from "@/lib/firebase/admin";
+import { getPosts } from "@/lib/content";
 import DeletePostBtn from "./DeletePostBtn";
 
-interface Post {
-  id: string;
-  title: string;
-  slug: string;
-  type: string;
-  designer: string | null;
-  thumbnail: string;
-  published: boolean;
-  createdAt: FirebaseFirestore.Timestamp | null;
-}
-
-async function getPosts() {
-  const snap = await adminDb.collection("posts").orderBy("createdAt", "desc").get();
-  return snap.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<Post, "id">),
-  }));
-}
-
-function formatDate(ts: FirebaseFirestore.Timestamp | null) {
-  if (!ts) return "—";
-  return ts.toDate().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+function formatDate(iso: string) {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
 export default async function AdminPostsPage() {
-  const posts = await getPosts().catch(() => [] as Post[]);
-
+  const posts = await getPosts();
   const blog = posts.filter((p) => p.type === "blog");
   const portfolio = posts.filter((p) => p.type === "portfolio");
 
@@ -107,7 +87,7 @@ export default async function AdminPostsPage() {
                     <div className="admin-post-card-body">
                       <div className="admin-post-card-title">{p.title}</div>
                       <div className="admin-post-card-meta">
-                        {p.designer && `Designer: ${p.designer}`}
+                        {p.teamMember && `Team Member: ${p.teamMember}`}
                         {" · "}
                         <span className={`admin-badge admin-badge-xs ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
                           {p.published ? "Published" : "Draft"}

@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { SignJWT } from "jose";
 import { adminAuth } from "@/lib/firebase/admin";
 import { cookies } from "next/headers";
+import { getSessionSecret } from "@/lib/auth/sessionSecret";
 
 const ADMIN_EMAILS = ["igor.dolovski@gmail.com", "nikodola@gmail.com"];
-const SECRET = new TextEncoder().encode(process.env.ADMIN_SESSION_SECRET ?? "dev-secret-change-me");
 const SEVEN_DAYS = 60 * 60 * 24 * 7;
 
 export async function POST(req: NextRequest) {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const token = await new SignJWT({ email: decoded.email, uid: decoded.uid })
       .setProtectedHeader({ alg: "HS256" })
       .setExpirationTime("7d")
-      .sign(SECRET);
+      .sign(getSessionSecret());
 
     const cookieStore = await cookies();
     cookieStore.set("admin_session", token, {

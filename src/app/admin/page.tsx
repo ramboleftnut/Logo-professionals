@@ -1,21 +1,22 @@
 import Link from "next/link";
 import { adminDb } from "@/lib/firebase/admin";
+import { getPosts, getTeam } from "@/lib/content";
 
-async function getCounts() {
-  const [ordersSnap, postsSnap, teamSnap] = await Promise.all([
-    adminDb.collection("orders").count().get(),
-    adminDb.collection("posts").count().get(),
-    adminDb.collection("team").count().get(),
-  ]);
-  return {
-    orders: ordersSnap.data().count,
-    posts: postsSnap.data().count,
-    team: teamSnap.data().count,
-  };
+async function getOrdersCount() {
+  try {
+    const snap = await adminDb.collection("orders").count().get();
+    return snap.data().count;
+  } catch {
+    return 0;
+  }
 }
 
 export default async function AdminDashboard() {
-  const counts = await getCounts().catch(() => ({ orders: 0, posts: 0, team: 0 }));
+  const [orders, posts, team] = await Promise.all([
+    getOrdersCount(),
+    getPosts(),
+    getTeam(),
+  ]);
 
   return (
     <div className="admin-content">
@@ -26,15 +27,15 @@ export default async function AdminDashboard() {
 
       <div className="admin-dashboard-grid">
         <div className="admin-stat-card">
-          <div className="admin-stat-value">{counts.orders}</div>
+          <div className="admin-stat-value">{orders}</div>
           <div className="admin-stat-label">Total Orders</div>
         </div>
         <div className="admin-stat-card">
-          <div className="admin-stat-value">{counts.posts}</div>
+          <div className="admin-stat-value">{posts.length}</div>
           <div className="admin-stat-label">Blog / Portfolio Posts</div>
         </div>
         <div className="admin-stat-card">
-          <div className="admin-stat-value">{counts.team}</div>
+          <div className="admin-stat-value">{team.length}</div>
           <div className="admin-stat-label">Team Members</div>
         </div>
       </div>

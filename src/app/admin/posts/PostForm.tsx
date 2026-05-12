@@ -14,7 +14,7 @@ interface PostData {
   thumbnail?: string;
   gallery?: string[];
   type?: "blog" | "portfolio";
-  designer?: string | null;
+  teamMember?: string | null;
   tags?: string[];
   published?: boolean;
 }
@@ -38,7 +38,7 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
     thumbnail: initial?.thumbnail ?? "",
     gallery: initial?.gallery ?? [] as string[],
     type: (initial?.type ?? "blog") as "blog" | "portfolio",
-    designer: initial?.designer ?? null as string | null,
+    teamMember: initial?.teamMember ?? null as string | null,
     tags: initial?.tags?.join(", ") ?? "",
     published: initial?.published ?? false,
   });
@@ -58,13 +58,15 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
   async function handleThumbUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const path = await uploadFile(file, "blog");
+    const folder = form.type === "portfolio" ? "portfolio" : "blog";
+    const path = await uploadFile(file, folder);
     set("thumbnail", path);
   }
 
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
-    const paths = await Promise.all(files.map((f) => uploadFile(f, "blog")));
+    const folder = form.type === "portfolio" ? "portfolio" : "blog";
+    const paths = await Promise.all(files.map((f) => uploadFile(f, folder)));
     set("gallery", [...form.gallery, ...paths]);
   }
 
@@ -80,7 +82,6 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
       const payload = {
         ...form,
         tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
-        designer: form.type === "portfolio" ? form.designer : null,
       };
       const url = initial?.id ? `/api/posts/${initial.id}` : "/api/posts";
       const method = initial?.id ? "PUT" : "POST";
@@ -108,7 +109,6 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
   return (
     <form onSubmit={handleSubmit} className="admin-form">
 
-      {/* Type toggle */}
       <div className="admin-field">
         <label className="admin-label">Post Type</label>
         <div className="admin-toggle-group">
@@ -120,28 +120,33 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
           </button>
         </div>
         <span className="admin-hint">
-          {form.type === "blog" ? "Appears on /blog" : "Appears in the portfolio grid and on the assigned designer's page"}
+          {form.type === "blog"
+            ? "Appears on /blog"
+            : "Appears in the portfolio grid and on the assigned team member's profile page"}
         </span>
       </div>
 
-      {/* Designer assignment (only for portfolio) */}
-      {form.type === "portfolio" && (
-        <div className="admin-field">
-          <label className="admin-label">Assign to Designer *</label>
-          <select
-            className="admin-select"
-            required={form.type === "portfolio"}
-            value={form.designer ?? ""}
-            onChange={(e) => set("designer", e.target.value || null)}
-          >
-            <option value="">— Select designer —</option>
-            {team.map((m) => (
-              <option key={m.id} value={m.slug}>{m.name}</option>
-            ))}
-          </select>
-          <span className="admin-hint">This item will appear on the selected designer's profile page.</span>
-        </div>
-      )}
+      <div className="admin-field">
+        <label className="admin-label">
+          Team Member {form.type === "portfolio" ? "*" : <span className="admin-hint">(optional)</span>}
+        </label>
+        <select
+          className="admin-select"
+          required={form.type === "portfolio"}
+          value={form.teamMember ?? ""}
+          onChange={(e) => set("teamMember", e.target.value || null)}
+        >
+          <option value="">— None —</option>
+          {team.map((m) => (
+            <option key={m.id} value={m.slug}>{m.name}</option>
+          ))}
+        </select>
+        <span className="admin-hint">
+          {form.type === "portfolio"
+            ? "Required. This item will appear on the selected team member's profile page."
+            : "Optional — used to attribute the post to a team member."}
+        </span>
+      </div>
 
       <div className="admin-field-row">
         <div className="admin-field">
@@ -180,7 +185,6 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
         <input className="admin-input" value={form.tags} onChange={(e) => set("tags", e.target.value)} placeholder="e.g. Logo Design, Branding, Typography" />
       </div>
 
-      {/* Thumbnail */}
       <div className="admin-field">
         <label className="admin-label">Thumbnail / Cover Image</label>
         <div className="admin-upload-zone" onClick={() => thumbRef.current?.click()}>
@@ -212,7 +216,6 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
         <input ref={thumbRef} type="file" accept="image/*,video/*" className="admin-file-hidden" onChange={handleThumbUpload} />
       </div>
 
-      {/* Gallery */}
       <div className="admin-field">
         <label className="admin-label">Gallery (optional — multiple images/videos)</label>
         <div className="admin-upload-zone" onClick={() => galleryRef.current?.click()}>
@@ -225,7 +228,7 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
             {form.gallery.map((src, i) => (
               <div key={i} className="admin-thumb">
                 {isVideo(src) ? (
-                  <video src={src} muted style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <video src={src} muted />
                 ) : (
                   <Image src={src} alt="" fill style={{ objectFit: "cover" }} unoptimized />
                 )}
@@ -236,7 +239,6 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
         )}
       </div>
 
-      {/* Published toggle */}
       <div className="admin-field">
         <label className="admin-label">Visibility</label>
         <div className="admin-toggle-group">

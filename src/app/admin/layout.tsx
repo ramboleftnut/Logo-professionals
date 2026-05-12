@@ -4,9 +4,10 @@ import AdminSidebar from "./AdminSidebar";
 export const metadata = { title: "Admin — The Logo Professionals" };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const isDev = process.env.NODE_ENV !== "production";
   return (
     <div className="admin-shell">
-      <AdminSidebar />
+      <AdminSidebar isDev={isDev} />
       <main className="admin-main">
         {children}
       </main>

@@ -189,6 +189,7 @@ export default function WebsiteSummaryScreen({
           payOption,
           discount,
           couponApplied,
+          couponCode: coupon,
           websiteInfo,
           websiteTypeInfo,
           websitePagesInfo,
@@ -265,7 +266,7 @@ export default function WebsiteSummaryScreen({
         </div>
       </div>
 
-      <div className="summary__coupon">
+      {/* <div className="summary__coupon">
         <div className="summary__coupon-label">Have a coupon code?</div>
         {couponApplied ? (
           <div className="summary__coupon-success">
@@ -286,7 +287,7 @@ export default function WebsiteSummaryScreen({
           </div>
         )}
         {couponError && <p className="summary__coupon-error">{couponError}</p>}
-      </div>
+      </div> */}
 
       <div className="summary__contact">
         <div className="summary__contact-label">Your contact info</div>

@@ -1,15 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { adminDb } from "@/lib/firebase/admin";
+import { getTeam } from "@/lib/content";
 import DeleteTeamMemberBtn from "./DeleteTeamMemberBtn";
 
-async function getTeam() {
-  const snap = await adminDb.collection("team").orderBy("order", "asc").get();
-  return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as { name: string; role: string; image: string; slug: string }) }));
-}
-
 export default async function AdminTeamPage() {
-  const members = await getTeam().catch(() => []);
+  const members = await getTeam();
 
   return (
     <div className="admin-content">

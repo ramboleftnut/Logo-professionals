@@ -1,50 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { portfolioItems as staticItems } from "@/lib/data";
-import { adminDb } from "@/lib/firebase/admin";
+import { getPosts, getTeam } from "@/lib/content";
 import "./PortfolioGrid.css";
-
-interface DisplayItem {
-  slug: string;
-  title: string;
-  image: string;
-  designer: string;
-}
-
-async function getPortfolioItems(): Promise<DisplayItem[]> {
-  const staticMapped: DisplayItem[] = staticItems.map((i) => ({
-    slug: i.slug,
-    title: i.title,
-    image: i.image,
-    designer: i.designer,
-  }));
-
-  try {
-    const snap = await adminDb
-      .collection("posts")
-      .where("type", "==", "portfolio")
-      .where("published", "==", true)
-      .orderBy("createdAt", "desc")
-      .get();
-
-    const dynamicSlugs = new Set(staticMapped.map((i) => i.slug));
-    const dynamic: DisplayItem[] = snap.docs
-      .map((doc) => {
-        const d = doc.data();
-        return {
-          slug: d.slug as string,
-          title: d.title as string,
-          image: d.thumbnail as string,
-          designer: d.designer as string ?? "",
-        };
-      })
-      .filter((i) => !dynamicSlugs.has(i.slug));
-
-    return [...dynamic, ...staticMapped];
-  } catch {
-    return staticMapped;
-  }
-}
 
 interface PortfolioGridProps {
   limit?: number;
@@ -52,8 +9,18 @@ interface PortfolioGridProps {
 }
 
 export default async function PortfolioGrid({ limit, showHeader = true }: PortfolioGridProps) {
-  const allItems = await getPortfolioItems();
-  const items = limit ? allItems.slice(0, limit) : allItems;
+  const [posts, team] = await Promise.all([
+    getPosts({ type: "portfolio", publishedOnly: true }),
+    getTeam(),
+  ]);
+  const teamMap = new Map(team.map((m) => [m.slug, m.name]));
+  const all = posts.map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    image: p.thumbnail,
+    creator: (p.teamMember && teamMap.get(p.teamMember)) || "",
+  }));
+  const items = limit ? all.slice(0, limit) : all;
 
   return (
     <section className="portfolio-section">
@@ -82,7 +49,7 @@ export default async function PortfolioGrid({ limit, showHeader = true }: Portfo
             />
             <div className="portfolio-item-overlay">
               <div className="portfolio-item-title">{item.title}</div>
-              <div className="portfolio-item-designer">by {item.designer}</div>
+              {item.creator && <div className="portfolio-item-designer">by {item.creator}</div>}
             </div>
           </Link>
         ))}

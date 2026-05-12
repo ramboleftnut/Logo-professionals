@@ -68,11 +68,12 @@
   flex: 1;
   display: flex;
   justify-content: center;
-  padding: var(--space-12) var(--space-6) var(--space-24);
+  padding: calc(var(--space-12) + 60px) var(--space-6) var(--space-24);
 }
 
 @media (max-width: 1000px) {
   .lc-main {
+    padding-top: calc(var(--space-12) + 60px);
     padding-bottom: 140px;
   }
 }

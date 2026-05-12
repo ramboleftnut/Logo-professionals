@@ -1,39 +1,44 @@
 import { NextRequest, NextResponse } from "next/server";
-import { adminDb } from "@/lib/firebase/admin";
 import { requireAdmin } from "@/lib/auth/requireAdmin";
-import { FieldValue } from "firebase-admin/firestore";
+import { getPost, updatePost, deletePost } from "@/lib/content";
+
+const PROD_DISABLED = { error: "Posts can only be edited locally. Edit JSON in repo and commit." };
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const doc = await adminDb.collection("posts").doc(id).get();
-  if (!doc.exists) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  const d = doc.data()!;
-  return NextResponse.json({
-    id: doc.id,
-    ...d,
-    createdAt: d.createdAt?.toDate?.()?.toISOString() ?? null,
-    updatedAt: d.updatedAt?.toDate?.()?.toISOString() ?? null,
-  });
+  const post = await getPost(id);
+  if (!post) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  // Drafts can only be fetched by an authenticated admin.
+  if (!post.published) {
+    const admin = await requireAdmin();
+    if (!admin) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json(post);
 }
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (process.env.NODE_ENV === "production") return NextResponse.json(PROD_DISABLED, { status: 403 });
+
   const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
   const body = await req.json();
-  await adminDb.collection("posts").doc(id).update({
-    ...body,
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  const updated = await updatePost(id, body);
+  if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  if (process.env.NODE_ENV === "production") return NextResponse.json(PROD_DISABLED, { status: 403 });
+
   const admin = await requireAdmin();
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { id } = await params;
-  await adminDb.collection("posts").doc(id).delete();
+  const ok = await deletePost(id);
+  if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json({ ok: true });
 }

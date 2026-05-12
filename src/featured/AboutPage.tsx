@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Testimonials from "@/components/sections/Testimonials";
-import { adminDb } from "@/lib/firebase/admin";
-import { teamMembers as staticTeam } from "@/lib/data";
+import { getTeam } from "@/lib/content";
 import "./AboutPage.css";
 
 const benefits = [
@@ -28,25 +27,11 @@ const values = [
   },
 ];
 
-async function getTeam() {
-  try {
-    const snap = await adminDb.collection("team").orderBy("order", "asc").get();
-    if (!snap.empty) {
-      return snap.docs.map((doc) => {
-        const d = doc.data() as { name: string; slug: string; role: string; image: string };
-        return { id: doc.id, name: d.name, slug: d.slug, role: d.role, image: d.image };
-      });
-    }
-  } catch {}
-  return staticTeam.map((m) => ({ name: m.name, slug: m.slug, role: m.role, image: m.image }));
-}
-
 export default async function AboutPage() {
   const team = await getTeam();
 
   return (
     <>
-      {/* Hero */}
       <section className="about-hero">
         <div className="about-hero-inner">
           <div>
@@ -81,7 +66,6 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
       <section className="about-values">
         <div className="about-values-inner">
           <div className="about-values-header">
@@ -102,7 +86,6 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Benefits */}
       <section className="about-benefits">
         <div className="about-benefits-inner">
           <div>
@@ -128,7 +111,6 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Team */}
       <section className="about-team">
         <div className="about-team-inner">
           <div className="about-team-header">

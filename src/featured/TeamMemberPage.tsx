@@ -3,28 +3,16 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { TeamMember } from "@/lib/content";
 import "./TeamMemberPage.css";
 
-export interface TeamMemberData {
-  id?: string;
-  name: string;
-  slug: string;
-  role: string;
-  bio: string;
-  quote: string;
-  image: string;
-  heroBg: string;
-  instagram: string;
-  website?: string | null;
-  portfolio?: { title: string; slug: string; image: string }[];
-}
-
 interface TeamMemberPageProps {
-  member: TeamMemberData;
-  others: TeamMemberData[];
+  member: TeamMember;
+  portfolio: { title: string; slug: string; image: string }[];
+  others: TeamMember[];
 }
 
-export default function TeamMemberPage({ member, others }: TeamMemberPageProps) {
+export default function TeamMemberPage({ member, portfolio, others }: TeamMemberPageProps) {
   const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,11 +26,8 @@ export default function TeamMemberPage({ member, others }: TeamMemberPageProps) 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const portfolio = member.portfolio ?? [];
-
   return (
     <>
-      {/* Parallax Hero */}
       <section className="team-hero">
         <div className="team-hero-bg" ref={bgRef}>
           <Image
@@ -62,7 +47,6 @@ export default function TeamMemberPage({ member, others }: TeamMemberPageProps) 
         </div>
       </section>
 
-      {/* Bio section */}
       <section className="team-bio">
         <div className="team-bio-inner">
           <div className="team-bio-sidebar">
@@ -119,7 +103,6 @@ export default function TeamMemberPage({ member, others }: TeamMemberPageProps) 
         </div>
       </section>
 
-      {/* Portfolio */}
       {portfolio.length > 0 && (
         <section className="team-portfolio">
           <div className="team-portfolio-inner">
@@ -147,7 +130,6 @@ export default function TeamMemberPage({ member, others }: TeamMemberPageProps) 
         </section>
       )}
 
-      {/* Meet other team members */}
       <section className="team-nav-bottom">
         <div className="team-nav-bottom-inner">
           <p className="team-nav-bottom-text">Meet the rest of the team</p>
