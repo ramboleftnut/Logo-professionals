@@ -122,7 +122,7 @@ export default function ContactPage() {
                 rows={6}
               />
 
-              <div style={{ display: "none" }}>
+              <div className="is-hidden">
                 <ReCAPTCHA
                   ref={recaptchaRef}
                   size="invisible"

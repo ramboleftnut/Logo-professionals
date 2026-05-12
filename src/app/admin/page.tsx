@@ -19,12 +19,10 @@ export default async function AdminDashboard() {
 
   return (
     <div className="admin-content">
-      <div className="admin-section-header" style={{ marginBottom: 8 }}>
+      <div className="admin-section-header admin-section-header--tight">
         <h1 className="admin-section-title">Dashboard</h1>
       </div>
-      <p style={{ color: "#606060", fontSize: 13, marginBottom: 32 }}>
-        Welcome to The Logo Professionals admin.
-      </p>
+      <p className="admin-section-sub">Welcome to The Logo Professionals admin.</p>
 
       <div className="admin-dashboard-grid">
         <div className="admin-stat-card">
@@ -41,10 +39,10 @@ export default async function AdminDashboard() {
         </div>
       </div>
 
-      <div className="admin-section-header" style={{ marginBottom: 16 }}>
-        <h2 className="admin-section-title" style={{ fontSize: 16 }}>Quick Actions</h2>
+      <div className="admin-section-header admin-section-header--medium">
+        <h2 className="admin-section-title admin-section-title-sm">Quick Actions</h2>
       </div>
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <div className="admin-actions-row">
         <Link href="/admin/posts/new" className="admin-btn admin-btn-primary">+ New Post</Link>
         <Link href="/admin/team/new" className="admin-btn admin-btn-outline">+ Add Team Member</Link>
         <Link href="/admin/orders" className="admin-btn admin-btn-outline">View Orders</Link>

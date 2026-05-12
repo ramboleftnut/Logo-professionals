@@ -61,7 +61,7 @@ export default function PortfolioItemPage({ item }: PortfolioItemPageProps) {
       <section className="pitem-info">
         <div className="pitem-info-inner">
           <p className="pitem-description">{item.description}</p>
-          <Link href="/logo-design/order" className="pitem-cta">
+          <Link href="/services" className="pitem-cta">
             Order a Similar Design
           </Link>
         </div>
@@ -137,7 +137,7 @@ export default function PortfolioItemPage({ item }: PortfolioItemPageProps) {
         <div className="pitem-footer-cta-inner">
           <h2>Ready to build your brand?</h2>
           <p>Tell us your vision and we&apos;ll bring it to life.</p>
-          <Link href="/logo-design/order" className="pitem-footer-btn">
+          <Link href="/services" className="pitem-footer-btn">
             Start Your Order
           </Link>
         </div>

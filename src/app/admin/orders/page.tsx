@@ -39,13 +39,14 @@ function typeBadge(type: string) {
 
 export default async function AdminOrdersPage() {
   const orders = await getOrders().catch(() => [] as Order[]);
+  const paidCount = orders.filter((o) => o.status === "paid").length;
 
   return (
     <div className="admin-content">
       <div className="admin-section-header">
         <h1 className="admin-section-title">Orders</h1>
-        <div style={{ fontSize: 13, color: "#606060" }}>
-          {orders.length} total · {orders.filter((o) => o.status === "paid").length} paid
+        <div className="admin-orders-summary">
+          {orders.length} total · {paidCount} paid
         </div>
       </div>
 
@@ -73,18 +74,18 @@ export default async function AdminOrdersPage() {
                 <tr key={o.id}>
                   <td>
                     <div className="primary">{o.clientName || "—"}</div>
-                    <div style={{ fontSize: 11, color: "#606060" }}>{o.clientEmail}</div>
+                    <div className="admin-table-meta-sub">{o.clientEmail}</div>
                   </td>
                   <td>{o.companyName || "—"}</td>
                   <td>
                     <span className={`admin-badge ${typeBadge(o.type)}`}>{o.type}</span>
-                    {o.tier && <span style={{ fontSize: 11, color: "#606060", marginLeft: 6 }}>{o.tier}</span>}
+                    {o.tier && <span className="admin-table-tier-label">{o.tier}</span>}
                   </td>
                   <td>
                     <span className={`admin-badge ${statusBadge(o.status)}`}>{o.status}</span>
                   </td>
                   <td>${((o.amount ?? 0) / 100).toFixed(2)}</td>
-                  <td style={{ fontSize: 12, color: "#606060" }}>{formatDate(o.createdAt)}</td>
+                  <td className="admin-table-meta-sub">{formatDate(o.createdAt)}</td>
                   <td>
                     <Link href={`/admin/orders/${o.id}`} className="admin-btn admin-btn-outline admin-btn-sm">View</Link>
                   </td>

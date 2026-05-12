@@ -37,7 +37,30 @@
   gap: 14px;
   border: 1px solid var(--gold-dim);
   padding: 14px 28px;
-  background: rgba(201, 168, 76, 0.05);
+  background: color-mix(in srgb, var(--gold) 6%, transparent);
+}
+
+.clients-cta {
+  background: var(--surface);
+  padding: 80px 40px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+
+.clients-cta-title {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.clients-cta-desc {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 440px;
+  margin: 0 auto 32px;
+  line-height: 1.75;
 }
 
 .clients-pricing-note-amount {

@@ -75,7 +75,6 @@ export default async function AboutPage() {
               src="/images/about-team-photo.jpg"
               alt="Logo design workspace"
               fill
-              style={{ objectFit: "cover", filter: "grayscale(20%)" }}
               unoptimized
             />
           </div>

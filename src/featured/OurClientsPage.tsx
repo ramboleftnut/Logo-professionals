@@ -37,39 +37,13 @@ export default function OurClientsPage() {
 
       <FAQ />
 
-      <section
-        style={{
-          background: "var(--surface)",
-          padding: "80px 40px",
-          textAlign: "center",
-          borderTop: "1px solid var(--border)",
-        }}
-      >
-        <h2
-          style={{
-            fontFamily: "var(--font-playfair)",
-            fontSize: "clamp(26px, 3vw, 38px)",
-            fontWeight: 700,
-            color: "var(--text)",
-            marginBottom: "16px",
-          }}
-        >
-          Ready to join our portfolio?
-        </h2>
-        <p
-          style={{
-            fontSize: "15px",
-            color: "var(--text-secondary)",
-            marginBottom: "32px",
-            maxWidth: "440px",
-            margin: "0 auto 32px",
-            lineHeight: "1.75",
-          }}
-        >
+      <section className="clients-cta">
+        <h2 className="clients-cta-title">Ready to join our portfolio?</h2>
+        <p className="clients-cta-desc">
           Order your custom logo design today and see why clients from 36
           countries trust us with their brand.
         </p>
-        <Button href="/logo-design" variant="primary" size="lg">
+        <Button href="/services" variant="primary" size="lg">
           Order Now
         </Button>
       </section>

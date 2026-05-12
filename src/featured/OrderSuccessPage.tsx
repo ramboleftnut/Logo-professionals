@@ -13,7 +13,7 @@ export default function OrderSuccessPage() {
         <p className="order-success-desc">
           Thank you for your order. Your payment was processed successfully.
           Our designer will review your brief and get in touch within{" "}
-          <strong style={{ color: "var(--gold)" }}>1 business day</strong>.
+          <strong>1 business day</strong>.
         </p>
 
         <div className="order-success-steps">
@@ -39,7 +39,7 @@ export default function OrderSuccessPage() {
               Have a reference image? Email it to{" "}
               <a
                 href="mailto:igor.dolovski@gmail.com"
-                style={{ color: "var(--gold)" }}
+                className="order-success-gold-link"
               >
                 igor.dolovski@gmail.com
               </a>{" "}

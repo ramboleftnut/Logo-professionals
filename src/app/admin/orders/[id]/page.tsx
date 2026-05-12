@@ -27,7 +27,10 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
   const isBranding = o.type === "branding";
   const isWebsite = o.type === "website";
 
-  const statusColor = o.status === "paid" ? "admin-badge-green" : o.status === "pending" ? "admin-badge-gold" : "admin-badge-gray";
+  const statusColor =
+    o.status === "paid" ? "admin-badge-green"
+    : o.status === "pending" ? "admin-badge-gold"
+    : "admin-badge-gray";
 
   return (
     <div className="admin-content">
@@ -36,29 +39,25 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
       <div className="admin-section-header">
         <div>
           <h1 className="admin-section-title">{o.companyName || o.clientName || "Order"}</h1>
-          <div style={{ display: "flex", gap: 8, marginTop: 6, alignItems: "center" }}>
+          <div className="admin-od-header">
             <span className={`admin-badge ${statusColor}`}>{o.status}</span>
             <span className="admin-badge admin-badge-blue">{o.type}</span>
-            {o.tier && <span style={{ fontSize: 12, color: "#606060" }}>— {o.tier}</span>}
+            {o.tier && <span className="admin-od-tier-note">— {o.tier}</span>}
           </div>
         </div>
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 28, fontWeight: 700, color: "#c9a84c" }}>
-            ${((o.amount ?? 0) / 100).toFixed(2)}
-          </div>
-          <div style={{ fontSize: 12, color: "#606060" }}>{formatDate(o.createdAt ?? null)}</div>
+        <div className="admin-od-price-block">
+          <div className="admin-od-price">${((o.amount ?? 0) / 100).toFixed(2)}</div>
+          <div className="admin-od-date">{formatDate(o.createdAt ?? null)}</div>
         </div>
       </div>
 
       <div className="od-grid">
-        {/* Client */}
         <div className="admin-card od-section">
           <div className="od-section-title">Client</div>
           <Row label="Name" value={o.clientName} />
           <Row label="Email" value={o.clientEmail} />
         </div>
 
-        {/* Payment */}
         <div className="admin-card od-section">
           <div className="od-section-title">Payment</div>
           <Row label="Stripe Session" value={o.stripeSessionId} />
@@ -67,9 +66,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           <Row label="Paid At" value={o.paidAt ? formatDate(o.paidAt) : null} />
         </div>
 
-        {/* Logo order fields */}
         {isLogo && (
-          <div className="admin-card od-section" style={{ gridColumn: "1 / -1" }}>
+          <div className="admin-card od-section admin-od-section--full">
             <div className="od-section-title">Logo Brief</div>
             <Row label="Company" value={o.companyName} />
             <Row label="Industry" value={o.industry} />
@@ -82,9 +80,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           </div>
         )}
 
-        {/* Branding order fields */}
         {isBranding && (
-          <div className="admin-card od-section" style={{ gridColumn: "1 / -1" }}>
+          <div className="admin-card od-section admin-od-section--full">
             <div className="od-section-title">Branding Brief</div>
             <Row label="Company" value={o.companyName} />
             <Row label="Industry" value={o.industry} />
@@ -97,9 +94,8 @@ export default async function OrderDetailPage({ params }: { params: Promise<{ id
           </div>
         )}
 
-        {/* Website order fields */}
         {isWebsite && (
-          <div className="admin-card od-section" style={{ gridColumn: "1 / -1" }}>
+          <div className="admin-card od-section admin-od-section--full">
             <div className="od-section-title">Website Brief</div>
             <Row label="Business Name" value={o.companyName} />
             <Row label="Website Type" value={o.websiteType} />

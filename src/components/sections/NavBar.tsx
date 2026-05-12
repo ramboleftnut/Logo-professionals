@@ -17,6 +17,7 @@ const navLinks = [
       { label: "Igor Dola", href: "/about-us/igor-dola" },
     ],
   },
+  { label: "Services", href: "/services" },
   { label: "Contact", href: "/contact-us" },
 ];
 
@@ -63,11 +64,6 @@ export default function NavBar() {
               </li>
             )
           )}
-          <li>
-            <Link href="/logo-design" className="nav-cta">
-              Get a Logo
-            </Link>
-          </li>
         </ul>
 
         <button
@@ -102,11 +98,11 @@ export default function NavBar() {
             Igor
           </Link>
         </div>
+        <Link href="/services" onClick={() => setMenuOpen(false)}>
+          Services
+        </Link>
         <Link href="/contact-us" onClick={() => setMenuOpen(false)}>
           Contact
-        </Link>
-        <Link href="/logo-design" onClick={() => setMenuOpen(false)}>
-          Get a Logo
         </Link>
       </div>
     </>

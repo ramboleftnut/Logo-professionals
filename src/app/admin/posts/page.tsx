@@ -49,8 +49,8 @@ export default async function AdminPostsPage() {
         <>
           {blog.length > 0 && (
             <>
-              <h2 style={{ fontSize: 13, color: "#606060", textTransform: "uppercase", letterSpacing: 1, marginBottom: 16 }}>Blog Posts ({blog.length})</h2>
-              <div className="admin-table-wrap" style={{ marginBottom: 40 }}>
+              <h2 className="admin-table-section-label">Blog Posts ({blog.length})</h2>
+              <div className="admin-table-wrap admin-table-wrap--spaced">
                 <table className="admin-table">
                   <thead>
                     <tr>
@@ -64,9 +64,9 @@ export default async function AdminPostsPage() {
                     {blog.map((p) => (
                       <tr key={p.id}>
                         <td>
-                          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                          <div className="admin-table-cell-stack">
                             {p.thumbnail && (
-                              <div style={{ width: 44, height: 34, borderRadius: 6, overflow: "hidden", position: "relative", flexShrink: 0, background: "#1c1c1c" }}>
+                              <div className="admin-table-thumb">
                                 <Image src={p.thumbnail} alt="" fill style={{ objectFit: "cover" }} unoptimized />
                               </div>
                             )}
@@ -80,7 +80,7 @@ export default async function AdminPostsPage() {
                         </td>
                         <td>{formatDate(p.createdAt)}</td>
                         <td>
-                          <div style={{ display: "flex", gap: 8 }}>
+                          <div className="admin-row-actions">
                             <Link href={`/admin/posts/${p.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
                             <DeletePostBtn id={p.id} title={p.title} />
                           </div>
@@ -95,7 +95,7 @@ export default async function AdminPostsPage() {
 
           {portfolio.length > 0 && (
             <>
-              <h2 style={{ fontSize: 13, color: "#606060", textTransform: "uppercase", letterSpacing: 1, marginBottom: 16 }}>Portfolio Items ({portfolio.length})</h2>
+              <h2 className="admin-table-section-label">Portfolio Items ({portfolio.length})</h2>
               <div className="admin-posts-grid">
                 {portfolio.map((p) => (
                   <div key={p.id} className="admin-post-card">
@@ -109,7 +109,7 @@ export default async function AdminPostsPage() {
                       <div className="admin-post-card-meta">
                         {p.designer && `Designer: ${p.designer}`}
                         {" · "}
-                        <span className={`admin-badge ${p.published ? "admin-badge-green" : "admin-badge-gray"}`} style={{ fontSize: 10 }}>
+                        <span className={`admin-badge admin-badge-xs ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
                           {p.published ? "Published" : "Draft"}
                         </span>
                       </div>

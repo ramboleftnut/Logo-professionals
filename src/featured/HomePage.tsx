@@ -21,7 +21,7 @@ export default function HomePage() {
           </>
         }
         subtitle="We craft exceptional, one-of-a-kind logo designs that represent who you are — built to make a lasting impression across every market."
-        primaryCta={{ label: "Order Your Logo", href: "/logo-design" }}
+        primaryCta={{ label: "Order Your Logo", href: "/services" }}
         secondaryCta={{ label: "See Our Work", href: "/our-clients" }}
       />
 
@@ -77,7 +77,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div style={{ position: "relative" }}>
+          <div className="home-about-image-outer">
             <div className="home-about-image-wrap">
               <Image
                 src="/images/home-web.jpg"
@@ -106,7 +106,7 @@ export default function HomePage() {
           You want your company or startup to look professional and stand out in
           a sea of competition. Let&apos;s make it happen.
         </p>
-        <Button href="/logo-design" variant="primary" size="lg">
+        <Button href="/services" variant="primary" size="lg">
           Order Your Logo — $180
         </Button>
       </section>

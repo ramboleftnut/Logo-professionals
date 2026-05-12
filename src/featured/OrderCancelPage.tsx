@@ -12,11 +12,11 @@ export default function OrderCancelPage() {
           You can go back and try again whenever you&apos;re ready.
         </p>
         <div className="order-cancel-actions">
-          <Button href="/logo-design/order" variant="primary">
+          <Button href="/services" variant="primary">
             Try Again
           </Button>
-          <Button href="/logo-design" variant="ghost">
-            View Packages
+          <Button href="/" variant="ghost">
+            Back to Home
           </Button>
         </div>
       </div>

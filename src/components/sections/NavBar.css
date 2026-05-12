@@ -119,7 +119,7 @@
 /* CTA button in nav */
 .nav-cta {
   background: var(--gold) !important;
-  color: #0a0a0a !important;
+  color: var(--bg) !important;
   padding: 10px 22px;
   font-size: 11px !important;
   letter-spacing: 0.1em;
@@ -129,7 +129,7 @@
 }
 .nav-cta:hover {
   background: var(--gold-light) !important;
-  color: #0a0a0a !important;
+  color: var(--bg) !important;
 }
 .nav-cta::after {
   display: none !important;

@@ -143,7 +143,7 @@ export default function TeamForm({ initial }: { initial?: TeamMemberData }) {
 
       <div className="admin-field">
         <label className="admin-label">Display Order</label>
-        <input className="admin-input" type="number" value={form.order} onChange={(e) => set("order", parseInt(e.target.value) || 99)} style={{ maxWidth: 100 }} />
+        <input className="admin-input admin-input--sm" type="number" value={form.order} onChange={(e) => set("order", parseInt(e.target.value) || 99)} />
         <span className="admin-hint">Lower numbers appear first (e.g. 1, 2, 3)</span>
       </div>
 
@@ -160,7 +160,7 @@ export default function TeamForm({ initial }: { initial?: TeamMemberData }) {
               </>
             )}
           </div>
-          <input ref={profileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handleProfileUpload} />
+          <input ref={profileRef} type="file" accept="image/*" className="admin-file-hidden" onChange={handleProfileUpload} />
         </div>
 
         <div className="admin-field">
@@ -175,13 +175,13 @@ export default function TeamForm({ initial }: { initial?: TeamMemberData }) {
               </>
             )}
           </div>
-          <input ref={bgRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handleBgUpload} />
+          <input ref={bgRef} type="file" accept="image/*" className="admin-file-hidden" onChange={handleBgUpload} />
         </div>
       </div>
 
       {error && <div className="admin-error-msg">{error}</div>}
 
-      <div style={{ display: "flex", gap: 12 }}>
+      <div className="admin-actions-row">
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary">
           {saving ? "Saving…" : initial?.id ? "Save Changes" : "Add Member"}
         </button>

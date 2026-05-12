@@ -166,12 +166,12 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
 
       <div className="admin-field">
         <label className="admin-label">Excerpt / Short Description</label>
-        <textarea className="admin-textarea" style={{ minHeight: 80 }} value={form.excerpt} onChange={(e) => set("excerpt", e.target.value)} placeholder="One or two sentences that appear on the card preview." />
+        <textarea className="admin-textarea admin-textarea--sm" value={form.excerpt} onChange={(e) => set("excerpt", e.target.value)} placeholder="One or two sentences that appear on the card preview." />
       </div>
 
       <div className="admin-field">
         <label className="admin-label">Content (HTML)</label>
-        <textarea className="admin-textarea" style={{ minHeight: 240 }} value={form.content} onChange={(e) => set("content", e.target.value)} placeholder="Full post content. You can write plain text or HTML." />
+        <textarea className="admin-textarea admin-textarea--lg" value={form.content} onChange={(e) => set("content", e.target.value)} placeholder="Full post content. You can write plain text or HTML." />
         <span className="admin-hint">Supports HTML: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;, &lt;img&gt;, etc.</span>
       </div>
 
@@ -185,11 +185,18 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
         <label className="admin-label">Thumbnail / Cover Image</label>
         <div className="admin-upload-zone" onClick={() => thumbRef.current?.click()}>
           {form.thumbnail ? (
-            <div style={{ position: "relative" }}>
-              <Image src={form.thumbnail} alt="Thumbnail" width={400} height={200} style={{ objectFit: "cover", borderRadius: 8, width: "100%", height: "auto" }} unoptimized />
+            <div className="admin-thumb-wrap">
+              <Image
+                src={form.thumbnail}
+                alt="Thumbnail"
+                width={400}
+                height={200}
+                className="admin-thumb-preview"
+                unoptimized
+              />
               <button
                 type="button"
-                style={{ position: "absolute", top: 8, right: 8, background: "rgba(0,0,0,0.7)", border: "none", color: "#e05c5c", borderRadius: 6, padding: "4px 10px", cursor: "pointer", fontSize: 12 }}
+                className="admin-form-thumb-remove"
                 onClick={(e) => { e.stopPropagation(); set("thumbnail", ""); }}
               >
                 Remove
@@ -202,7 +209,7 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
             </>
           )}
         </div>
-        <input ref={thumbRef} type="file" accept="image/*,video/*" style={{ display: "none" }} onChange={handleThumbUpload} />
+        <input ref={thumbRef} type="file" accept="image/*,video/*" className="admin-file-hidden" onChange={handleThumbUpload} />
       </div>
 
       {/* Gallery */}
@@ -212,7 +219,7 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
           <div className="admin-upload-zone-icon">📂</div>
           <div className="admin-upload-zone-text">Click to <span>add gallery files</span> (images or video)</div>
         </div>
-        <input ref={galleryRef} type="file" accept="image/*,video/*" multiple style={{ display: "none" }} onChange={handleGalleryUpload} />
+        <input ref={galleryRef} type="file" accept="image/*,video/*" multiple className="admin-file-hidden" onChange={handleGalleryUpload} />
         {form.gallery.length > 0 && (
           <div className="admin-thumb-list">
             {form.gallery.map((src, i) => (
@@ -244,7 +251,7 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
 
       {error && <div className="admin-error-msg">{error}</div>}
 
-      <div style={{ display: "flex", gap: 12 }}>
+      <div className="admin-actions-row">
         <button type="submit" disabled={saving} className="admin-btn admin-btn-primary">
           {saving ? "Saving…" : initial?.id ? "Save Changes" : "Create Post"}
         </button>

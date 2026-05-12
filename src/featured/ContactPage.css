@@ -131,15 +131,15 @@
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: #22c55e;
+  color: var(--success);
 }
 
 .contact-error-msg {
   font-size: 13px;
-  color: #e05050;
+  color: var(--error);
   padding: 12px;
-  background: rgba(224, 80, 80, 0.06);
-  border: 1px solid rgba(224, 80, 80, 0.2);
+  background: color-mix(in srgb, var(--error) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--error) 20%, transparent);
 }
 
 /* Info sidebar */

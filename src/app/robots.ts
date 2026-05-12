@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/logo-design/order/success", "/logo-design/order/cancel", "/api/"],
+      disallow: ["/services/success", "/services/cancel", "/admin", "/api/"],
     },
     sitemap: "https://thelogoprofessionals.com/sitemap.xml",
   };
