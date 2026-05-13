@@ -21,7 +21,7 @@
   border-radius: 8px;
 }
 
-/* Reset heading styles so global Playfair fonts don't bleed in */
+/* Reset heading styles inside the wizard */
 .lc-root h1,
 .lc-root h2,
 .lc-root h3,

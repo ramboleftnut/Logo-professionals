@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import "./NavBar.css";
 
 interface NavBarTeamMember {
@@ -39,7 +38,8 @@ export default function NavBar({ team }: { team: NavBarTeamMember[] }) {
     <>
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <Link href="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-          <Image src="/logo.svg" width={130} height={100} alt="logoproffesionals logo" />
+          <span className="navbar-logo-digital">Digital</span>
+          <span className="navbar-logo-nectar">Nectar</span>
         </Link>
 
         <ul className="navbar-links">

@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   The Logo Professionals — Global Stylesheet
+   Digital Nectar — Global Stylesheet
    Single source of truth for design tokens + base styles.
    ═══════════════════════════════════════════════════════════════ */
 
@@ -7,15 +7,20 @@
 /* (no Tailwind — vanilla CSS only) */
 :root {
   /* Surfaces */
-  --bg: #0a0a0a;
-  --surface: #141414;
-  --card: #1c1c1c;
-  --border: #030303;
+  --bg: #181b1b;
+  --surface: #1b2321;
+  --card: #242b2c;
+  --border: #080d0c;
 
-  /* Brand */
-  --gold: #FF0077;
-  --gold-light: #f7519e;
-  --gold-dim: #bd1061;
+  /* Brand — primary green (teal) */
+  --primary-green: #58B9A5;
+  --primary-green-light: #7ECABB;
+  --primary-green-dim: #3D9B88;
+
+  /* Brand — primary rose (pastel pink) */
+  --primary-rose: #E3688B;
+  --primary-rose-light: #EA8BA5;
+  --primary-rose-dim: #C4506F;
 
   /* Text */
   --text: #ffffff;
@@ -23,7 +28,7 @@
   --text-muted: #8f8f8f;
 
   /* Status */
-  --success: #34d399;
+  --success: #58B9A5;
   --error: #e05c5c;
   --warning: #d4a04a;
   --info: #60a5fa;
@@ -48,14 +53,14 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair), Georgia, serif;
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   line-height: 1.2;
 }
 
@@ -65,22 +70,22 @@ img { display: block; max-width: 100%; }
 /* ── Scrollbar ─────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+::-webkit-scrollbar-thumb { background: var(--primary-green-dim); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-green); }
 
 /* ── Utilities ─────────────────────────────────────────────────── */
-.gold-line {
+.accent-line {
   display: inline-block;
   position: relative;
 }
-.gold-line::after {
+.accent-line::after {
   content: '';
   position: absolute;
   bottom: -6px;
   left: 0;
   width: 60px;
   height: 2px;
-  background: var(--gold);
+  background: var(--primary-green);
 }
 
 .section-pad { padding: 100px 0; }
@@ -144,23 +149,23 @@ img { display: block; max-width: 100%; }
   --color-surface-alt:     var(--card);
   --color-overlay:         rgba(0, 0, 0, 0.6);
   --color-border:          var(--border);
-  --color-border-focus:    var(--gold);
+  --color-border-focus:    var(--primary-green);
   --color-text-primary:    var(--text);
   --color-text-secondary:  var(--text-secondary);
   --color-text-muted:      var(--text-muted);
   --color-text-inverse:    var(--bg);
-  --color-accent:          var(--gold);
-  --color-accent-hover:    var(--gold-light);
-  --color-accent-light:    color-mix(in srgb, var(--gold) 12%, transparent);
-  --color-accent-muted:    color-mix(in srgb, var(--gold) 22%, transparent);
-  --color-designer-bg:     color-mix(in srgb, var(--gold) 8%, transparent);
-  --color-designer-border: color-mix(in srgb, var(--gold) 30%, transparent);
+  --color-accent:          var(--primary-green);
+  --color-accent-hover:    var(--primary-green-light);
+  --color-accent-light:    color-mix(in srgb, var(--primary-green) 12%, transparent);
+  --color-accent-muted:    color-mix(in srgb, var(--primary-green) 22%, transparent);
+  --color-designer-bg:     color-mix(in srgb, var(--primary-green) 8%, transparent);
+  --color-designer-border: color-mix(in srgb, var(--primary-green) 30%, transparent);
   --color-success:         var(--success);
   --color-error:           var(--error);
   --color-warning:         var(--warning);
 
   /* Typography */
-  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
   --font-mono: 'DM Mono', ui-monospace, monospace;
 
   --font-size-xs:  11px;
@@ -237,7 +242,7 @@ img { display: block; max-width: 100%; }
   --shadow-md:    0 4px 16px rgba(0, 0, 0, 0.55);
   --shadow-lg:    0 8px 32px rgba(0, 0, 0, 0.6);
   --shadow-xl:    0 16px 48px rgba(0, 0, 0, 0.7);
-  --shadow-focus: 0 0 0 3px color-mix(in srgb, var(--gold) 32%, transparent);
+  --shadow-focus: 0 0 0 3px color-mix(in srgb, var(--primary-green) 32%, transparent);
 
   /* Motion */
   --duration-fast:   120ms;

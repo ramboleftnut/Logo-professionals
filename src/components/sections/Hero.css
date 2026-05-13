@@ -57,7 +57,7 @@
   font-weight: 500;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--primary-green);
   margin-bottom: 20px;
   display: flex;
   align-items: center;
@@ -71,11 +71,11 @@
   display: block;
   width: 40px;
   height: 1px;
-  background: var(--gold-dim);
+  background: var(--primary-green-dim);
 }
 
 .hero-title {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
   font-size: clamp(42px, 7vw, 88px);
   font-weight: 700;
   line-height: 1.08;
@@ -86,7 +86,7 @@
 
 .hero-title em {
   font-style: italic;
-  color: var(--gold);
+  color: var(--primary-green);
 }
 
 .hero-subtitle {
@@ -129,7 +129,7 @@
 .hero-scroll-line {
   width: 1px;
   height: 40px;
-  background: linear-gradient(to bottom, var(--gold), transparent);
+  background: linear-gradient(to bottom, var(--primary-green), transparent);
   animation: scrollLine 1.8s ease-in-out infinite;
 }
 

@@ -19,7 +19,7 @@
   background: var(--card);
   border: 1px solid var(--border);
   color: var(--text);
-  font-family: var(--font-inter), sans-serif;
+  font-family: var(--font-dm-sans), sans-serif;
   font-size: 14px;
   padding: 14px 18px;
   outline: none;
@@ -31,7 +31,7 @@
 
 .input-field:focus,
 .textarea-field:focus {
-  border-color: var(--gold);
+  border-color: var(--primary-green);
 }
 
 .input-field::placeholder,

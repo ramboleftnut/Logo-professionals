@@ -15,7 +15,7 @@
 }
 
 .footer-brand-name {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--text);
@@ -23,7 +23,7 @@
 }
 
 .footer-brand-name span {
-  color: var(--gold);
+  color: var(--primary-green);
 }
 
 .footer-brand-desc {
@@ -51,8 +51,8 @@
   transition: all 0.2s ease;
 }
 .footer-social-link:hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--primary-green);
+  color: var(--primary-green);
 }
 
 .footer-col-title {
@@ -77,7 +77,7 @@
   transition: color 0.2s;
 }
 .footer-links a:hover {
-  color: var(--gold);
+  color: var(--primary-green);
 }
 
 .footer-contact-item {
@@ -99,7 +99,7 @@
   transition: color 0.2s;
 }
 .footer-contact-item a:hover {
-  color: var(--gold);
+  color: var(--primary-green);
 }
 
 .footer-bottom {
@@ -123,7 +123,7 @@
   transition: color 0.2s;
 }
 .footer-policy a:hover {
-  color: var(--gold);
+  color: var(--primary-green);
 }
 
 @media (max-width: 900px) {

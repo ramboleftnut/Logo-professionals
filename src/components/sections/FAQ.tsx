@@ -16,7 +16,7 @@ export default function FAQ() {
           <p className="faq-sidebar-desc">
             Everything you need to know about working with us. Can't find the
             answer you're looking for?{" "}
-            <a href="/contact-us" style={{ color: "var(--gold)" }}>
+            <a href="/contact-us" style={{ color: "var(--primary-green)" }}>
               Contact us directly.
             </a>
           </p>

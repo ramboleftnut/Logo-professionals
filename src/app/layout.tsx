@@ -1,25 +1,19 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://thelogoprofessionals.com"),
-  title: "The Logo Professionals | Expert Logo Design Studio",
+  metadataBase: new URL("https://digitalnectar.agency"),
+  title: "Digital Nectar | Creative & Tech Studio",
   description:
-    "Professional logo design studio specializing in brand identity, custom logos, and visual design. 374+ projects completed across 36 countries.",
-  keywords: "logo design, branding, graphic design, custom logo, professional logo designer",
+    "Digital Nectar is a creative and technology studio specialising in brand identity, logo design, UI/UX, and software engineering. Built by freelance veterans with 15+ years of experience.",
+  keywords: "logo design, branding, graphic design, UI/UX, web development, digital studio",
 };
 
 export default function RootLayout({
@@ -27,7 +21,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${inter.variable}`}>
+      <body className={dmSans.variable}>
         <main>{children}</main>
       </body>
     </html>
