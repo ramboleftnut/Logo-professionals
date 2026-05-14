@@ -513,6 +513,14 @@
 .admin-team-card-name {
   font-size: 15px; font-weight: 600;
   color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-team-card-flag {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
 }
 .admin-team-card-role {
   font-size: 12px;
@@ -828,6 +836,26 @@ a.admin-team-card-img:hover {
   padding: 4px 10px;
   cursor: pointer;
   font-size: 12px;
+}
+
+/* ── Country select with flag preview ──────────────────────────── */
+.admin-country-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.admin-country-row .admin-select { flex: 1; }
+.admin-country-flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 28px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  flex-shrink: 0;
 }
 
 /* ── Partner first-letter fallback ─────────────────────────────── */

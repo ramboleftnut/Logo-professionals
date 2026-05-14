@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import ReactCountryFlag from "react-country-flag";
+import { COUNTRIES } from "@/lib/countries";
 
 interface PartnerData {
   id?: string;
@@ -11,6 +13,7 @@ interface PartnerData {
   image?: string;
   url?: string;
   review?: string;
+  country?: string;
 }
 
 async function uploadFile(file: File, folder: string): Promise<string> {
@@ -30,6 +33,7 @@ export default function PartnerForm({ initial }: { initial?: PartnerData }) {
     image: initial?.image ?? "",
     url: initial?.url ?? "",
     review: initial?.review ?? "",
+    country: initial?.country ?? "",
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -99,15 +103,38 @@ export default function PartnerForm({ initial }: { initial?: PartnerData }) {
         </div>
       </div>
 
-      <div className="admin-field">
-        <label className="admin-label">Website URL</label>
-        <input
-          className="admin-input" type="url"
-          value={form.url}
-          onChange={(e) => set("url", e.target.value)}
-          placeholder="https://example.com"
-        />
-        <span className="admin-hint">Optional. Logo links here when clicked.</span>
+      <div className="admin-field-row">
+        <div className="admin-field">
+          <label className="admin-label">Location (Country)</label>
+          <div className="admin-country-row">
+            <select
+              className="admin-select"
+              value={form.country}
+              onChange={(e) => set("country", e.target.value)}
+            >
+              <option value="">— None —</option>
+              {COUNTRIES.map((c) => (
+                <option key={c.code} value={c.code}>{c.name}</option>
+              ))}
+            </select>
+            {form.country && (
+              <span className="admin-country-flag">
+                <ReactCountryFlag countryCode={form.country} svg style={{ width: "28px", height: "auto" }} />
+              </span>
+            )}
+          </div>
+          <span className="admin-hint">Optional. Shown as a flag next to the client name on reviews.</span>
+        </div>
+        <div className="admin-field">
+          <label className="admin-label">Website URL</label>
+          <input
+            className="admin-input" type="url"
+            value={form.url}
+            onChange={(e) => set("url", e.target.value)}
+            placeholder="https://example.com"
+          />
+          <span className="admin-hint">Optional. Logo links here when clicked.</span>
+        </div>
       </div>
 
       <div className="admin-field">
@@ -126,7 +153,7 @@ export default function PartnerForm({ initial }: { initial?: PartnerData }) {
         </div>
         <input ref={imageRef} type="file" accept="image/*" className="admin-file-hidden" onChange={handleImageUpload} />
         <span className="admin-hint">
-          Optional. If empty, the carousel shows the first letter of the company name in a circle.
+          Optional. If empty, this partner is hidden from the &ldquo;Trusted by brands worldwide&rdquo; carousel.
         </span>
       </div>
 

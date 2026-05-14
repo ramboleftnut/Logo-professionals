@@ -111,6 +111,17 @@
   font-weight: 600;
   color: var(--text);
   margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.testimonial-flag {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 .testimonial-company {

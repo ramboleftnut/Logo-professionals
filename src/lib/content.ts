@@ -39,6 +39,7 @@ export interface Partner {
   image: string;
   url: string;
   review: string;
+  country: string;
 }
 
 const TEAM_PATH = path.join(process.cwd(), "src", "content", "team.json");

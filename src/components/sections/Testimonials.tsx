@@ -1,4 +1,6 @@
+import ReactCountryFlag from "react-country-flag";
 import { getPartners } from "@/lib/content";
+import { getCountryName } from "@/lib/countries";
 import SectionHeading from "@/components/ui/SectionHeading";
 import "./Testimonials.css";
 
@@ -29,7 +31,14 @@ export default async function Testimonials() {
                   {displayName.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                  <div className="testimonial-name">{displayName}</div>
+                  <div className="testimonial-name">
+                    <span>{displayName}</span>
+                    {t.country && (
+                      <span className="testimonial-flag" title={getCountryName(t.country)}>
+                        <ReactCountryFlag countryCode={t.country} svg style={{ width: "18px", height: "auto" }} />
+                      </span>
+                    )}
+                  </div>
                   {t.clientName && t.company && (
                     <div className="testimonial-company">{t.company}</div>
                   )}

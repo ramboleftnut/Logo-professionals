@@ -5,7 +5,8 @@
     "company": "Taylor Barbershop",
     "image": "/clients/taylor-barbershop.jpg",
     "url": "https://www.taylorbarbershop.com/",
-    "review": ""
+    "review": "",
+    "country": "US"
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000002",
@@ -13,7 +14,8 @@
     "company": "Biorugged",
     "image": "/clients/biorugged.jpg",
     "url": "https://biorugged.com/",
-    "review": "Working with them over 12 years, we have no hesitation to say that this is the best team we have ever worked with. They have always been helpful, honest and creative. Your approach was always friendly and professional. Once again, thank you so much."
+    "review": "Working with them over 12 years, we have no hesitation to say that this is the best team we have ever worked with. They have always been helpful, honest and creative. Your approach was always friendly and professional. Once again, thank you so much.",
+    "country": "ZA"
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000003",
@@ -21,7 +23,8 @@
     "company": "Braneu",
     "image": "/clients/braneu.jpg",
     "url": "https://braneu.com/",
-    "review": "The team is phenomenal on so many levels. They are committed to their craft! Their communication and turnaround time on projects are second to none! I'm so glad I found them on Instagram and I'm truly excited about where our partnership will go!! 10 Stars!!"
+    "review": "The team is phenomenal on so many levels. They are committed to their craft! Their communication and turnaround time on projects are second to none! I'm so glad I found them on Instagram and I'm truly excited about where our partnership will go!! 10 Stars!!",
+    "country": "US"
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000004",
@@ -29,7 +32,8 @@
     "company": "Sing Sing Whisky",
     "image": "/clients/sing-sing.jpg",
     "url": "http://singsingwhisky.com",
-    "review": ""
+    "review": "",
+    "country": "SG"
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000005",
@@ -37,7 +41,8 @@
     "company": "Serenity Mobile",
     "image": "/clients/serenity-mobile.png",
     "url": "https://serenity-mobile.com",
-    "review": ""
+    "review": "",
+    "country": "US"
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000006",
@@ -45,7 +50,8 @@
     "company": "Biolek",
     "image": "/clients/biolek.jpg",
     "url": "https://www.bioelek.co.za/",
-    "review": ""
+    "review": "",
+    "country": "ZA"
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000007",
@@ -53,7 +59,8 @@
     "company": "CCM",
     "image": "",
     "url": "",
-    "review": "We were a new company in need of a catchy logo and a sparkling new website. They recommended several designs that perfectly suited our company profile. Very satisfied with the professionalism from this team of talented professionals. Highly recommended."
+    "review": "We were a new company in need of a catchy logo and a sparkling new website. They recommended several designs that perfectly suited our company profile. Very satisfied with the professionalism from this team of talented professionals. Highly recommended.",
+    "country": ""
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000008",
@@ -61,7 +68,8 @@
     "company": "Alice Boyd",
     "image": "",
     "url": "",
-    "review": "Just a short note to let you know how happy and impressed we are with the design you created. It looks so professional. The entire process of collaboration was so pleasing and incredibly fast. I honestly hope to continue our work in the future."
+    "review": "Just a short note to let you know how happy and impressed we are with the design you created. It looks so professional. The entire process of collaboration was so pleasing and incredibly fast. I honestly hope to continue our work in the future.",
+    "country": ""
   },
   {
     "id": "37d54c1e-1a1b-4a01-9001-000000000009",
@@ -69,6 +77,7 @@
     "company": "Attention to Details",
     "image": "",
     "url": "https://www.instagram.com/attention2detailwindowtint/",
-    "review": "10 Stars! I contacted them about a design, not only did they give me some helpful advice and ideas. They made sure I did not overpay! Definitely will be using for more and more designs! Hands down, great experience!"
+    "review": "10 Stars! I contacted them about a design, not only did they give me some helpful advice and ideas. They made sure I did not overpay! Definitely will be using for more and more designs! Hands down, great experience!",
+    "country": ""
   }
 ]

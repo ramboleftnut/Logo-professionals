@@ -3,7 +3,9 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import ReactCountryFlag from "react-country-flag";
 import type { Partner } from "@/lib/content";
+import { getCountryName } from "@/lib/countries";
 import DeletePartnerBtn from "./DeletePartnerBtn";
 
 type SortKey = "default" | "company" | "clientName" | "hasReview";
@@ -71,7 +73,14 @@ export default function PartnerList({ partners }: { partners: Partner[] }) {
                   )}
                 </div>
                 <div className="admin-team-card-body">
-                  <div className="admin-team-card-name">{p.company}</div>
+                  <div className="admin-team-card-name">
+                    {p.company}
+                    {p.country && (
+                      <span className="admin-team-card-flag" title={getCountryName(p.country)}>
+                        <ReactCountryFlag countryCode={p.country} svg style={{ width: "20px", height: "auto" }} />
+                      </span>
+                    )}
+                  </div>
                   <div className="admin-team-card-role">
                     {p.clientName ? p.clientName : <em style={{ opacity: 0.6 }}>No client name</em>}
                   </div>

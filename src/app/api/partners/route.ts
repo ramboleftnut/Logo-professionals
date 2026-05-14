@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { clientName, company, image, url, review } = body;
+  const { clientName, company, image, url, review, country } = body;
 
   if (!company || typeof company !== "string" || !company.trim()) {
     return NextResponse.json({ error: "Company name is required." }, { status: 400 });
@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
     image: image ?? "",
     url: url ?? "",
     review: typeof review === "string" ? review.trim() : "",
+    country: typeof country === "string" ? country.trim().toUpperCase().slice(0, 2) : "",
   });
   return NextResponse.json({ id: partner.id });
 }
