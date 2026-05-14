@@ -1,10 +1,20 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getTeam } from "@/lib/content";
-import DeleteTeamMemberBtn from "./DeleteTeamMemberBtn";
+import { getViewsByType } from "@/lib/views";
+import TeamList from "./TeamList";
 
 export default async function AdminTeamPage() {
-  const members = await getTeam();
+  const [members, teamViews] = await Promise.all([getTeam(), getViewsByType("team")]);
+
+  const rows = members.map((m) => ({
+    id: m.id,
+    name: m.name,
+    slug: m.slug,
+    role: m.role,
+    image: m.image,
+    order: m.order ?? 0,
+    views: teamViews[m.slug] ?? 0,
+  }));
 
   return (
     <div className="admin-content">
@@ -19,25 +29,7 @@ export default async function AdminTeamPage() {
           <div className="admin-empty-text">No team members yet. Add your first one.</div>
         </div>
       ) : (
-        <div className="admin-team-grid">
-          {members.map((m) => (
-            <div key={m.id} className="admin-team-card">
-              <div className="admin-team-card-img">
-                {m.image && (
-                  <Image src={m.image} alt={m.name} fill style={{ objectFit: "cover" }} unoptimized />
-                )}
-              </div>
-              <div className="admin-team-card-body">
-                <div className="admin-team-card-name">{m.name}</div>
-                <div className="admin-team-card-role">{m.role}</div>
-                <div className="admin-team-card-actions">
-                  <Link href={`/admin/team/${m.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
-                  <DeleteTeamMemberBtn id={m.id} name={m.name} />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <TeamList members={rows} />
       )}
     </div>
   );

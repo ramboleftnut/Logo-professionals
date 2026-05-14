@@ -21,6 +21,7 @@
   color: var(--text);
   margin-bottom: 20px;
   line-height: 1.1;
+  margin: 0 auto;
 }
 
 .clients-hero-subtitle {
@@ -52,7 +53,7 @@
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
 }
 
 .clients-cta-desc {

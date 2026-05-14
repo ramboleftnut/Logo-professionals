@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts, getTeam } from "@/lib/content";
+import SectionHeading from "@/components/ui/SectionHeading";
 import "./PortfolioGrid.css";
 
 interface PortfolioGridProps {
@@ -26,10 +27,10 @@ export default async function PortfolioGrid({ limit, showHeader = true }: Portfo
     <section className="portfolio-section">
       {showHeader && (
         <div className="portfolio-header">
-          <p className="portfolio-eyebrow">Our Work</p>
-          <h2 className="portfolio-title">
-            Logos crafted with purpose, built to last.
-          </h2>
+          <SectionHeading
+            eyebrow="Our Work"
+            title="Branding crafted with purpose, built to last."
+          />
         </div>
       )}
       <div className="portfolio-grid">

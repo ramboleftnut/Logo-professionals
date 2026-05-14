@@ -15,15 +15,7 @@
 }
 
 .footer-brand-name {
-  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--text);
   margin-bottom: 12px;
-}
-
-.footer-brand-name span {
-  color: var(--primary-green);
 }
 
 .footer-brand-desc {

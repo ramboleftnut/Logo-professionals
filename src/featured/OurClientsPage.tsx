@@ -3,6 +3,7 @@ import FAQ from "@/components/sections/FAQ";
 import Testimonials from "@/components/sections/Testimonials";
 import ClientLogos from "@/components/sections/ClientLogos";
 import Button from "@/components/ui/Button";
+import SectionHeading from "@/components/ui/SectionHeading";
 import "./OurClientsPage.css";
 
 export default function OurClientsPage() {
@@ -38,11 +39,11 @@ export default function OurClientsPage() {
       <FAQ />
 
       <section className="clients-cta">
-        <h2 className="clients-cta-title">Ready to join our portfolio?</h2>
-        <p className="clients-cta-desc">
-          Order your custom logo design today and see why clients from 36
-          countries trust us with their brand.
-        </p>
+        <SectionHeading
+          title="Ready to join our portfolio?"
+          description="Order your custom logo design today and see why clients from 36 countries trust us with their brand."
+          align="center"
+        />
         <Button href="/services" variant="primary" size="lg">
           Order Now
         </Button>

@@ -4,25 +4,25 @@ import Stats from "@/components/sections/Stats";
 import PortfolioGrid from "@/components/sections/PortfolioGrid";
 import ClientLogos from "@/components/sections/ClientLogos";
 import Testimonials from "@/components/sections/Testimonials";
-import FAQ from "@/components/sections/FAQ";
 import Button from "@/components/ui/Button";
+import SectionHeading from "@/components/ui/SectionHeading";
 import "./HomePage.css";
 
 export default function HomePage() {
   return (
     <>
       <Hero
-        eyebrow="Expert Logo Design Studio"
+        eyebrow="Design · Build · Educate"
         title={
           <>
-            Stand out from
+            The best creative work
             <br />
-            the <em>crowd.</em>
+            starts with <em>honest</em> people.
           </>
         }
-        subtitle="We craft exceptional, one-of-a-kind logo designs that represent who you are — built to make a lasting impression across every market."
-        primaryCta={{ label: "Order Your Logo", href: "/services" }}
-        secondaryCta={{ label: "See Our Work", href: "/our-clients" }}
+        subtitle="Digital Nectar is a studio built by professionals with 15+ years of real experience in design, development, and branding. We deliver finished work. Not promises."
+        primaryCta={{ label: "Start a Project", href: "/services" }}
+        secondaryCta={{ label: "Our Work", href: "/our-clients" }}
       />
 
       <Stats />
@@ -33,44 +33,49 @@ export default function HomePage() {
       <section className="home-about">
         <div className="home-about-inner">
           <div>
-            <p className="home-about-eyebrow">Who We Are</p>
-            <h2 className="home-about-title">
-              Your logo is more than
-              <br />a pretty image.
-            </h2>
+            <SectionHeading
+              eyebrow="Who We Are"
+              title={
+                <>
+                  More than an agency.
+                  <br />An <em>ecosystem.</em>
+                </>
+              }
+            />
             <p className="home-about-text">
-              We are a team of professional logo designers who specialize in
-              branding and logo design. We understand that your logo is a
-              representation of your company&apos;s values, mission, and story.
+              We connect clients with the best creative and technical talent on
+              the internet. Graphic designers, UI/UX designers, software
+              engineers, and branding specialists. Every professional in our
+              network has at least 5 years of real, in-field experience.
             </p>
             <p className="home-about-text">
-              That&apos;s why we take the time to get to know you and your
-              business, so we can create a logo that truly represents who you
-              are — not just another generic design.
+              We also educate. Clients learn what they are paying for, in plain
+              language. Workers learn what the industry actually needs. Both
+              sides build better projects.
             </p>
 
             <div className="home-about-features">
               <div className="home-about-feature">
                 <div className="home-feature-icon">◈</div>
                 <div className="home-feature-content">
-                  <h4>Detail Oriented</h4>
-                  <p>Attention to aesthetics, not just popular trends.</p>
+                  <h4>15+ Years of Real Experience</h4>
+                  <p>Not trend chasers. We write about tools we use and work we have actually shipped.</p>
                 </div>
               </div>
               <div className="home-about-feature">
                 <div className="home-feature-icon">◎</div>
                 <div className="home-feature-content">
-                  <h4>Research-Driven</h4>
-                  <p>We study what you need and what your clients respond to.</p>
+                  <h4>Project-Based, No Retainers</h4>
+                  <p>A project has a beginning, a scope, and an end. You know what you are getting before you commit.</p>
                 </div>
               </div>
               <div className="home-about-feature">
                 <div className="home-feature-icon">◇</div>
                 <div className="home-feature-content">
-                  <h4>Complete File Delivery</h4>
+                  <h4>Honest Pricing</h4>
                   <p>
-                    Vector EPS, high-res PNG, PDF — everything you need to use
-                    your logo anywhere.
+                    The price is calculated before checkout. No surprise
+                    invoices, no vague estimates.
                   </p>
                 </div>
               </div>
@@ -81,7 +86,7 @@ export default function HomePage() {
             <div className="home-about-image-wrap">
               <Image
                 src="/images/home-web.jpg"
-                alt="Logo Professionals workspace"
+                alt="Digital Nectar studio workspace"
                 fill
                 style={{ objectFit: "cover" }}
                 unoptimized
@@ -97,17 +102,15 @@ export default function HomePage() {
 
       <Testimonials />
 
-      <FAQ />
-
       {/* CTA banner */}
       <section className="home-cta-banner">
-        <h2>Ready to elevate your brand?</h2>
-        <p>
-          You want your company or startup to look professional and stand out in
-          a sea of competition. Let&apos;s make it happen.
-        </p>
+        <SectionHeading
+          title="Ready to build something real?"
+          description="Whether it is a logo, a website, or a full brand identity, we give you a clear price and professionals who know the work."
+          align="center"
+        />
         <Button href="/services" variant="primary" size="lg">
-          Order Your Logo — $180
+          Start a Project
         </Button>
       </section>
     </>

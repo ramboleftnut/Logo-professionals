@@ -1,14 +1,12 @@
 import NavBar from "@/components/sections/NavBar";
 import Footer from "@/components/sections/Footer";
-import { getTeam } from "@/lib/content";
+import H2LineEffect from "@/components/ui/H2LineEffect";
 
-export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const team = await getTeam();
-  const navTeam = team.map((m) => ({ name: m.name, slug: m.slug }));
-
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <NavBar team={navTeam} />
+      <NavBar />
+      <H2LineEffect />
       <main>{children}</main>
       <Footer />
     </>

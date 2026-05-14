@@ -1,13 +1,9 @@
 import NavBar from "@/components/sections/NavBar";
-import { getTeam } from "@/lib/content";
 
-export default async function ServicesLayout({ children }: { children: React.ReactNode }) {
-  const team = await getTeam();
-  const navTeam = team.map((m) => ({ name: m.name, slug: m.slug }));
-
+export default function ServicesLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <NavBar team={navTeam} />
+      <NavBar />
       <main>{children}</main>
     </>
   );

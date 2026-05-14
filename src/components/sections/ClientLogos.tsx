@@ -3,15 +3,15 @@ import { clientLogos } from "@/lib/data";
 import "./ClientLogos.css";
 
 export default function ClientLogos() {
-  // Duplicate for seamless infinite scroll
-  const doubled = [...clientLogos, ...clientLogos];
+  // 4 copies so the track is always wider than any viewport at any scroll position
+  const looped = [...clientLogos, ...clientLogos, ...clientLogos, ...clientLogos];
 
   return (
     <div className="client-logos">
       <p className="client-logos-label">Trusted by brands worldwide</p>
       <div className="client-logos-track-wrapper">
         <div className="client-logos-track">
-          {doubled.map((logo, idx) => (
+          {looped.map((logo, idx) => (
             <a
               key={idx}
               href={logo.url}

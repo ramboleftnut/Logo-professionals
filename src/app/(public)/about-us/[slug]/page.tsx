@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTeam, getPosts } from "@/lib/content";
 import TeamMemberPage from "@/featured/TeamMemberPage";
+import ViewTracker from "@/components/ui/ViewTracker";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -26,5 +27,10 @@ export default async function TeamMemberRoute({ params }: { params: Promise<{ sl
   const portfolio = memberWork.map((p) => ({ title: p.title, slug: p.slug, image: p.thumbnail }));
   const others = team.filter((m) => m.slug !== slug);
 
-  return <TeamMemberPage member={member} portfolio={portfolio} others={others} />;
+  return (
+    <>
+      <ViewTracker type="team" slug={member.slug} />
+      <TeamMemberPage member={member} portfolio={portfolio} others={others} />
+    </>
+  );
 }

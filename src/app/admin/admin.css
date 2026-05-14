@@ -717,6 +717,83 @@
   display: flex;
   gap: 8px;
 }
+
+/* Split layout — View button on the left, Edit/Delete grouped on the right */
+.admin-row-actions--split {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Search + sort toolbar above admin lists */
+.admin-list-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.admin-list-search {
+  flex: 1;
+  min-width: 220px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.admin-list-search:focus {
+  border-color: var(--primary-green-dim);
+}
+.admin-list-sort {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 9px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+/* View counters */
+.admin-views {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.admin-views-inline {
+  font-variant-numeric: tabular-nums;
+  color: var(--primary-green);
+  font-weight: 500;
+}
+
+/* Team-card meta row (for the views label) */
+.admin-team-card-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* Make image containers visibly clickable */
+a.admin-table-thumb,
+a.admin-post-card-img,
+a.admin-team-card-img {
+  display: block;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+a.admin-table-thumb:hover,
+a.admin-post-card-img:hover,
+a.admin-team-card-img:hover {
+  opacity: 0.85;
+}
 .admin-od-header {
   display: flex;
   gap: 8px;

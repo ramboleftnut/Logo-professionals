@@ -1,35 +1,31 @@
 import Image from "next/image";
-import Link from "next/link";
-import Testimonials from "@/components/sections/Testimonials";
-import { getTeam } from "@/lib/content";
+import SectionHeading from "@/components/ui/SectionHeading";
 import "./AboutPage.css";
-
-const benefits = [
-  "Stand out from the competition with a unique and memorable logo",
-  "Create a strong brand identity that resonates with your target audience",
-  "Ensure your logo is versatile across all mediums and platforms",
-  "Receive expert guidance on color, typography, and design elements",
-  "Save time and money by avoiding costly mistakes and redesigns",
-];
 
 const values = [
   {
-    title: "Detail Oriented",
-    desc: "We make a conscious effort to understand aesthetics — not just what's trending. Every pixel matters.",
+    title: "Honesty Over Hype",
+    desc: "We do not promote ourselves with empty marketing. We talk about what we have actually used, built, and learned. If we have no experience with something, we say so.",
   },
   {
-    title: "Research Driven",
-    desc: "We study your industry, your audience, and your competitors to craft something that genuinely stands apart.",
+    title: "Education Over Mystification",
+    desc: "We refuse to hide behind jargon. Every piece of communication we write is designed to make complicated things understandable, because a confused client is an easy target.",
   },
   {
-    title: "Complete Delivery",
-    desc: "Every project delivers vector source files, high-res exports, and everything you need to use your brand anywhere.",
+    title: "Experience Over Trend-Chasing",
+    desc: "15+ years in the field is not a slogan. It is the filter we apply to every recommendation, every tool we suggest, and every project we take on.",
   },
 ];
 
-export default async function AboutPage() {
-  const team = await getTeam();
+const principles = [
+  "Work with professionals who have shipped real projects for real clients",
+  "Get a clear price before you commit — no surprise invoices",
+  "Receive honest advice, not upsells designed to inflate your bill",
+  "Understand what you are buying, explained in plain language",
+  "Access a network built on referrals and reputation, not advertising spend",
+];
 
+export default function AboutPage() {
   return (
     <>
       <section className="about-hero">
@@ -37,28 +33,30 @@ export default async function AboutPage() {
           <div>
             <p className="about-hero-eyebrow">About Us</p>
             <h1 className="about-hero-title">
-              Logo Design:
+              Built on
               <br />
-              Art Meets
+              15 years of
               <br />
-              Technology
+              honest work.
             </h1>
             <p className="about-hero-text">
-              We are a team of professional logo designers who specialize in
-              branding and visual identity. At its core, logo design is a blend
-              of artistic creativity and technological precision.
+              Digital Nectar started as Logo Professionals, an Instagram
+              community built around real design tutorials and honest creative
+              education. From zero, we grew it to 350,000 followers. Not with
+              ads. With content that actually taught something.
             </p>
             <p className="about-hero-text">
-              A well-designed logo communicates your company&apos;s values,
-              mission, and story through imagery — making it a crucial part of
-              any brand&apos;s identity. We&apos;ve done this for over 374
-              clients across 36 countries.
+              That community showed us something: the world does not need
+              another generic agency. It needs an upgrade. A brand that takes
+              the same honesty and teaching spirit and applies it to the full
+              picture: design, development, education, and the freelance world
+              itself. Digital Nectar is that upgrade.
             </p>
           </div>
           <div className="about-hero-image">
             <Image
               src="/images/about-team-photo.jpg"
-              alt="Logo design workspace"
+              alt="Digital Nectar founders"
               fill
               unoptimized
             />
@@ -69,10 +67,11 @@ export default async function AboutPage() {
       <section className="about-values">
         <div className="about-values-inner">
           <div className="about-values-header">
-            <p className="about-section-eyebrow">Our Approach</p>
-            <h2 className="about-section-title">
-              We appreciate a professional approach
-            </h2>
+            <SectionHeading
+              eyebrow="What We Stand For"
+              title="Principles we do not negotiate on"
+              align="center"
+            />
           </div>
           <div className="about-values-grid">
             {values.map((v, idx) => (
@@ -89,62 +88,40 @@ export default async function AboutPage() {
       <section className="about-benefits">
         <div className="about-benefits-inner">
           <div>
-            <p className="about-section-eyebrow">Why Work With Us</p>
-            <h2 className="about-benefits-title">
-              The Power of Visual Design
-            </h2>
-            <p className="about-benefits-desc">
-              Visual design is a powerful tool that can make or break a
-              business. No matter how great your products or services are, if
-              you don&apos;t present them professionally, you&apos;re already at
-              a disadvantage.
-            </p>
+            <SectionHeading
+              eyebrow="Why Work With Us"
+              title="What working with Digital Nectar actually means"
+              description="We connect clients with verified creative and technical talent. Every professional in our network has at least 5 years of real, in-field experience. Not side hustles. Not portfolios built in a weekend. Real work, real clients, real results."
+            />
           </div>
           <ul className="about-benefits-list">
-            {benefits.map((b, idx) => (
+            {principles.map((p, idx) => (
               <li key={idx}>
                 <span className="about-benefit-check">✓</span>
-                {b}
+                {p}
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="about-team">
-        <div className="about-team-inner">
-          <div className="about-team-header">
-            <p className="about-section-eyebrow">The Team</p>
-            <h2 className="about-section-title">Meet the Designers</h2>
-          </div>
-          <div className="about-team-grid">
-            {team.map((member) => (
-              <Link
-                key={member.slug}
-                href={`/about-us/${member.slug}`}
-                className="about-team-card"
-              >
-                <div className="about-team-card-image">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    unoptimized
-                  />
-                </div>
-                <div className="about-team-card-info">
-                  <div className="about-team-card-name">{member.name}</div>
-                  <div className="about-team-card-role">{member.role}</div>
-                  <span className="about-team-card-arrow">View Profile →</span>
-                </div>
-              </Link>
-            ))}
-          </div>
+      <section className="about-mission">
+        <div className="about-mission-inner">
+          <p className="about-section-eyebrow">Our Mission</p>
+          <blockquote className="about-mission-quote">
+            To match clients with the best creative and technical talent on the
+            internet, and to educate both sides of the work, so that great
+            projects are built by people who understand each other.
+          </blockquote>
+          <p className="about-mission-vision-label">Our Vision</p>
+          <blockquote className="about-mission-quote about-mission-quote--secondary">
+            A freelance and creative industry where honesty replaces hype,
+            where clients are respected enough to be educated, where scammers
+            are called out, and where the best workers are recognised for real
+            work.
+          </blockquote>
         </div>
       </section>
-
-      <Testimonials />
     </>
   );
 }

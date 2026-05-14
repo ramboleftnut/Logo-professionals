@@ -1,17 +1,26 @@
 import Link from "next/link";
-import Image from "next/image";
 import { getPosts } from "@/lib/content";
-import DeletePostBtn from "./DeletePostBtn";
-
-function formatDate(iso: string) {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
+import { getViewsByType } from "@/lib/views";
+import PostsList from "./PostsList";
 
 export default async function AdminPostsPage() {
-  const posts = await getPosts();
-  const blog = posts.filter((p) => p.type === "blog");
-  const portfolio = posts.filter((p) => p.type === "portfolio");
+  const [posts, blogViews, portfolioViews] = await Promise.all([
+    getPosts(),
+    getViewsByType("blog"),
+    getViewsByType("portfolio"),
+  ]);
+
+  const rows = posts.map((p) => ({
+    id: p.id,
+    type: p.type,
+    title: p.title,
+    slug: p.slug,
+    thumbnail: p.thumbnail,
+    teamMember: p.teamMember,
+    published: p.published,
+    createdAt: p.createdAt,
+    views: (p.type === "blog" ? blogViews[p.slug] : portfolioViews[p.slug]) ?? 0,
+  }));
 
   return (
     <div className="admin-content">
@@ -26,84 +35,7 @@ export default async function AdminPostsPage() {
           <div className="admin-empty-text">No posts yet. Create your first one.</div>
         </div>
       ) : (
-        <>
-          {blog.length > 0 && (
-            <>
-              <h2 className="admin-table-section-label">Blog Posts ({blog.length})</h2>
-              <div className="admin-table-wrap admin-table-wrap--spaced">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Status</th>
-                      <th>Date</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {blog.map((p) => (
-                      <tr key={p.id}>
-                        <td>
-                          <div className="admin-table-cell-stack">
-                            {p.thumbnail && (
-                              <div className="admin-table-thumb">
-                                <Image src={p.thumbnail} alt="" fill style={{ objectFit: "cover" }} unoptimized />
-                              </div>
-                            )}
-                            <span className="primary">{p.title}</span>
-                          </div>
-                        </td>
-                        <td>
-                          <span className={`admin-badge ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
-                            {p.published ? "Published" : "Draft"}
-                          </span>
-                        </td>
-                        <td>{formatDate(p.createdAt)}</td>
-                        <td>
-                          <div className="admin-row-actions">
-                            <Link href={`/admin/posts/${p.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
-                            <DeletePostBtn id={p.id} title={p.title} />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          )}
-
-          {portfolio.length > 0 && (
-            <>
-              <h2 className="admin-table-section-label">Portfolio Items ({portfolio.length})</h2>
-              <div className="admin-posts-grid">
-                {portfolio.map((p) => (
-                  <div key={p.id} className="admin-post-card">
-                    <div className="admin-post-card-img">
-                      {p.thumbnail && (
-                        <Image src={p.thumbnail} alt={p.title} fill style={{ objectFit: "cover" }} unoptimized />
-                      )}
-                    </div>
-                    <div className="admin-post-card-body">
-                      <div className="admin-post-card-title">{p.title}</div>
-                      <div className="admin-post-card-meta">
-                        {p.teamMember && `Team Member: ${p.teamMember}`}
-                        {" · "}
-                        <span className={`admin-badge admin-badge-xs ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
-                          {p.published ? "Published" : "Draft"}
-                        </span>
-                      </div>
-                      <div className="admin-post-card-actions">
-                        <Link href={`/admin/posts/${p.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
-                        <DeletePostBtn id={p.id} title={p.title} />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
-        </>
+        <PostsList posts={rows} />
       )}
     </div>
   );

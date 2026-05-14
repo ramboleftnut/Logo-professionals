@@ -56,10 +56,10 @@ export const clientLogos = [
 ];
 
 export const stats = [
-  { value: "374+", label: "Finished Projects" },
-  { value: "350K+", label: "Instagram Followers" },
+  { value: "374+", label: "Projects Delivered" },
+  { value: "350K+", label: "Community Followers" },
   { value: "36", label: "Countries Served" },
-  { value: "12+", label: "Years Experience" },
+  { value: "15+", label: "Years of Experience" },
 ];
 
 export const faq = [

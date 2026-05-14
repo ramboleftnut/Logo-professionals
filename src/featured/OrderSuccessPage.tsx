@@ -38,10 +38,10 @@ export default function OrderSuccessPage() {
               <div className="order-success-step-num">4</div>
               Have a reference image? Email it to{" "}
               <a
-                href="mailto:igor.dolovski@gmail.com"
+                href="mailto:nikodola@gmail.com"
                 className="order-success-gold-link"
               >
-                igor.dolovski@gmail.com
+                nikodola@gmail.com
               </a>{" "}
               with your order subject.
             </div>

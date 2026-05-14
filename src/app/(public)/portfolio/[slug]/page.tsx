@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import PortfolioItemPage from "@/featured/PortfolioItemPage";
+import ViewTracker from "@/components/ui/ViewTracker";
 import { getPost, getPosts, getTeam } from "@/lib/content";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -27,16 +28,19 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     .map((p) => ({ title: p.title, slug: p.slug, image: p.thumbnail }));
 
   return (
-    <PortfolioItemPage
-      item={{
-        title: post.title,
-        slug: post.slug,
-        description: post.excerpt,
-        image: post.thumbnail,
-        images: post.gallery,
-      }}
-      teamMember={member ? { name: member.name, slug: member.slug, image: member.image } : null}
-      related={related}
-    />
+    <>
+      <ViewTracker type="portfolio" slug={post.slug} />
+      <PortfolioItemPage
+        item={{
+          title: post.title,
+          slug: post.slug,
+          description: post.excerpt,
+          image: post.thumbnail,
+          images: post.gallery,
+        }}
+        teamMember={member ? { name: member.name, slug: member.slug, image: member.image } : null}
+        related={related}
+      />
+    </>
   );
 }

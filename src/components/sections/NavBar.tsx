@@ -2,14 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import BrandLogo from "@/components/ui/BrandLogo";
 import "./NavBar.css";
 
-interface NavBarTeamMember {
-  name: string;
-  slug: string;
-}
-
-export default function NavBar({ team }: { team: NavBarTeamMember[] }) {
+export default function NavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -38,21 +34,13 @@ export default function NavBar({ team }: { team: NavBarTeamMember[] }) {
     <>
       <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
         <Link href="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
-          <span className="navbar-logo-digital">Digital</span>
-          <span className="navbar-logo-nectar">Nectar</span>
+          <BrandLogo />
         </Link>
 
         <ul className="navbar-links">
           <li><Link href="/our-clients">Our Work</Link></li>
-          <li className="nav-dropdown">
-            <Link href="/about-us">About Us</Link>
-            <div className="nav-dropdown-menu">
-              <Link href="/about-us">About Us</Link>
-              {team.map((m) => (
-                <Link key={m.slug} href={`/about-us/${m.slug}`}>{m.name}</Link>
-              ))}
-            </div>
-          </li>
+          <li><Link href="/about-us">About Us</Link></li>
+          <li><Link href="/our-team">Our Team</Link></li>
           <li><Link href="/services">Services</Link></li>
           <li><Link href="/contact-us">Contact</Link></li>
           {isAdmin && <li><Link href="/admin">Admin</Link></li>}
@@ -73,13 +61,7 @@ export default function NavBar({ team }: { team: NavBarTeamMember[] }) {
         <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
         <Link href="/our-clients" onClick={() => setMenuOpen(false)}>Our Work</Link>
         <Link href="/about-us" onClick={() => setMenuOpen(false)}>About Us</Link>
-        <div className="mobile-sub">
-          {team.map((m) => (
-            <Link key={m.slug} href={`/about-us/${m.slug}`} onClick={() => setMenuOpen(false)}>
-              {m.name.split(" ")[0]}
-            </Link>
-          ))}
-        </div>
+        <Link href="/our-team" onClick={() => setMenuOpen(false)}>Our Team</Link>
         <Link href="/services" onClick={() => setMenuOpen(false)}>Services</Link>
         <Link href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</Link>
         {isAdmin && (

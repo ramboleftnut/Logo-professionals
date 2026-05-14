@@ -24,8 +24,10 @@
   display: flex;
   align-items: center;
   gap: 60px;
+  flex-shrink: 0;
   width: max-content;
-  animation: logoScroll 24s linear infinite;
+  animation: logoScroll 28s linear infinite;
+  will-change: transform;
 }
 
 .client-logos-track:hover {
@@ -33,8 +35,8 @@
 }
 
 @keyframes logoScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-25%); }
 }
 
 .client-logo-item {

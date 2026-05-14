@@ -176,8 +176,8 @@ export default function ContactPage() {
           <div className="contact-info-item">
             <div className="contact-info-item-label">Email</div>
             <div className="contact-info-item-value">
-              <a href="mailto:igor.dolovski@gmail.com">
-                igor.dolovski@gmail.com
+              <a href="mailto:nikodola@gmail.com">
+                nikodola@gmail.com
               </a>
             </div>
           </div>

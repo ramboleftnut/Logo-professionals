@@ -1,14 +1,16 @@
 import { testimonials } from "@/lib/data";
+import SectionHeading from "@/components/ui/SectionHeading";
 import "./Testimonials.css";
 
 export default function Testimonials() {
   return (
     <section className="testimonials">
       <div className="testimonials-header">
-        <p className="testimonials-eyebrow">Client Reviews</p>
-        <h2 className="testimonials-title">
-          Trusted by brands across the globe.
-        </h2>
+        <SectionHeading
+          eyebrow="Client Reviews"
+          title="Trusted by brands across the globe."
+          align="center"
+        />
       </div>
 
       <div className="testimonials-grid">

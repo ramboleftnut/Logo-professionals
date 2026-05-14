@@ -19,22 +19,7 @@
 }
 
 .navbar-logo {
-  display: flex;
-  align-items: baseline;
-  gap: 0.28em;
-  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: 19px;
-  font-weight: 300;
-  letter-spacing: 0.06em;
   z-index: 101;
-}
-
-.navbar-logo-digital {
-  color: var(--text);
-}
-
-.navbar-logo-nectar {
-  color: var(--primary-green);
 }
 
 .navbar-links {
@@ -66,7 +51,7 @@
   left: 0;
   width: 0;
   height: 1px;
-  background: var(--primary-green);
+  background: var(--primary-rose);
   transition: width 0.3s ease;
 }
 

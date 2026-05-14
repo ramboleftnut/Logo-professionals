@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { TeamMember } from "@/lib/content";
+import SectionHeading from "@/components/ui/SectionHeading";
 import "./TeamMemberPage.css";
 
 interface TeamMemberPageProps {
@@ -41,7 +42,7 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
         </div>
         <div className="team-hero-overlay" />
         <div className="team-hero-content">
-          <p className="team-hero-eyebrow">The Team</p>
+          <p className="team-hero-eyebrow">Our Hummingbirds</p>
           <h1 className="team-hero-name">{member.name}</h1>
           <p className="team-hero-role">{member.role}</p>
         </div>
@@ -79,7 +80,7 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
                   rel="noopener noreferrer"
                   className="team-bio-link"
                 >
-                  Instagram — @logoprofessionals
+                  Instagram
                   <span>↗</span>
                 </a>
               )}
@@ -107,10 +108,10 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
         <section className="team-portfolio">
           <div className="team-portfolio-inner">
             <div className="team-portfolio-header">
-              <p className="team-portfolio-eyebrow">Selected Work</p>
-              <h2 className="team-portfolio-title">
-                {member.name.split(" ")[0]}&apos;s Projects
-              </h2>
+              <SectionHeading
+                eyebrow="Selected Work"
+                title={`${member.name.split(" ")[0]}'s Projects`}
+              />
             </div>
             <div className="team-portfolio-grid">
               {portfolio.map((item, idx) => (
@@ -132,7 +133,7 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
 
       <section className="team-nav-bottom">
         <div className="team-nav-bottom-inner">
-          <p className="team-nav-bottom-text">Meet the rest of the team</p>
+          <p className="team-nav-bottom-text">Meet the full team</p>
           <div className="team-nav-links">
             {others.map((m) => (
               <Link

@@ -1,6 +1,6 @@
 import Link from "next/link";
+import BrandLogo from "@/components/ui/BrandLogo";
 import "./Footer.css";
-import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="footer-inner">
         <div>
           <div className="footer-brand-name">
-            <Image src={"/logo.svg"} width={100} height={100} alt="logoproffesionals logo"></Image>
+            <BrandLogo />
           </div>
           <p className="footer-brand-desc">
             A team of professional logo designers specializing in brand identity
@@ -60,7 +60,7 @@ export default function Footer() {
           <p className="footer-col-title">Contact</p>
           <div className="footer-contact-item">
             <span>Email</span>
-            <a href="mailto:igor.dolovski@gmail.com">igor.dolovski@gmail.com</a>
+            <a href="mailto:nikodola@gmail.com">nikodola@gmail.com</a>
           </div>
           <div className="footer-contact-item">
             <span>Location</span>
@@ -69,11 +69,11 @@ export default function Footer() {
           <div className="footer-contact-item">
             <span>Instagram</span>
             <a
-              href="https://www.instagram.com/logoprofessionals/"
+              href="https://www.instagram.com/layer3studio/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              @logoprofessionals
+              @layer3studio
             </a>
           </div>
         </div>

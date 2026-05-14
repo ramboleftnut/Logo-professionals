@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost } from "@/lib/content";
+import ViewTracker from "@/components/ui/ViewTracker";
 import "../blog.css";
 
 function formatDate(iso: string | null) {
@@ -28,6 +29,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="blog-post-page">
+      <ViewTracker type="blog" slug={post.slug} />
       {post.thumbnail ? (
         <div className="blog-post-hero">
           <Image src={post.thumbnail} alt={post.title} fill style={{ objectFit: "cover" }} unoptimized priority />
