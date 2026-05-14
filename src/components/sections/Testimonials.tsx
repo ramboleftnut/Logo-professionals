@@ -1,8 +1,12 @@
-import { testimonials } from "@/lib/data";
+import { getPartners } from "@/lib/content";
 import SectionHeading from "@/components/ui/SectionHeading";
 import "./Testimonials.css";
 
-export default function Testimonials() {
+export default async function Testimonials() {
+  const partners = await getPartners();
+  const reviews = partners.filter((p) => p.review && p.review.trim());
+  if (reviews.length === 0) return null;
+
   return (
     <section className="testimonials">
       <div className="testimonials-header">
@@ -14,28 +18,26 @@ export default function Testimonials() {
       </div>
 
       <div className="testimonials-grid">
-        {testimonials.map((t) => (
-          <div key={t.id} className="testimonial-card">
-            <span className="testimonial-quote-icon">&ldquo;</span>
-            <div className="testimonial-stars">
-              {Array.from({ length: t.stars }).map((_, i) => (
-                <span key={i} className="star">★</span>
-              ))}
-            </div>
-            <p className="testimonial-text">{t.text}</p>
-            <div className="testimonial-author">
-              <div className="testimonial-avatar">
-                {t.name.charAt(0)}
-              </div>
-              <div>
-                <div className="testimonial-name">{t.name}</div>
-                {t.company && (
-                  <div className="testimonial-company">{t.company}</div>
-                )}
+        {reviews.map((t) => {
+          const displayName = t.clientName || t.company;
+          return (
+            <div key={t.id} className="testimonial-card">
+              <span className="testimonial-quote-icon">&ldquo;</span>
+              <p className="testimonial-text">{t.review}</p>
+              <div className="testimonial-author">
+                <div className="testimonial-avatar">
+                  {displayName.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="testimonial-name">{displayName}</div>
+                  {t.clientName && t.company && (
+                    <div className="testimonial-company">{t.company}</div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );

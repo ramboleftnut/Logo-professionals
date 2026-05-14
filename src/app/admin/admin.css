@@ -830,6 +830,62 @@ a.admin-team-card-img:hover {
   font-size: 12px;
 }
 
+/* ── Partner first-letter fallback ─────────────────────────────── */
+.admin-partner-letter {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary-green-dim);
+  color: var(--primary-green-light);
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+}
+.admin-partner-letter--lg {
+  width: 96px;
+  height: 96px;
+  font-size: 40px;
+}
+
+/* ── Review card ───────────────────────────────────────────────── */
+.admin-review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.admin-review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary-green-dim);
+  color: var(--primary-green-light);
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.admin-review-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0 0 12px;
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 @keyframes admin-spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 768px) {

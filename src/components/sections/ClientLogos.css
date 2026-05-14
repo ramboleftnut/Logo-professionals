@@ -57,6 +57,22 @@
   object-fit: contain;
 }
 
+.client-logo-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  color: var(--text-secondary);
+  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
 @media (max-width: 768px) {
   .client-logos {
     padding: 50px 20px;

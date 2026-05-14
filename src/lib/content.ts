@@ -32,8 +32,18 @@ export interface Post {
   updatedAt: string;
 }
 
+export interface Partner {
+  id: string;
+  clientName: string;
+  company: string;
+  image: string;
+  url: string;
+  review: string;
+}
+
 const TEAM_PATH = path.join(process.cwd(), "src", "content", "team.json");
 const POSTS_PATH = path.join(process.cwd(), "src", "content", "posts.json");
+const PARTNERS_PATH = path.join(process.cwd(), "src", "content", "partners.json");
 
 function assertDev() {
   if (process.env.NODE_ENV === "production") {
@@ -135,5 +145,39 @@ export async function deletePost(id: string): Promise<boolean> {
   const next = posts.filter((p) => p.id !== id);
   if (next.length === posts.length) return false;
   await writeJson(POSTS_PATH, next);
+  return true;
+}
+
+export async function getPartners(): Promise<Partner[]> {
+  return readJson<Partner>(PARTNERS_PATH);
+}
+
+export async function getPartner(id: string): Promise<Partner | null> {
+  const partners = await readJson<Partner>(PARTNERS_PATH);
+  return partners.find((p) => p.id === id) ?? null;
+}
+
+export async function createPartner(input: Omit<Partner, "id">): Promise<Partner> {
+  const partners = await readJson<Partner>(PARTNERS_PATH);
+  const partner: Partner = { id: randomUUID(), ...input };
+  partners.push(partner);
+  await writeJson(PARTNERS_PATH, partners);
+  return partner;
+}
+
+export async function updatePartner(id: string, patch: Partial<Partner>): Promise<Partner | null> {
+  const partners = await readJson<Partner>(PARTNERS_PATH);
+  const i = partners.findIndex((p) => p.id === id);
+  if (i === -1) return null;
+  partners[i] = { ...partners[i], ...patch, id: partners[i].id };
+  await writeJson(PARTNERS_PATH, partners);
+  return partners[i];
+}
+
+export async function deletePartner(id: string): Promise<boolean> {
+  const partners = await readJson<Partner>(PARTNERS_PATH);
+  const next = partners.filter((p) => p.id !== id);
+  if (next.length === partners.length) return false;
+  await writeJson(PARTNERS_PATH, next);
   return true;
 }

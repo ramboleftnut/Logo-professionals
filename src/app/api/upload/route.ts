@@ -4,7 +4,7 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
 
-const ALLOWED_FOLDERS = new Set(["blog", "portfolio", "team", "uploads"]);
+const ALLOWED_FOLDERS = new Set(["blog", "portfolio", "team", "uploads", "partners", "reviews"]);
 
 const IMAGE_MIME_TO_EXT: Record<string, string> = {
   "image/jpeg": ".jpg",
@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  if (folder === "team" && isVideo) {
-    return NextResponse.json({ error: "Videos are not allowed in the team folder." }, { status: 400 });
+  if ((folder === "team" || folder === "partners" || folder === "reviews") && isVideo) {
+    return NextResponse.json({ error: `Videos are not allowed in the ${folder} folder.` }, { status: 400 });
   }
 
   const cap = isVideo ? MAX_VIDEO_BYTES : MAX_IMAGE_BYTES;

@@ -96,6 +96,14 @@
   font-weight: 700;
   color: var(--primary-green-light);
   flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .testimonial-name {
