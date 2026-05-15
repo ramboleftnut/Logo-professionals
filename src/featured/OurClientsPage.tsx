@@ -20,13 +20,10 @@ export default function OurClientsPage() {
           Every project above was shared with client permission. From startups to
           established brands — this is what we do.
         </p>
-        <div className="clients-pricing-note">
-          <span className="clients-pricing-note-amount">$180</span>
-          <span className="clients-pricing-note-text">
-            Full logo package
-            <br />
-            Or start with 33% deposit
-          </span>
+        <div className="clients-hero-cta">
+          <Button href="/services" variant="primary" size="lg">
+            Start a Project
+          </Button>
         </div>
       </div>
 

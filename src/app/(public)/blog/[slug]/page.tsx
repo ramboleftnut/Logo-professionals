@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPost } from "@/lib/content";
 import ViewTracker from "@/components/ui/ViewTracker";
+import BlogPostBody from "@/components/ui/BlogPostBody";
 import "../blog.css";
 
 function formatDate(iso: string | null) {
@@ -63,12 +64,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           {post.excerpt && <p className="blog-post-excerpt">{post.excerpt}</p>}
 
-          {post.content && (
-            <div
-              className="blog-post-content"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
-          )}
+          <BlogPostBody html={post.content} blocks={post.blocks} />
 
           {post.gallery.length > 0 && (
             <div className="blog-post-gallery">

@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import type { ContentBlock } from "@/lib/content";
+import BlockBuilder from "./BlockBuilder";
 
 interface TeamMember { id: string; name: string; slug: string; }
 interface PostData {
@@ -11,12 +13,97 @@ interface PostData {
   slug?: string;
   excerpt?: string;
   content?: string;
+  blocks?: ContentBlock[];
   thumbnail?: string;
   gallery?: string[];
   type?: "blog" | "portfolio";
   teamMember?: string | null;
   tags?: string[];
   published?: boolean;
+}
+
+function parseHtmlToBlocks(html: string): ContentBlock[] {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(`<div>${html}</div>`, "text/html");
+  const root = doc.querySelector("div")!;
+  const blocks: ContentBlock[] = [];
+
+  function extractCards(grid: Element): ContentBlock {
+    const cards = Array.from(grid.querySelectorAll(".bp-card")).map((card) => {
+      const img = card.querySelector("img");
+      const heading = card.querySelector("h3")?.textContent?.trim() ?? "";
+      const body = Array.from(card.querySelectorAll(".bp-card-body p"))
+        .map((p) => p.textContent?.trim() ?? "").filter(Boolean).join("\n\n");
+      return { src: img?.getAttribute("src") ?? undefined, heading, body };
+    });
+    return { type: "card-grid", cards };
+  }
+
+  function processEl(el: Element) {
+    const tag = el.tagName;
+    const cls = el.getAttribute("class") ?? "";
+
+    if (tag === "SECTION" && cls.includes("bp-section")) {
+      const heading = el.querySelector(":scope > h2")?.textContent?.trim() ?? "";
+      const body = Array.from(el.querySelectorAll(":scope > p"))
+        .map((p) => p.textContent?.trim() ?? "").filter(Boolean).join("\n\n");
+      if (heading || body) blocks.push({ type: "section", heading: heading || undefined, body });
+      const nestedGrid = el.querySelector(":scope > .bp-grid");
+      if (nestedGrid) blocks.push(extractCards(nestedGrid));
+      return;
+    }
+
+    if (tag === "DIV" && cls.includes("bp-banner")) {
+      const img = el.querySelector("img");
+      if (img) blocks.push({ type: "banner", src: img.getAttribute("src") ?? "", alt: img.getAttribute("alt") ?? undefined });
+      return;
+    }
+
+    if (tag === "DIV" && cls.includes("bp-split")) {
+      const layout: "left" | "right" = cls.includes("bp-split--reverse") ? "right" : "left";
+      const img = el.querySelector(".bp-split-image img");
+      const heading = el.querySelector(".bp-split-text h3")?.textContent?.trim() ?? "";
+      const body = Array.from(el.querySelectorAll(".bp-split-text p"))
+        .map((p) => p.textContent?.trim() ?? "").filter(Boolean).join("\n\n");
+      blocks.push({ type: "split", layout, src: img?.getAttribute("src") ?? "", alt: img?.getAttribute("alt") ?? undefined, heading: heading || undefined, body });
+      return;
+    }
+
+    if (tag === "DIV" && cls.includes("bp-grid") && !cls.includes("bp-split")) {
+      blocks.push(extractCards(el));
+      return;
+    }
+
+    if (tag === "DIV" && cls.includes("bp-highlight")) {
+      const variant = cls.includes("bp-highlight--rose") ? "rose" as const : "green" as const;
+      const heading = el.querySelector("h2")?.textContent?.trim() ?? "";
+      const body = Array.from(el.querySelectorAll("p"))
+        .map((p) => p.textContent?.trim() ?? "").filter(Boolean).join("\n\n");
+      blocks.push({ type: "highlight", variant, heading, body });
+      return;
+    }
+
+    if (tag === "BLOCKQUOTE" && cls.includes("bp-quote")) {
+      blocks.push({ type: "quote", text: el.textContent?.trim() ?? "" });
+      return;
+    }
+
+    if (tag === "DIV" && el.hasAttribute("data-compare")) {
+      blocks.push({
+        type: "compare",
+        before: el.getAttribute("data-before") ?? "",
+        after: el.getAttribute("data-after") ?? "",
+        beforeLabel: el.getAttribute("data-before-label") ?? undefined,
+        afterLabel: el.getAttribute("data-after-label") ?? undefined,
+        beforeAlt: el.getAttribute("data-before-alt") ?? undefined,
+        afterAlt: el.getAttribute("data-after-alt") ?? undefined,
+      });
+      return;
+    }
+  }
+
+  for (const el of Array.from(root.children)) processEl(el);
+  return blocks;
 }
 
 async function uploadFile(file: File, folder: string): Promise<string> {
@@ -35,6 +122,7 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
     slug: initial?.slug ?? "",
     excerpt: initial?.excerpt ?? "",
     content: initial?.content ?? "",
+    blocks: initial?.blocks ?? [] as ContentBlock[],
     thumbnail: initial?.thumbnail ?? "",
     gallery: initial?.gallery ?? [] as string[],
     type: (initial?.type ?? "blog") as "blog" | "portfolio",
@@ -55,19 +143,23 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
     return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   }
 
+  const uploadFolder = form.type === "portfolio" ? "portfolio" : "blog";
+
   async function handleThumbUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const folder = form.type === "portfolio" ? "portfolio" : "blog";
-    const path = await uploadFile(file, folder);
+    const path = await uploadFile(file, uploadFolder);
     set("thumbnail", path);
   }
 
   async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
-    const folder = form.type === "portfolio" ? "portfolio" : "blog";
-    const paths = await Promise.all(files.map((f) => uploadFile(f, folder)));
+    const paths = await Promise.all(files.map((f) => uploadFile(f, uploadFolder)));
     set("gallery", [...form.gallery, ...paths]);
+  }
+
+  async function handleBlockUpload(file: File): Promise<string> {
+    return uploadFile(file, uploadFolder);
   }
 
   function removeGalleryItem(idx: number) {
@@ -170,19 +262,13 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
       </div>
 
       <div className="admin-field">
-        <label className="admin-label">Excerpt / Short Description</label>
-        <textarea className="admin-textarea admin-textarea--sm" value={form.excerpt} onChange={(e) => set("excerpt", e.target.value)} placeholder="One or two sentences that appear on the card preview." />
-      </div>
-
-      <div className="admin-field">
-        <label className="admin-label">Content (HTML)</label>
-        <textarea className="admin-textarea admin-textarea--lg" value={form.content} onChange={(e) => set("content", e.target.value)} placeholder="Full post content. You can write plain text or HTML." />
-        <span className="admin-hint">Supports HTML: &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;, &lt;img&gt;, etc.</span>
-      </div>
-
-      <div className="admin-field">
         <label className="admin-label">Tags (comma separated)</label>
         <input className="admin-input" value={form.tags} onChange={(e) => set("tags", e.target.value)} placeholder="e.g. Logo Design, Branding, Typography" />
+      </div>
+
+      <div className="admin-field">
+        <label className="admin-label">Excerpt / Short Description</label>
+        <textarea className="admin-textarea admin-textarea--sm" value={form.excerpt} onChange={(e) => set("excerpt", e.target.value)} placeholder="One or two sentences that appear on the card preview." />
       </div>
 
       <div className="admin-field">
@@ -217,7 +303,36 @@ export default function PostForm({ initial, team }: { initial?: PostData; team: 
       </div>
 
       <div className="admin-field">
-        <label className="admin-label">Gallery (optional — multiple images/videos)</label>
+        <label className="admin-label">Content Blocks</label>
+        <span className="admin-hint" style={{ display: "block", marginBottom: 12 }}>
+          Build your article layout by adding and arranging blocks below.
+        </span>
+        {form.content && form.blocks.length === 0 && (
+          <div className="admin-legacy-notice">
+            <span>This post was created with legacy HTML. Convert it to blocks to edit it visually.</span>
+            <button
+              type="button"
+              className="admin-btn admin-btn-outline admin-btn-sm"
+              onClick={() => {
+                const converted = parseHtmlToBlocks(form.content);
+                if (converted.length > 0) {
+                  set("blocks", converted);
+                }
+              }}
+            >
+              Convert to Blocks
+            </button>
+          </div>
+        )}
+        <BlockBuilder
+          blocks={form.blocks}
+          onChange={(b) => set("blocks", b)}
+          onUpload={handleBlockUpload}
+        />
+      </div>
+
+      <div className="admin-field">
+        <label className="admin-label">Gallery <span className="admin-hint">(optional — extra images / videos)</span></label>
         <div className="admin-upload-zone" onClick={() => galleryRef.current?.click()}>
           <div className="admin-upload-zone-icon">📂</div>
           <div className="admin-upload-zone-text">Click to <span>add gallery files</span> (images or video)</div>

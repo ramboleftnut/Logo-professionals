@@ -152,3 +152,38 @@
     padding: 70px 20px;
   }
 }
+
+@media (max-width: 360px) {
+  .testimonials {
+    padding: 50px 12px;
+  }
+  .testimonial-card {
+    padding: 28px 20px;
+  }
+  .testimonial-quote-icon {
+    font-size: 52px;
+    margin-bottom: 12px;
+  }
+  .testimonial-text {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .testimonial-author {
+    gap: 10px;
+    padding-top: 16px;
+  }
+  .testimonial-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+  .testimonial-name {
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .testimonial-company {
+    font-size: 10px;
+  }
+}

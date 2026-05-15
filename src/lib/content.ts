@@ -16,6 +16,15 @@ export interface TeamMember {
   order: number;
 }
 
+export type ContentBlock =
+  | { type: "section"; heading?: string; body: string }
+  | { type: "banner"; src: string; alt?: string }
+  | { type: "split"; layout: "left" | "right"; src: string; alt?: string; heading?: string; body: string }
+  | { type: "card-grid"; cards: { src?: string; heading: string; body: string }[] }
+  | { type: "highlight"; variant?: "green" | "rose"; heading: string; body: string }
+  | { type: "quote"; text: string }
+  | { type: "compare"; before: string; after: string; beforeLabel?: string; afterLabel?: string; beforeAlt?: string; afterAlt?: string };
+
 export interface Post {
   id: string;
   type: "blog" | "portfolio";
@@ -23,6 +32,7 @@ export interface Post {
   slug: string;
   excerpt: string;
   content: string;
+  blocks?: ContentBlock[];
   thumbnail: string;
   gallery: string[];
   teamMember: string | null;

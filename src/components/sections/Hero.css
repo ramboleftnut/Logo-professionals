@@ -84,6 +84,9 @@
   color: var(--primary-green);
 }
 
+.hero-accent--green { color: var(--primary-green); }
+.hero-accent--rose  { color: var(--primary-rose); }
+
 .hero-subtitle {
   font-size: clamp(15px, 2vw, 18px);
   line-height: 1.75;
@@ -132,4 +135,15 @@
   0% { opacity: 1; transform: scaleY(1); transform-origin: top; }
   50% { opacity: 0.4; }
   100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+}
+
+@media (max-width: 640px) {
+  .hero-content {
+    text-align: center;
+    padding: 0 20px;
+  }
+  .hero-title {
+    font-size: clamp(56px, 14vw, 68px);
+    line-height: 1.05;
+  }
 }

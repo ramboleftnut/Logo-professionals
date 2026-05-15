@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import AutoplayVideo from "@/components/ui/AutoplayVideo";
+import BlogPostBody from "@/components/ui/BlogPostBody";
+import type { ContentBlock } from "@/lib/content";
 import "./PortfolioItemPage.css";
 
 interface PortfolioItemPageProps {
@@ -10,6 +12,7 @@ interface PortfolioItemPageProps {
     description: string;
     image: string;
     images: string[];
+    blocks?: ContentBlock[];
   };
   teamMember: { name: string; slug: string; image: string } | null;
   related: { title: string; slug: string; image: string }[];
@@ -33,7 +36,7 @@ export default function PortfolioItemPage({ item, teamMember, related }: Portfol
           <div className="pitem-hero-overlay" />
         </div>
         <div className="pitem-hero-content">
-          <Link href="/our-clients" className="pitem-back">
+          <Link href="/our-work" className="pitem-back">
             ← Back to Portfolio
           </Link>
 
@@ -44,7 +47,10 @@ export default function PortfolioItemPage({ item, teamMember, related }: Portfol
 
       <section className="pitem-info">
         <div className="pitem-info-inner">
-          <p className="pitem-description">{item.description}</p>
+          {item.description && <p className="pitem-description">{item.description}</p>}
+          {item.blocks && item.blocks.length > 0 && (
+            <BlogPostBody blocks={item.blocks} />
+          )}
           <Link href="/services" className="pitem-cta">
             Order a Similar Design
           </Link>

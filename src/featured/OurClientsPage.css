@@ -32,13 +32,9 @@
   line-height: 1.75;
 }
 
-.clients-pricing-note {
+.clients-hero-cta {
   display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  border: 1px solid var(--primary-green-dim);
-  padding: 14px 28px;
-  background: color-mix(in srgb, var(--primary-green) 6%, transparent);
+  justify-content: center;
 }
 
 .clients-cta {
@@ -62,20 +58,6 @@
   max-width: 440px;
   margin: 0 auto 32px;
   line-height: 1.75;
-}
-
-.clients-pricing-note-amount {
-  font-family: var(--font-dm-sans), 'DM Sans', sans-serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--primary-green);
-}
-
-.clients-pricing-note-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  text-align: left;
-  line-height: 1.5;
 }
 
 @media (max-width: 768px) {

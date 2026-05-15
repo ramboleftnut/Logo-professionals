@@ -58,3 +58,17 @@
     padding: 50px 20px;
   }
 }
+
+@media (max-width: 360px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  .stat-item {
+    border-right: none;
+    border-top: 1px solid var(--border);
+    padding: 24px 20px;
+  }
+  .stat-item:first-child {
+    border-top: none;
+  }
+}

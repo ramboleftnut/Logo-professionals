@@ -49,7 +49,7 @@ export default function OrderSuccessPage() {
         </div>
 
         <div className="order-success-actions">
-          <Button href="/our-clients" variant="primary">
+          <Button href="/our-work" variant="primary">
             See Our Portfolio
           </Button>
           <Button href="/" variant="ghost">

@@ -25,7 +25,7 @@ src/
     (public)/                         ← Route group: wraps NavBar + Footer
       layout.tsx                      ← Reads team.json, passes to NavBar
       page.tsx                        ← / → <HomePage />
-      our-clients/page.tsx            ← /our-clients → <OurClientsPage />
+      our-work/page.tsx               ← /our-work → <OurClientsPage />
       about-us/
         page.tsx                      ← /about-us → <AboutPage />
         [slug]/page.tsx               ← /about-us/<slug> → <TeamMemberPage />

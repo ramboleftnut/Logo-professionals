@@ -37,6 +37,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           description: post.excerpt,
           image: post.thumbnail,
           images: post.gallery,
+          blocks: post.blocks,
         }}
         teamMember={member ? { name: member.name, slug: member.slug, image: member.image } : null}
         related={related}

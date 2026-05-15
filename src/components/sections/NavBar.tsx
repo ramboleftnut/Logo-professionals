@@ -38,9 +38,10 @@ export default function NavBar() {
         </Link>
 
         <ul className="navbar-links">
-          <li><Link href="/our-clients">Our Work</Link></li>
+          <li><Link href="/our-work">Our Work</Link></li>
           <li><Link href="/about-us">About Us</Link></li>
           <li><Link href="/our-team">Our Team</Link></li>
+          <li><Link href="/blog">Blog</Link></li>
           <li><Link href="/services">Services</Link></li>
           <li><Link href="/contact-us">Contact</Link></li>
           {isAdmin && <li><Link href="/admin">Admin</Link></li>}
@@ -59,9 +60,10 @@ export default function NavBar() {
 
       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-        <Link href="/our-clients" onClick={() => setMenuOpen(false)}>Our Work</Link>
+        <Link href="/our-work" onClick={() => setMenuOpen(false)}>Our Work</Link>
         <Link href="/about-us" onClick={() => setMenuOpen(false)}>About Us</Link>
         <Link href="/our-team" onClick={() => setMenuOpen(false)}>Our Team</Link>
+        <Link href="/blog" onClick={() => setMenuOpen(false)}>Blog</Link>
         <Link href="/services" onClick={() => setMenuOpen(false)}>Services</Link>
         <Link href="/contact-us" onClick={() => setMenuOpen(false)}>Contact</Link>
         {isAdmin && (

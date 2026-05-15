@@ -12,9 +12,15 @@ export default function HomePage() {
   return (
     <>
       <Hero
-        title="Learn Better. Build Better"
+        title={
+          <>
+            Learn <span className="hero-accent--green">Better.</span>
+            <br />
+            Build <span className="hero-accent--rose">Better.</span>
+          </>
+        }
         primaryCta={{ label: "Start a Project", href: "/services" }}
-        secondaryCta={{ label: "Our Work", href: "/our-clients" }}
+        secondaryCta={{ label: "Our Work", href: "/our-work" }}
       />
 
       <Stats />
@@ -89,7 +95,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Portfolio - uses shared data (same source as /our-clients) */}
+      {/* Portfolio - uses shared data (same source as /our-work) */}
       <PortfolioGrid limit={6} />
 
       <Testimonials />
