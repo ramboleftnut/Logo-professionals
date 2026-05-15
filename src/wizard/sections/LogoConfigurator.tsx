@@ -1,25 +1,28 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
+import dynamic from "next/dynamic"
 import "./LogoConfigurator.css"
 import ProgressBar from "../ui/ProgressBar"
 import Button from "../ui/Button"
+import Loading from "../ui/Loading"
 import ServiceSelection from "./ServiceSelection"
-import BrandInfoScreen from "./BrandInfoScreen"
-import UploadScreen from "./UploadScreen"
-import VariationsScreen from "./VariationsScreen"
-import StylePickerScreen from "./StylePickerScreen"
-import TypographyScreen from "./TypographyScreen"
-import ColorPickerScreen from "./ColorPickerScreen"
-import SummaryScreen from "./SummaryScreen"
-import WebsiteInfoScreen from "./WebsiteInfoScreen"
-import WebsiteTypeScreen from "./WebsiteTypeScreen"
-import WebsitePagesScreen from "./WebsitePagesScreen"
-import WebsiteStyleScreen from "./WebsiteStyleScreen"
-import WebsiteColorsScreen from "./WebsiteColorsScreen"
-import WebsiteFontsScreen from "./WebsiteFontsScreen"
-import WebsiteExtrasScreen from "./WebsiteExtrasScreen"
-import WebsiteSummaryScreen from "./WebsiteSummaryScreen"
 import type { Screen, ServiceType, Order, WebsiteInfo, WebsiteTypeInfo, WebsitePagesInfo, WebsiteStyleInfo, WebsiteColorsInfo, WebsiteFontsInfo, WebsiteExtrasInfo } from "./types"
+
+const BrandInfoScreen      = dynamic(() => import("./BrandInfoScreen"),      { loading: () => <Loading /> })
+const UploadScreen         = dynamic(() => import("./UploadScreen"),         { loading: () => <Loading /> })
+const VariationsScreen     = dynamic(() => import("./VariationsScreen"),     { loading: () => <Loading /> })
+const StylePickerScreen    = dynamic(() => import("./StylePickerScreen"),    { loading: () => <Loading /> })
+const TypographyScreen     = dynamic(() => import("./TypographyScreen"),     { loading: () => <Loading /> })
+const ColorPickerScreen    = dynamic(() => import("./ColorPickerScreen"),    { loading: () => <Loading /> })
+const SummaryScreen        = dynamic(() => import("./SummaryScreen"),        { loading: () => <Loading /> })
+const WebsiteInfoScreen    = dynamic(() => import("./WebsiteInfoScreen"),    { loading: () => <Loading /> })
+const WebsiteTypeScreen    = dynamic(() => import("./WebsiteTypeScreen"),    { loading: () => <Loading /> })
+const WebsitePagesScreen   = dynamic(() => import("./WebsitePagesScreen"),   { loading: () => <Loading /> })
+const WebsiteStyleScreen   = dynamic(() => import("./WebsiteStyleScreen"),   { loading: () => <Loading /> })
+const WebsiteColorsScreen  = dynamic(() => import("./WebsiteColorsScreen"),  { loading: () => <Loading /> })
+const WebsiteFontsScreen   = dynamic(() => import("./WebsiteFontsScreen"),   { loading: () => <Loading /> })
+const WebsiteExtrasScreen  = dynamic(() => import("./WebsiteExtrasScreen"),  { loading: () => <Loading /> })
+const WebsiteSummaryScreen = dynamic(() => import("./WebsiteSummaryScreen"), { loading: () => <Loading /> })
 
 const FLOW_STEPS: Record<string, string[]> = {
   design_icon:  ["Service", "Brand",   "Variations", "Style", "Colors",      "Review"],

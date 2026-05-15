@@ -8,6 +8,7 @@ const postsLink = { href: "/admin/posts", label: "Blog & Portfolio", icon: <svg 
 const teamLink = { href: "/admin/team", label: "Team Members", icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5.5" cy="5" r="3" fill="currentColor" opacity=".7"/><path d="M0 13c0-2.76 2.46-5 5.5-5S11 10.24 11 13H0Z" fill="currentColor" opacity=".7"/><circle cx="12" cy="4.5" r="2.5" fill="currentColor" opacity=".4"/><path d="M10.5 12.5c0-1.93 1.12-3.57 2.75-4.39A5.5 5.5 0 0 1 16 12.5h-5.5Z" fill="currentColor" opacity=".4"/></svg> };
 const partnersLink = { href: "/admin/partners", label: "Partners & Reviews", icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" fill="none" opacity=".7"/><circle cx="11" cy="8" r="3.5" stroke="currentColor" strokeWidth="1.5" fill="none" opacity=".5"/></svg> };
 const ordersLink = { href: "/admin/orders", label: "All Orders", icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" opacity=".7"/><path d="M5 6h6M5 9h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> };
+const seoLink = { href: "/admin/seo", label: "SEO & Social", icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.25" stroke="currentColor" strokeWidth="1.5" fill="none" opacity=".7"/><path d="M2 8h12M8 2c2 1.8 2 10.2 0 12M8 2c-2 1.8-2 10.2 0 12" stroke="currentColor" strokeWidth="1.2" opacity=".5" fill="none"/></svg> };
 
 export default function AdminSidebar({ isDev }: { isDev: boolean }) {
   const pathname = usePathname();
@@ -16,7 +17,7 @@ export default function AdminSidebar({ isDev }: { isDev: boolean }) {
   const nav = [
     {
       section: "Content",
-      links: isDev ? [dashboardLink, postsLink, teamLink, partnersLink] : [dashboardLink],
+      links: isDev ? [dashboardLink, postsLink, teamLink, partnersLink, seoLink] : [dashboardLink],
     },
     {
       section: "Orders",

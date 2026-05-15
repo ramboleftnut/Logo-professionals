@@ -27,7 +27,7 @@ export default function BlogPostHero({ src, alt, title, tags, date }: BlogPostHe
   return (
     <section className="blog-post-hero">
       <div className="blog-post-hero-bg" ref={bgRef}>
-        <Image src={src} alt={alt} fill style={{ objectFit: "cover", objectPosition: "center" }} priority unoptimized />
+        <Image src={src} alt={alt} fill sizes="100vw" style={{ objectFit: "cover", objectPosition: "center" }} priority />
       </div>
       <div className="blog-post-hero-overlay" />
       <div className="blog-post-hero-content">

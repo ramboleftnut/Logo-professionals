@@ -29,9 +29,9 @@ export default function PortfolioItemPage({ item, teamMember, related }: Portfol
             src={item.image}
             alt={item.title}
             fill
+            sizes="100vw"
             style={{ objectFit: "cover" }}
             priority
-            unoptimized
           />
           <div className="pitem-hero-overlay" />
         </div>
@@ -70,8 +70,8 @@ export default function PortfolioItemPage({ item, teamMember, related }: Portfol
                   src={src}
                   alt={`${item.title} — view ${idx + 1}`}
                   fill
+                  sizes="(max-width: 900px) 100vw, 900px"
                   style={{ objectFit: "contain" }}
-                  unoptimized
                 />
               </div>
             )
@@ -94,8 +94,8 @@ export default function PortfolioItemPage({ item, teamMember, related }: Portfol
                     src={r.image}
                     alt={r.title}
                     fill
+                    sizes="(max-width: 700px) 100vw, 33vw"
                     style={{ objectFit: "cover" }}
-                    unoptimized
                   />
                   <div className="pitem-related-overlay">
                     <span>{r.title}</span>
@@ -114,8 +114,8 @@ export default function PortfolioItemPage({ item, teamMember, related }: Portfol
               src={teamMember.image}
               alt={teamMember.name}
               fill
+              sizes="60px"
               style={{ objectFit: "cover" }}
-              unoptimized
             />
           </div>
           <span className="pitem-designer-avatar-name">{teamMember.name}</span>

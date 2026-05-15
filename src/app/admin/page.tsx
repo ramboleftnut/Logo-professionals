@@ -25,7 +25,7 @@ export default async function AdminDashboard() {
       <div className="admin-section-header admin-section-header--tight">
         <h1 className="admin-section-title">Dashboard</h1>
       </div>
-      <p className="admin-section-sub">Welcome to The Logo Professionals admin.</p>
+      <p className="admin-section-sub">Welcome to the Digital Nectar admin.</p>
 
       <div className="admin-dashboard-grid">
         <div className="admin-stat-card">

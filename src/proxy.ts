@@ -14,6 +14,7 @@ const LOCAL_ONLY_PREFIXES = [
   "/api/posts",
   "/api/team",
   "/api/partners",
+  "/api/seo",
   "/api/upload",
 ];
 
@@ -53,6 +54,7 @@ export const config = {
     "/api/posts/:path*",
     "/api/team/:path*",
     "/api/partners/:path*",
+    "/api/seo",
     "/api/upload",
   ],
 };

@@ -1,10 +1,9 @@
 import ContactPage from "@/featured/ContactPage";
+import { metadataForRoute } from "@/lib/seo";
 
-export const metadata = {
-  title: "Contact Us | The Logo Professionals",
-  description:
-    "Get in touch with our design team. We respond within 1–2 business days.",
-};
+export async function generateMetadata() {
+  return metadataForRoute("/contact-us");
+}
 
 export default function ContactRoute() {
   return <ContactPage />;

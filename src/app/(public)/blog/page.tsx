@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts } from "@/lib/content";
+import { metadataForRoute } from "@/lib/seo";
 import "./blog.css";
 
 function formatDate(iso: string | null) {
@@ -9,25 +9,9 @@ function formatDate(iso: string | null) {
   return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://digitalnectar.space";
-
-export const metadata: Metadata = {
-  title: "Blog | Digital Nectar",
-  description: "Design tips, branding strategy, and behind-the-scenes from the Digital Nectar studio.",
-  alternates: { canonical: `${SITE_URL}/blog` },
-  openGraph: {
-    type: "website",
-    title: "Blog | Digital Nectar",
-    description: "Design tips, branding strategy, and behind-the-scenes from the Digital Nectar studio.",
-    url: `${SITE_URL}/blog`,
-    siteName: "Digital Nectar",
-  },
-  twitter: {
-    card: "summary",
-    title: "Blog | Digital Nectar",
-    description: "Design tips, branding strategy, and behind-the-scenes from the Digital Nectar studio.",
-  },
-};
+export async function generateMetadata() {
+  return metadataForRoute("/blog");
+}
 
 export default async function BlogPage() {
   const posts = await getPosts({ type: "blog", publishedOnly: true });
@@ -37,7 +21,7 @@ export default async function BlogPage() {
       <section className="blog-hero">
         <div className="blog-hero-inner">
           <p className="blog-eyebrow">Insights & Resources</p>
-          <h1 className="blog-hero-title">The Logo Professionals Blog</h1>
+          <h1 className="blog-hero-title">The Digital Nectar Blog</h1>
           <p className="blog-hero-sub">
             Design tips, branding strategy, and behind-the-scenes from our studio.
           </p>
@@ -56,7 +40,7 @@ export default async function BlogPage() {
                 <Link key={post.id} href={`/blog/${post.slug}`} className="blog-card">
                   <div className="blog-card-image">
                     {post.thumbnail ? (
-                      <Image src={post.thumbnail} alt={post.title} fill style={{ objectFit: "cover" }} unoptimized />
+                      <Image src={post.thumbnail} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: "cover" }} />
                     ) : (
                       <div className="blog-card-image-placeholder" />
                     )}

@@ -46,7 +46,7 @@ export default async function PortfolioGrid({ limit, showHeader = true }: Portfo
               fill
               sizes="(max-width: 580px) 100vw, (max-width: 900px) 50vw, 33vw"
               style={{ objectFit: "cover" }}
-              unoptimized
+              priority={idx < 3}
             />
             <div className="portfolio-item-overlay">
               <div className="portfolio-item-title">{item.title}</div>

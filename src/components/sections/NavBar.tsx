@@ -11,9 +11,12 @@ export default function NavBar() {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Only verify with the server when a session cookie is likely set.
+    // 99%+ of visitors aren't admins; skip the network round-trip for them.
+    if (!document.cookie.includes("admin_session=")) return;
     fetch("/api/admin-check")
       .then((res) => res.json())
-      .then((data) => setIsAdmin(data.isAdmin))
+      .then((data) => setIsAdmin(Boolean(data.isAdmin)))
       .catch(() => setIsAdmin(false));
   }, []);
 

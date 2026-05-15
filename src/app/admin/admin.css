@@ -1138,6 +1138,50 @@ a.admin-team-card-img:hover {
 
 @keyframes admin-spin { to { transform: rotate(360deg); } }
 
+/* ── SEO editor ──────────────────────────────────────────────── */
+.admin-seo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.admin-seo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-seo-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+  margin-bottom: 4px;
+}
+.admin-seo-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+.admin-seo-card-path {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.admin-hint-warn {
+  color: var(--warning, var(--error)) !important;
+}
+.admin-seo-saved-tick {
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  color: var(--success);
+  align-self: center;
+}
+
 @media (max-width: 768px) {
   .admin-sidebar { transform: translateX(-100%); }
   .admin-main { margin-left: 0; }

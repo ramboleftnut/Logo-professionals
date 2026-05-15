@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPost } from "@/lib/content";
+import { getPost, getTeam } from "@/lib/content";
 import ViewTracker from "@/components/ui/ViewTracker";
 import BlogPostBody from "@/components/ui/BlogPostBody";
 import BlogPostHero from "@/components/ui/BlogPostHero";
+import { SITE_URL, SITE_NAME, articleJsonLd, breadcrumbJsonLd, jsonLdScript } from "@/lib/seo";
 import "../blog.css";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://digitalnectar.space";
 
 function formatDate(iso: string | null) {
   if (!iso) return "";
@@ -20,12 +19,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = await getPost(slug, "blog");
   if (!post || !post.published) return {};
 
-  const title = `${post.title} | Digital Nectar Blog`;
+  const title = post.title;
   const description = post.excerpt || post.title;
   const url = `${SITE_URL}/blog/${post.slug}`;
-  const images = post.thumbnail
-    ? [{ url: post.thumbnail, width: 1200, height: 630, alt: post.title }]
-    : [];
+  const ogImage = post.thumbnail
+    ? (post.thumbnail.startsWith("http") ? post.thumbnail : `${SITE_URL}${post.thumbnail}`)
+    : null;
 
   return {
     title,
@@ -36,16 +35,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title,
       description,
       url,
-      siteName: "Digital Nectar",
-      images,
+      siteName: SITE_NAME,
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: post.title }] : [],
       publishedTime: post.createdAt ?? undefined,
       modifiedTime: post.updatedAt ?? undefined,
     },
     twitter: {
-      card: "summary_large_image",
+      card: ogImage ? "summary_large_image" : "summary",
       title,
       description,
-      images: post.thumbnail ? [post.thumbnail] : [],
+      images: ogImage ? [ogImage] : [],
     },
   };
 }
@@ -55,10 +54,31 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const post = await getPost(slug, "blog");
   if (!post || !post.published) notFound();
 
+  const team = post.teamMember ? await getTeam() : [];
+  const author = team.find((m) => m.slug === post.teamMember) ?? null;
+
   const isVideo = (src: string) => /\.(mp4|webm|mov)$/i.test(src);
+
+  const article = articleJsonLd({
+    title: post.title,
+    description: post.excerpt || post.title,
+    slug: post.slug,
+    image: post.thumbnail || null,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    authorName: author?.name ?? null,
+  });
+
+  const breadcrumb = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Blog", path: "/blog" },
+    { name: post.title, path: `/blog/${post.slug}` },
+  ]);
 
   return (
     <div className="blog-post-page">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(article) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumb) }} />
       <ViewTracker type="blog" slug={post.slug} />
       {post.thumbnail ? (
         <BlogPostHero
@@ -96,9 +116,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 {post.gallery.map((src, i) => (
                   <div key={i} className="blog-post-gallery-item">
                     {isVideo(src) ? (
-                      <video src={src} muted playsInline className="blog-post-gallery-video" />
+                      <video src={src} muted playsInline preload="metadata" className="blog-post-gallery-video" />
                     ) : (
-                      <Image src={src} alt={`Gallery ${i + 1}`} fill style={{ objectFit: "cover" }} unoptimized />
+                      <Image src={src} alt={`Gallery ${i + 1}`} fill style={{ objectFit: "cover" }} />
                     )}
                   </div>
                 ))}

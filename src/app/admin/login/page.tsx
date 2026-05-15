@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
           <span className="admin-login-logo-text">LP</span>
         </div>
         <h1 className="admin-login-title">Admin Access</h1>
-        <p className="admin-login-sub">The Logo Professionals</p>
+        <p className="admin-login-sub">Digital Nectar</p>
 
         <button
           onClick={handleGoogleSignIn}

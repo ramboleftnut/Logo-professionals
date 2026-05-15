@@ -35,9 +35,9 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
             src={member.heroBg}
             alt={member.name}
             fill
+            sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center top" }}
             priority
-            unoptimized
           />
         </div>
         <div className="team-hero-overlay" />
@@ -56,8 +56,8 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
                 src={member.image}
                 alt={member.name}
                 fill
+                sizes="(max-width: 900px) 100vw, 350px"
                 style={{ objectFit: "cover" }}
-                unoptimized
               />
               <div className="mask" />
             </div>
@@ -120,8 +120,8 @@ export default function TeamMemberPage({ member, portfolio, others }: TeamMember
                     src={item.image}
                     alt={item.title}
                     fill
+                    sizes="(max-width: 700px) 100vw, 33vw"
                     style={{ objectFit: "cover" }}
-                    unoptimized
                   />
                   <div className="team-portfolio-item-caption">{item.title}</div>
                 </Link>

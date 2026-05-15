@@ -55,6 +55,7 @@ export interface Partner {
 const TEAM_PATH = path.join(process.cwd(), "src", "content", "team.json");
 const POSTS_PATH = path.join(process.cwd(), "src", "content", "posts.json");
 const PARTNERS_PATH = path.join(process.cwd(), "src", "content", "partners.json");
+const SEO_PATH = path.join(process.cwd(), "src", "content", "seo.json");
 
 function assertDev() {
   if (process.env.NODE_ENV === "production") {
@@ -72,6 +73,20 @@ async function readJson<T>(file: string): Promise<T[]> {
 }
 
 async function writeJson<T>(file: string, data: T[]): Promise<void> {
+  assertDev();
+  await fs.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
+}
+
+async function readJsonObject<T extends Record<string, unknown>>(file: string): Promise<T> {
+  try {
+    const raw = await fs.readFile(file, "utf8");
+    return JSON.parse(raw) as T;
+  } catch {
+    return {} as T;
+  }
+}
+
+async function writeJsonObject<T extends Record<string, unknown>>(file: string, data: T): Promise<void> {
   assertDev();
   await fs.writeFile(file, JSON.stringify(data, null, 2) + "\n", "utf8");
 }
@@ -191,4 +206,40 @@ export async function deletePartner(id: string): Promise<boolean> {
   if (next.length === partners.length) return false;
   await writeJson(PARTNERS_PATH, next);
   return true;
+}
+
+export interface SeoEntry {
+  title: string;
+  description: string;
+  ogImage: string;
+}
+
+export type SeoMap = Record<string, SeoEntry>;
+
+export const SEO_ROUTES = [
+  { path: "/",              label: "Home" },
+  { path: "/services",      label: "Services" },
+  { path: "/our-work",      label: "Our Work" },
+  { path: "/about-us",      label: "About Us" },
+  { path: "/our-team",      label: "Our Team" },
+  { path: "/contact-us",    label: "Contact" },
+  { path: "/blog",          label: "Blog" },
+  { path: "/cookie-policy", label: "Cookie Policy" },
+] as const;
+
+const EMPTY_SEO: SeoEntry = { title: "", description: "", ogImage: "" };
+
+export async function getSeoMap(): Promise<SeoMap> {
+  return readJsonObject<SeoMap>(SEO_PATH);
+}
+
+export async function getSeo(routePath: string): Promise<SeoEntry> {
+  const map = await getSeoMap();
+  return { ...EMPTY_SEO, ...(map[routePath] ?? {}) };
+}
+
+export async function setSeo(routePath: string, entry: SeoEntry): Promise<void> {
+  const map = await getSeoMap();
+  map[routePath] = entry;
+  await writeJsonObject(SEO_PATH, map);
 }

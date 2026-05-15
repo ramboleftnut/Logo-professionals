@@ -36,6 +36,7 @@ export default function AutoplayVideo({ src, className }: AutoplayVideoProps) {
       muted
       playsInline
       loop
+      preload="metadata"
       className={className}
     />
   );

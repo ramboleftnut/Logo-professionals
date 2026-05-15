@@ -23,7 +23,6 @@ export default async function ClientLogos() {
                 width={113}
                 height={48}
                 style={{ objectFit: "contain", height: "48px", width: "auto" }}
-                unoptimized
               />
             );
 

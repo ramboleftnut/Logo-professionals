@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://digitalnectar.space";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
@@ -7,6 +9,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/services/success", "/services/cancel", "/admin", "/api/"],
     },
-    sitemap: "https://digitalnectar.space/sitemap.xml",
+    sitemap: `${BASE}/sitemap.xml`,
+    host: BASE,
   };
 }

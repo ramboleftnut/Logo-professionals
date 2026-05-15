@@ -34,8 +34,8 @@ export default function OurTeamPage({ team }: { team: TeamMember[] }) {
                   src={member.image}
                   alt={member.name}
                   fill
+                  sizes="(max-width: 600px) 100vw, (max-width: 1100px) 50vw, 33vw"
                   style={{ objectFit: "cover" }}
-                  unoptimized
                 />
               </div>
               <div className="our-team-card-info">

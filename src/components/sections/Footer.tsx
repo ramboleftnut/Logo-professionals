@@ -81,7 +81,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <p className="footer-copy">
-          © {new Date().getFullYear()} The Logo Professionals. All Rights Reserved.
+          © {new Date().getFullYear()} Digital Nectar. All Rights Reserved.
         </p>
         <div className="footer-policy">
           <Link href="/cookie-policy">Data Protection Policy</Link>

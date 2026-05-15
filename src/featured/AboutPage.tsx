@@ -58,7 +58,8 @@ export default function AboutPage() {
               src="/images/about-team-photo.jpg"
               alt="Digital Nectar founders"
               fill
-              unoptimized
+              sizes="(max-width: 900px) 100vw, 50vw"
+              priority
             />
           </div>
         </div>

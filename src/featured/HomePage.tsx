@@ -86,8 +86,8 @@ export default function HomePage() {
                 src="/images/home-web.jpg"
                 alt="Digital Nectar studio workspace"
                 fill
+                sizes="(max-width: 900px) 100vw, 50vw"
                 style={{ objectFit: "cover" }}
-                unoptimized
               />
             </div>
             <div className="home-about-image-accent" />
