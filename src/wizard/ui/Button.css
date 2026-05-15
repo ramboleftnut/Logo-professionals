@@ -87,3 +87,23 @@
 .btn__icon {
   display: flex;
 }
+
+/* Pulse — used on the very first wizard step to nudge the user toward Continue */
+.btn--pulse {
+  animation: btn-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes btn-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--color-accent);
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn--pulse { animation: none; }
+}

@@ -12,15 +12,7 @@ export default function HomePage() {
   return (
     <>
       <Hero
-        eyebrow="Design · Build · Educate"
-        title={
-          <>
-            The best creative work
-            <br />
-            starts with <em>honest</em> people.
-          </>
-        }
-        subtitle="Digital Nectar is a studio built by professionals with 15+ years of real experience in design, development, and branding. We deliver finished work. Not promises."
+        title="Learn Better. Build Better"
         primaryCta={{ label: "Start a Project", href: "/services" }}
         secondaryCta={{ label: "Our Work", href: "/our-clients" }}
       />

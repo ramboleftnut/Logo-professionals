@@ -9,15 +9,17 @@ interface ButtonProps {
   disabled?: boolean
   fullWidth?: boolean
   icon?: React.ReactNode
+  pulse?: boolean
 }
 
-export default function Button({ children, onClick, variant = "primary", size = "md", disabled = false, fullWidth = false, icon }: ButtonProps) {
+export default function Button({ children, onClick, variant = "primary", size = "md", disabled = false, fullWidth = false, icon, pulse = false }: ButtonProps) {
   const className = [
     "btn",
     `btn--${variant}`,
     `btn--${size}`,
     disabled    ? "btn--disabled"    : "",
     fullWidth   ? "btn--full-width"  : "",
+    pulse && !disabled ? "btn--pulse" : "",
   ].filter(Boolean).join(" ")
 
   return (

@@ -7,10 +7,10 @@
 /* (no Tailwind — vanilla CSS only) */
 :root {
   /* Surfaces */
-  --bg: #181b1b;
-  --surface: #1b2321;
+  --bg: #151717;
+  --surface: #1a1d1c;
   --card: #242b2c;
-  --border: #080d0c;
+  --border: #0a0b0b;
 
   /* Brand — primary green (teal) */
   --primary-green: #58B9A5;
