@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getPost } from "@/lib/content";
 import ViewTracker from "@/components/ui/ViewTracker";
 import BlogPostBody from "@/components/ui/BlogPostBody";
+import BlogPostHero from "@/components/ui/BlogPostHero";
 import "../blog.css";
 
 function formatDate(iso: string | null) {
@@ -32,19 +33,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <div className="blog-post-page">
       <ViewTracker type="blog" slug={post.slug} />
       {post.thumbnail ? (
-        <div className="blog-post-hero">
-          <Image src={post.thumbnail} alt={post.title} fill style={{ objectFit: "cover" }} unoptimized priority />
-          <div className="blog-post-hero-overlay" />
-          <div className="blog-post-hero-content">
-            <div className="blog-post-meta">
-              {post.tags.slice(0, 3).map((t) => (
-                <span key={t} className="blog-tag">{t}</span>
-              ))}
-              {post.createdAt && <span className="blog-date">{formatDate(post.createdAt)}</span>}
-            </div>
-            <h1 className="blog-post-title">{post.title}</h1>
-          </div>
-        </div>
+        <BlogPostHero
+          src={post.thumbnail}
+          alt={post.title}
+          title={post.title}
+          tags={post.tags}
+          date={post.createdAt ? formatDate(post.createdAt) : undefined}
+        />
       ) : (
         <div className="blog-post-hero-no-image">
           <div className="blog-post-hero-no-image-inner">

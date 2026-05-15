@@ -70,7 +70,6 @@
   padding: 24px 28px;
   background: var(--surface);
   border-left: 3px solid var(--primary-green);
-  border-radius: 4px;
   margin-bottom: 0 !important;
 }
 
@@ -98,7 +97,6 @@
 /* ── Callout boxes (do / do not) ───────────────────────────────── */
 .cookie-callout {
   padding: 20px 24px;
-  border-radius: 8px;
   background: var(--card);
   border: 1px solid var(--border);
   margin-bottom: 14px;
@@ -163,7 +161,6 @@
 .cookie-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 8px;
   padding: 22px 24px;
   transition: border-color 0.3s ease;
 }
@@ -245,7 +242,6 @@
   padding: 14px 18px;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 6px;
 }
 
 .cookie-thirdparty strong {

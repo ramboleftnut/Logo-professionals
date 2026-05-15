@@ -184,7 +184,7 @@
 .team-bio-quote {
   border-left: 2px solid var(--primary-green);
   padding: 20px 28px;
-  background: rgba(201, 168, 76, 0.04);
+  background: color-mix(in srgb, var(--primary-green) 5%, transparent);
   margin-bottom: 36px;
 }
 

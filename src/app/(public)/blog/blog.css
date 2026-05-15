@@ -24,7 +24,7 @@
 }
 
 .blog-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border);
   overflow: hidden; text-decoration: none; display: flex; flex-direction: column;
   transition: border-color 0.2s ease;
 }
@@ -63,9 +63,9 @@
 }
 .blog-card-title {
   font-size: 18px; font-weight: 600; color: var(--text); line-height: 1.3;
-  padding-bottom: 0;
+  transition: color 0.2s ease;
 }
-.blog-card-title::after { display: none; }
+.blog-card:hover .blog-card-title { color: var(--primary-green); }
 .blog-card-excerpt { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
 .blog-card-read { font-size: 13px; color: var(--primary-green); margin-top: auto; padding-top: 8px; }
 
@@ -78,16 +78,65 @@
 
 /* Single post */
 .blog-post-page { min-height: 100vh; background: var(--bg); }
+
 .blog-post-hero {
-  height: 420px; position: relative; background: var(--card);
+  position: relative;
+  height: 70vh;
+  min-height: 500px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
 }
+
+.blog-post-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 130%;
+  will-change: transform;
+}
+
+.blog-post-hero-bg img {
+  object-fit: cover;
+  object-position: center;
+}
+
 .blog-post-hero-overlay {
-  position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 40%, color-mix(in srgb, var(--bg) 90%, transparent) 100%); z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--bg) 20%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 40%, transparent) 50%,
+    var(--bg) 100%
+  );
+  z-index: 1;
 }
+
 .blog-post-hero-content {
-  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-  width: 100%; max-width: 800px; padding: 0 24px; z-index: 2;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 24px;
+  max-width: 800px;
+  width: 100%;
 }
+
+.blog-post-hero-tags {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.blog-post-hero-content .blog-post-title {
+  margin-bottom: 0;
+}
+
 .blog-post-hero-no-image {
   height: 200px; background: var(--surface); border-bottom: 1px solid var(--border);
   display: flex; align-items: flex-end; padding: 40px 24px;
@@ -114,10 +163,10 @@
 .blog-post-content li { margin-bottom: 6px; }
 .blog-post-content strong { color: var(--text); }
 .blog-post-content a { color: var(--primary-green); }
-.blog-post-content img { max-width: 100%; border-radius: 10px; margin: 24px 0; }
+.blog-post-content img { max-width: 100%; margin: 24px 0; }
 .blog-post-content blockquote {
   border-left: 3px solid var(--primary-green); padding: 12px 20px; margin: 24px 0;
-  background: var(--surface); border-radius: 0 8px 8px 0; color: var(--text-secondary);
+  background: var(--surface); color: var(--text-secondary);
 }
 
 .blog-post-gallery { margin-top: 48px; }
@@ -125,7 +174,7 @@
 .blog-post-gallery-grid {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
 }
-.blog-post-gallery-item { position: relative; height: 160px; border-radius: 10px; overflow: hidden; background: var(--card); }
+.blog-post-gallery-item { position: relative; height: 160px; overflow: hidden; background: var(--card); }
 .blog-post-gallery-video { width: 100%; height: 100%; object-fit: cover; }
 
 .blog-back-link {
@@ -136,7 +185,6 @@
 
 /* ════════════════════════════════════════════════════════════════
    Rich blog content sections (bp-*)
-   Used inside .blog-post-content via raw HTML in posts.json
    ════════════════════════════════════════════════════════════════ */
 
 /* ── Plain section (h2 + paragraphs) ──────────────────────────── */
@@ -154,7 +202,6 @@
 /* ── Full-width banner image ──────────────────────────────────── */
 .blog-post-content .bp-banner {
   margin: 56px auto;
-  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--border);
 }
@@ -164,26 +211,23 @@
   object-fit: cover;
   display: block;
   margin: 0;
-  border-radius: 0;
 }
 
 /* ── Card grid ────────────────────────────────────────────────── */
 .blog-post-content .bp-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
+  gap: 2px;
   margin: 32px auto 56px;
 }
 .blog-post-content .bp-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 14px;
   overflow: hidden;
-  transition: border-color 0.25s ease, transform 0.25s ease;
+  transition: border-color 0.25s ease;
 }
 .blog-post-content .bp-card:hover {
   border-color: var(--primary-green-dim);
-  transform: translateY(-4px);
 }
 .blog-post-content .bp-card img {
   width: 100%;
@@ -191,7 +235,6 @@
   object-fit: cover;
   display: block;
   margin: 0;
-  border-radius: 0;
 }
 .blog-post-content .bp-card-body {
   padding: 22px 24px;
@@ -212,7 +255,6 @@
 .blog-post-content .bp-highlight {
   background: var(--card);
   border-left: 4px solid var(--primary-green);
-  border-radius: 14px;
   padding: 40px clamp(28px, 4vw, 48px);
   margin: 56px auto;
   position: relative;
@@ -244,7 +286,7 @@
 }
 .blog-post-content .bp-highlight p:last-child { margin-bottom: 0; }
 
-/* Rose variant for visual variety */
+/* Rose variant */
 .blog-post-content .bp-highlight.bp-highlight--rose {
   border-left-color: var(--primary-rose);
 }
@@ -264,7 +306,6 @@
   margin: 56px 0;
   background: var(--surface);
   border-left: 4px solid var(--primary-green);
-  border-radius: 0 14px 14px 0;
 }
 .blog-post-content .bp-quote::before { content: none; }
 
@@ -277,7 +318,6 @@
   margin: 56px auto;
 }
 .blog-post-content .bp-split-image {
-  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--border);
   aspect-ratio: 4 / 3;
@@ -288,7 +328,6 @@
   object-fit: cover;
   display: block;
   margin: 0;
-  border-radius: 0;
 }
 .blog-post-content .bp-split-text h3 {
   font-size: clamp(20px, 2.4vw, 26px);
@@ -308,12 +347,11 @@
 /* ── Before/after compare slider ──────────────────────────────── */
 .blog-post-content .bp-compare {
   margin: 56px auto;
-  border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--border);
 }
 
-/* Compare slider component styles (rendered by CompareSlider.tsx) */
+/* Compare slider component */
 .compare-slider {
   position: relative;
   width: 100%;
