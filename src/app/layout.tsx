@@ -9,7 +9,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://digitalnectar.agency"),
+  metadataBase: new URL("https://digitalnectar.space"),
   title: "Digital Nectar | Creative & Tech Studio",
   description:
     "Digital Nectar is a creative and technology studio specialising in brand identity, logo design, UI/UX, and software engineering. Built by freelance veterans with 15+ years of experience.",

@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { getTeam, getPosts } from "@/lib/content";
 
-const BASE = "https://thelogoprofessionals.com";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://digitalnectar.space";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [team, posts] = await Promise.all([

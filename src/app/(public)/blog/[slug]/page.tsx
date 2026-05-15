@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -7,18 +8,45 @@ import BlogPostBody from "@/components/ui/BlogPostBody";
 import BlogPostHero from "@/components/ui/BlogPostHero";
 import "../blog.css";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://digitalnectar.space";
+
 function formatDate(iso: string | null) {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug, "blog");
   if (!post || !post.published) return {};
+
+  const title = `${post.title} | Digital Nectar Blog`;
+  const description = post.excerpt || post.title;
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const images = post.thumbnail
+    ? [{ url: post.thumbnail, width: 1200, height: 630, alt: post.title }]
+    : [];
+
   return {
-    title: `${post.title} — The Logo Professionals Blog`,
-    description: post.excerpt || post.title,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url,
+      siteName: "Digital Nectar",
+      images,
+      publishedTime: post.createdAt ?? undefined,
+      modifiedTime: post.updatedAt ?? undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: post.thumbnail ? [post.thumbnail] : [],
+    },
   };
 }
 

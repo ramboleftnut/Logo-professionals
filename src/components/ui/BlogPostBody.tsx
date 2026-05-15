@@ -143,9 +143,7 @@ export default function BlogPostBody({ html, blocks }: Props) {
     });
 
     return () => {
-      setTimeout(() => {
-        roots.forEach((r) => r.unmount());
-      }, 0);
+      roots.forEach((r) => r.unmount());
     };
   }, [html, blocks]);
 

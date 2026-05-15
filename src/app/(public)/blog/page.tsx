@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getPosts } from "@/lib/content";
@@ -8,9 +9,24 @@ function formatDate(iso: string | null) {
   return new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
 }
 
-export const metadata = {
-  title: "Blog — The Logo Professionals",
-  description: "Design insights, branding tips, and logo design resources from The Logo Professionals.",
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://digitalnectar.space";
+
+export const metadata: Metadata = {
+  title: "Blog | Digital Nectar",
+  description: "Design tips, branding strategy, and behind-the-scenes from the Digital Nectar studio.",
+  alternates: { canonical: `${SITE_URL}/blog` },
+  openGraph: {
+    type: "website",
+    title: "Blog | Digital Nectar",
+    description: "Design tips, branding strategy, and behind-the-scenes from the Digital Nectar studio.",
+    url: `${SITE_URL}/blog`,
+    siteName: "Digital Nectar",
+  },
+  twitter: {
+    card: "summary",
+    title: "Blog | Digital Nectar",
+    description: "Design tips, branding strategy, and behind-the-scenes from the Digital Nectar studio.",
+  },
 };
 
 export default async function BlogPage() {
