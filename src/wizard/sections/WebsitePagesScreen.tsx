@@ -123,11 +123,12 @@ interface Props {
   onBack: () => void
   onNext: (info: WebsitePagesInfo) => void
   submitRef?: { current: (() => void) | null }
+  setFormValid?: (valid: boolean) => void
   initialValue?: Partial<WebsitePagesInfo>
   onChange?: (price: number) => void
 }
 
-export default function WebsitePagesScreen({ siteType, onBack, onNext, submitRef, initialValue, onChange }: Props) {
+export default function WebsitePagesScreen({ siteType, onBack, onNext, submitRef, setFormValid, initialValue, onChange }: Props) {
   const allPages = siteType === "corporate" ? CORPORATE_PAGES : ECOMMERCE_PAGES
   const defaultSelected = useMemo(() => allPages.filter(p => p.main).map(p => p.name), [allPages])
 
@@ -138,6 +139,10 @@ export default function WebsitePagesScreen({ siteType, onBack, onNext, submitRef
   )
   const [search, setSearch]       = useState("")
   const [pageInput, setPageInput] = useState("")
+  const [error, setError]         = useState(false)
+
+  const isValid = mode === "developer" || selected.length > 0
+  useEffect(() => { setFormValid?.(isValid) }, [isValid, setFormValid])
 
   const toggle = (name: string) =>
     setSelected(prev => prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name])
@@ -156,8 +161,13 @@ export default function WebsitePagesScreen({ siteType, onBack, onNext, submitRef
   }
 
   useEffect(() => {
-    if (submitRef) submitRef.current = () => onNext({ mode, pages: mode === "developer" ? defaultSelected : selected })
+    if (submitRef) submitRef.current = () => {
+      if (mode === "manual" && selected.length === 0) { setError(true); return }
+      onNext({ mode, pages: mode === "developer" ? defaultSelected : selected })
+    }
   })
+
+  useEffect(() => { if (selected.length > 0) setError(false) }, [selected])
 
   useEffect(() => {
     onChange?.(mode === "developer" ? calcWebsitePrice(defaultSelected) : calcWebsitePrice(selected))
@@ -227,6 +237,12 @@ export default function WebsitePagesScreen({ siteType, onBack, onNext, submitRef
           </div>
         )}
       </div>
+
+      {error && (
+        <p className="form-error form-error--with-bottom-margin">
+          Please select at least one page to continue.
+        </p>
+      )}
 
       {mode === "manual" && (
         <>

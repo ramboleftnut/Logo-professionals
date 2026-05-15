@@ -56,21 +56,21 @@ export default function HomePage() {
               <div className="home-about-feature">
                 <div className="home-feature-icon">◈</div>
                 <div className="home-feature-content">
-                  <h4>15+ Years of Real Experience</h4>
+                  <h3>15+ Years of Real Experience</h3>
                   <p>Not trend chasers. We write about tools we use and work we have actually shipped.</p>
                 </div>
               </div>
               <div className="home-about-feature">
                 <div className="home-feature-icon">◎</div>
                 <div className="home-feature-content">
-                  <h4>Project-Based, No Retainers</h4>
+                  <h3>Project-Based, No Retainers</h3>
                   <p>A project has a beginning, a scope, and an end. You know what you are getting before you commit.</p>
                 </div>
               </div>
               <div className="home-about-feature">
                 <div className="home-feature-icon">◇</div>
                 <div className="home-feature-content">
-                  <h4>Honest Pricing</h4>
+                  <h3>Honest Pricing</h3>
                   <p>
                     The price is calculated before checkout. No surprise
                     invoices, no vague estimates.

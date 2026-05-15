@@ -33,17 +33,21 @@ interface Props {
   onBack: () => void
   onNext: (info: WebsiteInfo) => void
   submitRef?: { current: (() => void) | null }
+  setFormValid?: (valid: boolean) => void
   initialValue?: Partial<WebsiteInfo>
   initialFile?: File | null
 }
 
-export default function WebsiteInfoScreen({ onBack, onNext, submitRef, initialValue, initialFile }: Props) {
+export default function WebsiteInfoScreen({ onBack, onNext, submitRef, setFormValid, initialValue, initialFile }: Props) {
   const [companyName, setCompany]   = useState(initialValue?.companyName ?? "")
   const [existingUrl, setUrl]       = useState(initialValue?.existingUrl ?? "")
   const [industry, setIndustry]     = useState(initialValue?.industry ?? "")
   const [description, setDesc]      = useState(initialValue?.description ?? "")
   const [logoFile, setLogoFile]     = useState<File | null>(initialFile ?? null)
   const [error, setError]           = useState(false)
+
+  const isValid = companyName.trim().length > 0
+  useEffect(() => { setFormValid?.(isValid) }, [isValid, setFormValid])
 
   useEffect(() => {
     if (!submitRef) return

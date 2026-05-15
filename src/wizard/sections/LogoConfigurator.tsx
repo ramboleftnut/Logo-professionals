@@ -106,8 +106,24 @@ export default function LogoConfigurator() {
 
   const submitRef = useRef<(() => void) | null>(null)
   const [nextDisabled, setNextDisabled] = useState(true)
+  const [formValid, setFormValid]       = useState(true)
   const [maxReachedStep, setMaxReachedStep] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
+
+  // After a click on the Continue button, screens may render new `.form-error`
+  // elements. Scroll to the first one on the next frame so the user sees it.
+  function scrollToFirstError() {
+    requestAnimationFrame(() => {
+      const el = document.querySelector(".form-error") as HTMLElement | null
+      if (!el) return
+      el.scrollIntoView({ behavior: "smooth", block: "center" })
+    })
+  }
+
+  function handleNextClick() {
+    submitRef.current?.()
+    if (!formValid) scrollToFirstError()
+  }
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 1000)
@@ -122,6 +138,7 @@ export default function LogoConfigurator() {
   useEffect(() => {
     submitRef.current = null
     setNextDisabled(screen === "service")
+    setFormValid(true)
   }, [screen])
 
   // Sync browser back button with wizard screens
@@ -201,6 +218,7 @@ export default function LogoConfigurator() {
           {screen === "website-info" && (
             <WebsiteInfoScreen
               submitRef={submitRef}
+              setFormValid={setFormValid}
               onBack={() => window.history.back()}
               initialValue={websiteInfo}
               initialFile={files.logo}
@@ -227,6 +245,7 @@ export default function LogoConfigurator() {
             <WebsitePagesScreen
               siteType={websiteTypeInfo.siteType}
               submitRef={submitRef}
+              setFormValid={setFormValid}
               onBack={() => window.history.back()}
               initialValue={websitePagesInfo}
               onChange={price => setLiveWebsiteTotal(price)}
@@ -291,12 +310,12 @@ export default function LogoConfigurator() {
           )}
 
           {screen === "brand-info" && (
-            <BrandInfoScreen submitRef={submitRef} onBack={() => window.history.back()} initialValue={companyInfo} initialFile={files.logo}
+            <BrandInfoScreen submitRef={submitRef} setFormValid={setFormValid} onBack={() => window.history.back()} initialValue={companyInfo} initialFile={files.logo}
               onNext={info => { setCompanyInfo(info); if (info.logoFile !== undefined) setFiles(prev => ({ ...prev, logo: info.logoFile ?? null })); navigateTo("variations") }} />
           )}
 
           {screen === "upload" && (
-            <UploadScreen submitRef={submitRef} onBack={() => window.history.back()} initialValue={uploadInfo} initialFile={files.logo} onNext={info => { setUploadInfo(info); setFiles(prev => ({ ...prev, logo: info.file || null })); navigateTo("style-red") }} />
+            <UploadScreen submitRef={submitRef} setFormValid={setFormValid} onBack={() => window.history.back()} initialValue={uploadInfo} initialFile={files.logo} onNext={info => { setUploadInfo(info); setFiles(prev => ({ ...prev, logo: info.file || null })); navigateTo("style-red") }} />
           )}
 
           {screen === "style-red" && (
@@ -304,7 +323,7 @@ export default function LogoConfigurator() {
           )}
 
           {screen === "variations" && (
-            <VariationsScreen submitRef={submitRef} onBack={() => window.history.back()}
+            <VariationsScreen submitRef={submitRef} setFormValid={setFormValid} onBack={() => window.history.back()}
               initialValue={variations}
               onChange={vars => setLiveVariations(vars)}
               onNext={vars => {
@@ -367,7 +386,7 @@ export default function LogoConfigurator() {
                 )}
               </div>
               {nextLabel && (
-                <Button onClick={() => submitRef.current?.()} disabled={nextDisabled} size="md"
+                <Button onClick={handleNextClick} disabled={nextDisabled} softDisabled={!formValid} size="md"
                   pulse={screen === "service" && !nextDisabled}
                   icon={<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}>
                   {nextLabel}
@@ -392,7 +411,7 @@ export default function LogoConfigurator() {
               )}
             </div>
             {nextLabel && (
-              <Button onClick={() => submitRef.current?.()} disabled={nextDisabled} size="lg"
+              <Button onClick={handleNextClick} disabled={nextDisabled} softDisabled={!formValid} size="lg"
                 pulse={screen === "service" && !nextDisabled}
                 icon={<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}>
                 {nextLabel}

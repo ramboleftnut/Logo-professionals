@@ -5,7 +5,7 @@ import BackButton from "../ui/BackButton"
 import { VerticalLogoDemo, HorizontalLogoDemo, BadgeLogoDemo, IconOnlyDemo, WordmarkDemo } from "./LogoDemos"
 import "./VariationsScreen.css"
 
-interface Props { onBack: () => void; onNext: (vars: string[]) => void; onChange?: (vars: string[]) => void; submitRef?: { current: (() => void) | null }; initialValue?: string[] }
+interface Props { onBack: () => void; onNext: (vars: string[]) => void; onChange?: (vars: string[]) => void; submitRef?: { current: (() => void) | null }; setFormValid?: (valid: boolean) => void; initialValue?: string[] }
 
 const VARIATIONS = [
   { id: "vertical",   title: "Vertical",     slug: "vertical-logo",     description: "Icon stacked above the brand name. Ideal for social profiles and square formats.",      demo: <VerticalLogoDemo /> },
@@ -15,9 +15,12 @@ const VARIATIONS = [
   { id: "wordmark",   title: "Wordmark",     slug: "wordmark-logo",     description: "Typography-only logo. The brand name itself becomes the visual identity.",               demo: <WordmarkDemo /> },
 ]
 
-export default function VariationsScreen({ onBack, onNext, onChange, submitRef, initialValue }: Props) {
+export default function VariationsScreen({ onBack, onNext, onChange, submitRef, setFormValid, initialValue }: Props) {
   const [selected, setSelected] = useState<string[]>(initialValue ?? [])
   const [error, setError]       = useState(false)
+
+  const isValid = selected.length > 0
+  useEffect(() => { setFormValid?.(isValid) }, [isValid, setFormValid])
 
   useEffect(() => {
     if (submitRef) submitRef.current = () => {

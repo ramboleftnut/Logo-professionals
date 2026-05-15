@@ -6,16 +6,30 @@ import BackButton from "../ui/BackButton"
 import "./UploadScreen.css"
 
 interface UploadInfo { companyName: string; tagline: string; description: string; file: File | null }
-interface Props { onBack: () => void; onNext: (info: UploadInfo) => void; submitRef?: { current: (() => void) | null }; initialValue?: Partial<Omit<UploadInfo, "file">>; initialFile?: File | null }
+interface Props { onBack: () => void; onNext: (info: UploadInfo) => void; submitRef?: { current: (() => void) | null }; setFormValid?: (valid: boolean) => void; initialValue?: Partial<Omit<UploadInfo, "file">>; initialFile?: File | null }
 
-export default function UploadScreen({ onBack, onNext, submitRef, initialValue, initialFile }: Props) {
+export default function UploadScreen({ onBack, onNext, submitRef, setFormValid, initialValue, initialFile }: Props) {
   const [companyName, setCompany] = useState(initialValue?.companyName ?? "")
   const [tagline, setTagline]     = useState(initialValue?.tagline ?? "")
   const [description, setDesc]    = useState(initialValue?.description ?? "")
   const [file, setFile]           = useState<File | null>(initialFile ?? null)
+  const [nameError, setNameError] = useState(false)
+  const [fileError, setFileError] = useState(false)
+
+  const isValid = companyName.trim().length > 0 && file !== null
+  useEffect(() => { setFormValid?.(isValid) }, [isValid, setFormValid])
 
   useEffect(() => {
-    if (submitRef) submitRef.current = () => onNext({ companyName, tagline, description, file })
+    if (submitRef) submitRef.current = () => {
+      const nameInvalid = !companyName.trim()
+      const fileInvalid = !file
+      if (nameInvalid || fileInvalid) {
+        setNameError(nameInvalid)
+        setFileError(fileInvalid)
+        return
+      }
+      onNext({ companyName, tagline, description, file })
+    }
   })
 
   return (
@@ -31,7 +45,9 @@ export default function UploadScreen({ onBack, onNext, submitRef, initialValue, 
       </div>
 
       <div className="upload__fields">
-        <TextInput label="Company Name" placeholder="e.g. Apex Studio" value={companyName} onChange={setCompany} />
+        <TextInput label="Company Name" placeholder="e.g. Apex Studio" value={companyName}
+          onChange={v => { setCompany(v); if (v.trim()) setNameError(false) }} />
+        {nameError && <p className="form-error">Please enter your company name to continue.</p>}
         <TextInput label="Tagline" placeholder="e.g. Crafting tomorrow's brands" value={tagline} onChange={setTagline} hint="Optional" />
       </div>
 
@@ -54,7 +70,8 @@ export default function UploadScreen({ onBack, onNext, submitRef, initialValue, 
 
       <div className="upload__zone-block">
         <div className="upload__zone-label">Current Logo</div>
-        <UploadZone file={file} onFile={setFile} />
+        <UploadZone file={file} onFile={f => { setFile(f); if (f) setFileError(false) }} />
+        {fileError && <p className="form-error">Please upload your current logo to continue.</p>}
       </div>
 
       <div className="upload__tips">
