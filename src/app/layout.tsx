@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   publisher: SITE_NAME,
   formatDetection: { email: false, address: false, telephone: false },
   icons: {
-    icon: "/favicon-01.svg",
+    icon: "/icon.svg",
   },
   robots: {
     index: true,

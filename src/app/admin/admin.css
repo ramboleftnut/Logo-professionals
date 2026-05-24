@@ -572,6 +572,72 @@
   margin-top: 10px;
 }
 
+/* Blog ideas */
+.admin-ideas-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.admin-idea-form {
+  position: sticky;
+  top: 24px;
+}
+.admin-idea-upload {
+  padding: 28px 20px;
+}
+.admin-ideas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.admin-idea-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.admin-idea-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+.admin-idea-title {
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+.admin-idea-description {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.admin-idea-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.admin-idea-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+.admin-idea-image {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.admin-idea-image:hover {
+  opacity: 0.86;
+}
+
 /* ── Rich text content ─────────────────────────────────────────── */
 .admin-richtext {
   color: var(--text-secondary);
@@ -1187,4 +1253,6 @@ a.admin-team-card-img:hover {
   .admin-main { margin-left: 0; }
   .od-grid { grid-template-columns: 1fr; }
   .admin-field-row { grid-template-columns: 1fr; }
+  .admin-ideas-layout { grid-template-columns: 1fr; }
+  .admin-idea-form { position: static; }
 }

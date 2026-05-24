@@ -52,10 +52,21 @@ export interface Partner {
   country: string;
 }
 
+export interface BlogIdea {
+  id: string;
+  title: string;
+  description: string;
+  socialMedia: string[];
+  images: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 const TEAM_PATH = path.join(process.cwd(), "src", "content", "team.json");
 const POSTS_PATH = path.join(process.cwd(), "src", "content", "posts.json");
 const PARTNERS_PATH = path.join(process.cwd(), "src", "content", "partners.json");
 const SEO_PATH = path.join(process.cwd(), "src", "content", "seo.json");
+const BLOG_IDEAS_PATH = path.join(process.cwd(), "src", "content", "blog-ideas.json");
 
 function assertDev() {
   if (process.env.NODE_ENV === "production") {
@@ -205,6 +216,42 @@ export async function deletePartner(id: string): Promise<boolean> {
   const next = partners.filter((p) => p.id !== id);
   if (next.length === partners.length) return false;
   await writeJson(PARTNERS_PATH, next);
+  return true;
+}
+
+export async function getBlogIdeas(): Promise<BlogIdea[]> {
+  const ideas = await readJson<BlogIdea>(BLOG_IDEAS_PATH);
+  return ideas.sort((a, b) => (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
+}
+
+export async function getBlogIdea(id: string): Promise<BlogIdea | null> {
+  const ideas = await readJson<BlogIdea>(BLOG_IDEAS_PATH);
+  return ideas.find((idea) => idea.id === id) ?? null;
+}
+
+export async function createBlogIdea(input: Omit<BlogIdea, "id" | "createdAt" | "updatedAt">): Promise<BlogIdea> {
+  const ideas = await readJson<BlogIdea>(BLOG_IDEAS_PATH);
+  const now = new Date().toISOString();
+  const idea: BlogIdea = { id: randomUUID(), createdAt: now, updatedAt: now, ...input };
+  ideas.push(idea);
+  await writeJson(BLOG_IDEAS_PATH, ideas);
+  return idea;
+}
+
+export async function updateBlogIdea(id: string, patch: Partial<BlogIdea>): Promise<BlogIdea | null> {
+  const ideas = await readJson<BlogIdea>(BLOG_IDEAS_PATH);
+  const i = ideas.findIndex((idea) => idea.id === id);
+  if (i === -1) return null;
+  ideas[i] = { ...ideas[i], ...patch, id: ideas[i].id, updatedAt: new Date().toISOString() };
+  await writeJson(BLOG_IDEAS_PATH, ideas);
+  return ideas[i];
+}
+
+export async function deleteBlogIdea(id: string): Promise<boolean> {
+  const ideas = await readJson<BlogIdea>(BLOG_IDEAS_PATH);
+  const next = ideas.filter((idea) => idea.id !== id);
+  if (next.length === ideas.length) return false;
+  await writeJson(BLOG_IDEAS_PATH, next);
   return true;
 }
 

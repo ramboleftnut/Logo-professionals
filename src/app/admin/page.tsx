@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { adminDb } from "@/lib/firebase/admin";
-import { getPosts, getTeam, getPartners } from "@/lib/content";
+import { getPosts, getTeam, getPartners, getBlogIdeas } from "@/lib/content";
 
 async function getOrdersCount() {
   try {
@@ -12,11 +12,12 @@ async function getOrdersCount() {
 }
 
 export default async function AdminDashboard() {
-  const [orders, posts, team, partners] = await Promise.all([
+  const [orders, posts, team, partners, blogIdeas] = await Promise.all([
     getOrdersCount(),
     getPosts(),
     getTeam(),
     getPartners(),
+    getBlogIdeas(),
   ]);
   const reviewsCount = partners.filter((p) => p.review && p.review.trim()).length;
 
@@ -37,6 +38,10 @@ export default async function AdminDashboard() {
           <div className="admin-stat-label">Blog / Portfolio Posts</div>
         </div>
         <div className="admin-stat-card">
+          <div className="admin-stat-value">{blogIdeas.length}</div>
+          <div className="admin-stat-label">Blog Ideas</div>
+        </div>
+        <div className="admin-stat-card">
           <div className="admin-stat-value">{team.length}</div>
           <div className="admin-stat-label">Team Members</div>
         </div>
@@ -55,6 +60,7 @@ export default async function AdminDashboard() {
       </div>
       <div className="admin-actions-row">
         <Link href="/admin/posts/new" className="admin-btn admin-btn-primary">+ New Post</Link>
+        <Link href="/admin/blog-ideas" className="admin-btn admin-btn-outline">Blog Ideas</Link>
         <Link href="/admin/team/new" className="admin-btn admin-btn-outline">+ Add Team Member</Link>
         <Link href="/admin/partners/new" className="admin-btn admin-btn-outline">+ Add Partner</Link>
         <Link href="/admin/orders" className="admin-btn admin-btn-outline">View Orders</Link>

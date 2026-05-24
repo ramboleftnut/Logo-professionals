@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { createRoot, type Root } from "react-dom/client";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import CompareSlider from "./CompareSlider";
 import type { ContentBlock } from "@/lib/content";
 
@@ -104,18 +104,34 @@ interface Props {
   blocks?: ContentBlock[];
 }
 
+type ComparePortal = {
+  target: HTMLElement;
+  before: string;
+  after: string;
+  beforeAlt?: string;
+  afterAlt?: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+};
+
 export default function BlogPostBody({ html, blocks }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const [comparePortals, setComparePortals] = useState<{
+    html?: string;
+    items: ComparePortal[];
+  }>({ items: [] });
 
   useEffect(() => {
-    if (blocks?.length) return;
+    if (blocks?.length || !html) return;
+
     const root = ref.current;
     if (!root) return;
+    let cancelled = false;
 
     const markers = Array.from(
       root.querySelectorAll<HTMLElement>("[data-compare]"),
     );
-    const roots: Root[] = [];
+    const items: ComparePortal[] = [];
 
     markers.forEach((marker) => {
       const before = marker.getAttribute("data-before");
@@ -128,22 +144,25 @@ export default function BlogPostBody({ html, blocks }: Props) {
       const afterLabel = marker.getAttribute("data-after-label") || undefined;
 
       marker.innerHTML = "";
-      const r = createRoot(marker);
-      r.render(
-        <CompareSlider
-          before={before}
-          after={after}
-          beforeAlt={beforeAlt}
-          afterAlt={afterAlt}
-          beforeLabel={beforeLabel}
-          afterLabel={afterLabel}
-        />,
-      );
-      roots.push(r);
+      items.push({
+        target: marker,
+        before,
+        after,
+        beforeAlt,
+        afterAlt,
+        beforeLabel,
+        afterLabel,
+      });
+    });
+
+    queueMicrotask(() => {
+      if (!cancelled) {
+        setComparePortals({ html, items });
+      }
     });
 
     return () => {
-      roots.forEach((r) => r.unmount());
+      cancelled = true;
     };
   }, [html, blocks]);
 
@@ -154,10 +173,27 @@ export default function BlogPostBody({ html, blocks }: Props) {
   if (!html) return null;
 
   return (
-    <div
-      ref={ref}
-      className="blog-post-content"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <>
+      <div
+        ref={ref}
+        className="blog-post-content"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+      {comparePortals.html === html &&
+        comparePortals.items.map((item, i) =>
+          createPortal(
+            <CompareSlider
+              before={item.before}
+              after={item.after}
+              beforeAlt={item.beforeAlt}
+              afterAlt={item.afterAlt}
+              beforeLabel={item.beforeLabel}
+              afterLabel={item.afterLabel}
+            />,
+            item.target,
+            `compare-${i}`,
+          ),
+        )}
+    </>
   );
 }
