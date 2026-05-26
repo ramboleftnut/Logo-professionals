@@ -4,7 +4,7 @@ import { writeFile, mkdir } from "fs/promises";
 import path from "path";
 import { randomUUID } from "crypto";
 
-const ALLOWED_FOLDERS = new Set(["blog", "portfolio", "team", "uploads", "partners", "reviews", "seo"]);
+const ALLOWED_FOLDERS = new Set(["blog", "blog-ideas", "portfolio", "team", "uploads", "partners", "reviews", "seo"]);
 
 const IMAGE_MIME_TO_EXT: Record<string, string> = {
   "image/jpeg": ".jpg",

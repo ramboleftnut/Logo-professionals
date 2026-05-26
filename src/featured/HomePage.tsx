@@ -83,7 +83,7 @@ export default function HomePage() {
           <div className="home-about-image-outer">
             <div className="home-about-image-wrap">
               <Image
-                src="/images/home-web.jpg"
+                src="/images/home-web.avif"
                 alt="Digital Nectar studio workspace"
                 fill
                 sizes="(max-width: 900px) 100vw, 50vw"
