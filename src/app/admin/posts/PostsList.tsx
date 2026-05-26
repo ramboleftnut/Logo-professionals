@@ -18,17 +18,17 @@ interface PostRow {
 }
 
 type SortKey = "date" | "views" | "title";
+type TypeFilter = "all" | "blog" | "portfolio";
 
 function formatDate(iso: string) {
   if (!iso) return "—";
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-function applySearchAndSort(rows: PostRow[], search: string, sort: SortKey): PostRow[] {
+function applyFilters(rows: PostRow[], search: string, sort: SortKey, type: TypeFilter): PostRow[] {
   const needle = search.trim().toLowerCase();
-  const filtered = needle
-    ? rows.filter((r) => r.title.toLowerCase().includes(needle))
-    : rows;
+  let filtered = type === "all" ? rows : rows.filter((r) => r.type === type);
+  if (needle) filtered = filtered.filter((r) => r.title.toLowerCase().includes(needle));
   const copy = [...filtered];
   copy.sort((a, b) => {
     if (sort === "views") return b.views - a.views;
@@ -41,15 +41,15 @@ function applySearchAndSort(rows: PostRow[], search: string, sort: SortKey): Pos
 export default function PostsList({ posts }: { posts: PostRow[] }) {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortKey>("date");
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
 
-  const blog = useMemo(
-    () => applySearchAndSort(posts.filter((p) => p.type === "blog"), search, sort),
-    [posts, search, sort],
+  const items = useMemo(
+    () => applyFilters(posts, search, sort, typeFilter),
+    [posts, search, sort, typeFilter],
   );
-  const portfolio = useMemo(
-    () => applySearchAndSort(posts.filter((p) => p.type === "portfolio"), search, sort),
-    [posts, search, sort],
-  );
+
+  const sectionLabel =
+    typeFilter === "blog" ? "Blog Posts" : typeFilter === "portfolio" ? "Portfolio Items" : "All Content";
 
   return (
     <>
@@ -62,6 +62,15 @@ export default function PostsList({ posts }: { posts: PostRow[] }) {
           className="admin-list-search"
         />
         <select
+          value={typeFilter}
+          onChange={(e) => setTypeFilter(e.target.value as TypeFilter)}
+          className="admin-list-sort"
+        >
+          <option value="all">Type: All</option>
+          <option value="blog">Type: Blog</option>
+          <option value="portfolio">Type: Portfolio</option>
+        </select>
+        <select
           value={sort}
           onChange={(e) => setSort(e.target.value as SortKey)}
           className="admin-list-sort"
@@ -72,81 +81,54 @@ export default function PostsList({ posts }: { posts: PostRow[] }) {
         </select>
       </div>
 
-      {blog.length > 0 && (
+      {items.length > 0 ? (
         <>
-          <h2 className="admin-table-section-label">Blog Posts ({blog.length})</h2>
+          <h2 className="admin-table-section-label">{sectionLabel} ({items.length})</h2>
           <div className="admin-posts-grid">
-            {blog.map((p) => (
-              <div key={p.id} className="admin-post-card">
-                <Link href={`/blog/${p.slug}`} target="_blank" className="admin-post-card-img">
-                  {p.thumbnail && (
-                    <Image src={p.thumbnail} alt={p.title} fill style={{ objectFit: "cover" }} unoptimized />
-                  )}
-                </Link>
-                <div className="admin-post-card-body">
-                  <div className="admin-post-card-title">{p.title}</div>
-                  <div className="admin-post-card-meta">
-                    {formatDate(p.createdAt)}
-                    {" · "}
-                    <span className={`admin-badge admin-badge-xs ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
-                      {p.published ? "Published" : "Draft"}
-                    </span>
-                    {" · "}
-                    <span className="admin-views-inline">{p.views.toLocaleString()} views</span>
-                  </div>
-                  <div className="admin-post-card-actions admin-row-actions--split">
-                    <Link href={`/blog/${p.slug}`} target="_blank" className="admin-btn admin-btn-outline admin-btn-sm">View</Link>
-                    <div className="admin-row-actions">
-                      <Link href={`/admin/posts/${p.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
-                      <DeletePostBtn id={p.id} title={p.title} />
+            {items.map((p) => {
+              const viewHref = p.type === "blog" ? `/blog/${p.slug}` : `/portfolio/${p.slug}`;
+              return (
+                <div key={p.id} className="admin-post-card">
+                  <Link href={viewHref} target="_blank" className="admin-post-card-img">
+                    {p.thumbnail && (
+                      <Image src={p.thumbnail} alt={p.title} fill style={{ objectFit: "cover" }} unoptimized />
+                    )}
+                  </Link>
+                  <div className="admin-post-card-body">
+                    <div className="admin-post-card-title">{p.title}</div>
+                    <div className="admin-post-card-meta">
+                      <span className={`admin-badge admin-badge-xs ${p.type === "blog" ? "admin-badge-green" : "admin-badge-gray"}`}>
+                        {p.type === "blog" ? "Blog" : "Portfolio"}
+                      </span>
+                      {" · "}
+                      {p.type === "portfolio" && p.teamMember
+                        ? `${p.teamMember}`
+                        : formatDate(p.createdAt)}
+                      {" · "}
+                      <span className={`admin-badge admin-badge-xs ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
+                        {p.published ? "Published" : "Draft"}
+                      </span>
+                      {" · "}
+                      <span className="admin-views-inline">{p.views.toLocaleString()} views</span>
+                    </div>
+                    <div className="admin-post-card-actions admin-row-actions--split">
+                      <Link href={viewHref} target="_blank" className="admin-btn admin-btn-outline admin-btn-sm">View</Link>
+                      <div className="admin-row-actions">
+                        <Link href={`/admin/posts/${p.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
+                        <DeletePostBtn id={p.id} title={p.title} />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
-      )}
-
-      {portfolio.length > 0 && (
-        <>
-          <h2 className="admin-table-section-label">Portfolio Items ({portfolio.length})</h2>
-          <div className="admin-posts-grid">
-            {portfolio.map((p) => (
-              <div key={p.id} className="admin-post-card">
-                <Link href={`/portfolio/${p.slug}`} target="_blank" className="admin-post-card-img">
-                  {p.thumbnail && (
-                    <Image src={p.thumbnail} alt={p.title} fill style={{ objectFit: "cover" }} unoptimized />
-                  )}
-                </Link>
-                <div className="admin-post-card-body">
-                  <div className="admin-post-card-title">{p.title}</div>
-                  <div className="admin-post-card-meta">
-                    {p.teamMember && `Team Member: ${p.teamMember}`}
-                    {" · "}
-                    <span className={`admin-badge admin-badge-xs ${p.published ? "admin-badge-green" : "admin-badge-gray"}`}>
-                      {p.published ? "Published" : "Draft"}
-                    </span>
-                    {" · "}
-                    <span className="admin-views-inline">{p.views.toLocaleString()} views</span>
-                  </div>
-                  <div className="admin-post-card-actions admin-row-actions--split">
-                    <Link href={`/portfolio/${p.slug}`} target="_blank" className="admin-btn admin-btn-outline admin-btn-sm">View</Link>
-                    <div className="admin-row-actions">
-                      <Link href={`/admin/posts/${p.id}`} className="admin-btn admin-btn-outline admin-btn-sm">Edit</Link>
-                      <DeletePostBtn id={p.id} title={p.title} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </>
-      )}
-
-      {blog.length === 0 && portfolio.length === 0 && search && (
+      ) : (
         <div className="admin-empty">
-          <div className="admin-empty-text">No posts match &ldquo;{search}&rdquo;.</div>
+          <div className="admin-empty-text">
+            {search ? `No posts match “${search}”.` : "No posts yet."}
+          </div>
         </div>
       )}
     </>
