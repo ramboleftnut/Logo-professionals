@@ -55,7 +55,7 @@ export default function AboutPage() {
           </div>
           <div className="about-hero-image">
             <Image
-              src="/images/about-team-photo.jpg"
+              src="/images/building-digital-nectar-brand.avif"
               alt="Digital Nectar founders"
               fill
               sizes="(max-width: 900px) 100vw, 50vw"
